@@ -1,0 +1,4 @@
+"0","library(gridExtra)"
+"2","Error in library(gridExtra) : 
+  aucun package nommé ‘gridExtra’ n'est trouvé
+"

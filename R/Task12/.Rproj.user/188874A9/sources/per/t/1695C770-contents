@@ -1,0 +1,166 @@
+---
+title: "Assignement"
+output: pdf_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
+```
+
+
+```{r}
+# install.packages("nycflights13")
+# install.packages("maps")
+
+library(tidyverse)
+library(nycflights13)
+library(maps)
+```
+
+# Question 1
+
+### *Structure of the "flights" dataset*
+```{r}
+str(flights)
+```
+The dataset shape are 336.776 × 19 (336.776 observations and 19 features)
+
+### *Filtering*
+```{r}
+flights %>% 
+  filter(month==1 & day==1) %>%
+  nrow(.)
+```
+The filtered dataset by departed 1st January  contain 842 rows.
+
+# Question 2
+```{r}
+# flights_november
+flights_november <- filter(flights, month==11)
+# flights_december
+flights_december <- filter(flights, month==12)
+
+flights_nov_dec <- union(flights_november, flights_december)
+```
+View Code in .Rmd file
+
+# Question 3 
+```{r}
+flights_delayed_over_2hours <- filter(flights, arr_delay>120 | dep_delay>120)
+
+flights_delayed_over_2hours <- select(flights_delayed_over_2hours, c("year", "month", "day", "sched_dep_time", "dep_delay","sched_arr_time","arr_delay","carrier","flight","distance"))
+```
+View Code in .Rmd file
+
+# Question 4
+```{r}
+two_sd=2*sd(flights$arr_delay, na.rm = TRUE)
+data<- flights %>%
+    mutate(arr_delay_category=case_when(
+      arr_delay>=-5 & arr_delay<=5 ~ "On-time",
+      arr_delay>=-two_sd & arr_delay<=two_sd ~ "Common delays",
+      TRUE ~ "Long delay"
+    )) %>%
+    select(year, month, day, arr_delay, arr_delay_category)
+
+subset(data, arr_delay_category=="On-time")
+subset(data, arr_delay_category=="Common delays")
+subset(data, arr_delay_category=="Long delay")
+```
+
+# Question 5
+
+#### ***The delays in the descending order of the "mean_arr_delay"***
+```{r}
+flights %>%
+  group_by(dest) %>%
+  summarise(mean_arr_delay=mean(arr_delay, na.rm = TRUE),
+            mean_dep_delay=mean(dep_delay, na.rm = TRUE),
+            .groups='drop') %>%
+  arrange(desc(mean_arr_delay))
+```
+
+#### ***The delays in the descending order of the "mean_dep_delay" ***
+```{r}
+flights %>%
+  group_by(dest) %>%
+  summarise(mean_arr_delay=mean(arr_delay, na.rm = TRUE),
+            mean_dep_delay=mean(dep_delay, na.rm = TRUE),
+            .groups='drop') %>%
+  arrange(desc(mean_dep_delay))
+```
+
+# Question 6
+
+```{r}
+df1<-flights %>%
+  group_by(dest) %>%
+  summarise(mean_arr_delay=mean(arr_delay, na.rm = TRUE),
+            mean_dep_delay=mean(dep_delay, na.rm = TRUE)) %>%
+  filter(dest %in% c("PDX", "DCA", "LNK", "JAC", "SAT", "ORD", "MIA"))
+
+df2<-airports %>%
+  filter(faa %in% c("PDX", "DCA", "LNK", "JAC", "SAT", "ORD", "MIA")) %>%
+  select(dest="faa","name","lat","lon")
+
+df <- left_join(df1, df2, by="dest")
+df
+```
+
+# Question 7
+
+```{r}
+usa <- map_data('usa')
+
+ggplot(data=usa, aes(x=long, y=lat, group=group), stat = "identity") + 
+  geom_polygon(fill='lightblue') + 
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) + 
+  geom_point(data = df,
+             aes(x = lon, y = lat, group=dest),
+             color = "black", alpha=0.8) +
+  geom_text(data=df, aes(x=lon, y=lat, group=dest, label=paste("Arr_Del :",round(mean_arr_delay,2),"\n","Dep_del :",round(mean_dep_delay,2))), vjust=-0.25, size=3)+
+  theme_bw()+
+  theme(legend.position = "none")
+```
+
+
+# Question 8
+
+```{r}
+df3 <- flights %>%
+  group_by(month) %>%
+  summarise(mean_arr_delay=mean(arr_delay, na.rm = TRUE),
+            mean_dep_delay=mean(dep_delay, na.rm = TRUE),
+            ) %>%
+  mutate(cumulative_arr_delays=cumsum(mean_arr_delay),
+         cumulative_dep_delays=cumsum(mean_dep_delay))
+
+df3
+```
+
+# Question 9
+
+```{r}
+df4 <- df3 %>% select("month",delays="cumulative_arr_delays")
+df4["delay_type"]="cumulative_arr_delays"
+
+df5 <- df3 %>% select("month",delays="cumulative_dep_delays")
+df5["delay_type"]="cumulative_dep_delays"
+
+df6 <- rbind(df4, df5) %>%
+  relocate("month","delay_type","delays")%>%
+  arrange(month)
+
+df6
+
+```
+
+# Question 10
+```{r}
+ggplot(data=df6, aes(x=month, y=delays))+
+  geom_point()+
+  facet_wrap(~ delay_type)
+```
+

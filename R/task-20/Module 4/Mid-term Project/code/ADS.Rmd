@@ -1,0 +1,78 @@
+
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+
+Q1. What is this data about? 
+provides a wide range of data and information related to healthcare access, quality, and disparities, as well as HRSA programs
+
+Q2.Write a citation or source information for the data. Here is a basic guideLinks to an external site.
+
+https://data.hrsa.gov/
+
+Q3. How do you know what the variables are? Is there a codebook? Link to or submit the codebook file if there is one
+
+May 2021 National Occupational Employment and Wage Estimates
+United States https://www.bls.gov/oes/current/oes_nat.htm this website includes table with header file
+
+Q4. who collected the data
+
+The May 2021 National Occupational Employment and Wage Estimates for the United States were collected by the U.S. Bureau of Labor Statistics (BLS).
+
+
+Q5. When was the data collected? What time period does it cover? 
+
+The May 2021 National Occupational Employment and Wage Estimates for the United States was released by the Bureau of Labor Statistics (BLS) on March 31, 2022. The data reflects employment and wage estimates for May 2021.
+
+Q6. When was the data collected? What time period does it cover? 
+
+The May 2021 National Occupational Employment and Wage Estimates for the United States was released by the Bureau of Labor Statistics (BLS) on March 31, 2022. The data reflects employment and wage estimates for May 2021.
+
+Q7. What is the scope of the data? For example, what set of people, hospitals, or insurance plans does it cover? Is it complete data for the full population (e.g. all hospitals that accept Medicare), a sample (e.g. randomly selected survey respondents), summary measures for different groups or geographical areas (e.g. the value for each state), or something else?  
+
+The May 2021 National Occupational Employment and Wage Estimates is a set of summary measures for different occupations across the United States. It covers the entire country and reports data on employment and wage estimates for over 800 occupations based on the Occupational Employment Statistics (OES) survey, which is conducted by the Bureau of Labor Statistics (BLS). The data is not comprehensive, as it is based on a sample of non-farm establishments that are selected to represent various industries and regions in the U.S.
+
+Q8. Is there anything about how the data was collected, what it includes, what it doesn’t include, or how specific variables are coded or were measured that people viewing analyses or visualizations of this data should be aware of (that you know of so far)? 
+
+As far as I know, there is nothing particularly noteworthy about how the data was collected or how specific variables were coded or measured that people viewing analyses or visualizations of this data should be aware of
+
+Q9. Count the number of rows and columns. Are these numbers what you were expecting? 
+
+```{r}
+# Loading
+library("readxl")
+library(ggplot2)
+library(psych)
+library(magrittr)
+library(dplyr) 
+# xls files
+NA_data <- read_excel("D:/Toqeer_work/April/Advance Data Modeling for Health Analytics/week 1/national_M2021_dl.xlsx", sheet = 1, na = c("", "N/A"))
+num_rows <- nrow(NA_data)
+num_cols <- ncol(NA_data)
+
+# print the results
+cat("Number of rows:", num_rows, "\n")
+cat("Number of columns:", num_cols, "\n")
+
+#.
+```
+
+
+```{r}
+sum(is.na(NA_data))
+
+# Clean variable names using janitor package
+library(janitor)
+my_data <- clean_names(NA_data)
+
+# Print variable names
+names(my_data)
+#
+```
+

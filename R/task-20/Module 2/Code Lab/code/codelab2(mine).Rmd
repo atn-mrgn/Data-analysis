@@ -1,0 +1,375 @@
+---
+title: "Module 2 Code Lab"
+author: "Your Name Here"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=5, fig.height=3)  # default figure/plot sizes
+```
+
+# Introduction
+
+Check the Module Overview for resources that may be helpful with this assignment.  See the Code Lab Guidelines page for general directions on Code Lab assignments.  See the Dataset Information page for background on the datasets used in the Code Lab assignments.  
+
+There are resources listed in the Module Overview for learning the core dplyr functions.  If you are unfamiliar with dplyr, you'll want to at least work through the [Data Transformation chapter](https://r4ds.had.co.nz/transform.html) of *R for Data Science* before doing this assignment.  You should start there if you aren't familiar with those functions already.  
+
+This file focuses on a few additional functions from dplyr, tidyr, and other tidyverse packages that are often useful for common data manipulation tasks.  You are not required to use dplyr functions when writing your own code (here or in other assignments), but it is used throughout the Code Lab assignments, so you need to at least be able to read the code and understand what it is doing.  
+
+Proficiency with manipulating data is a prerequisite for creating visualizations.  You often need to group and summarize data or compute secondary variables from your data before plotting.  Don't limit your questions about a dataset to what you can easily compute or visualize from the data in the format you get it.  
+
+
+## RStudio Tips
+
+There is a keyboard shortcut to insert a new code chunk in an R Markdown document: Command (Mac)/Control (Windows) + Shift + I
+
+If you like to see the output of the code chunks in the same window/document with the code (instead of in the console), click on the gear at the top of the window next to "Knit" button (when you have the .Rmd file open).  Then choose "Chunk Output Inline."  Alternatively you can change the yaml header on the file to change where the code output is displayed.
+
+Be careful though: the html files produced for notebooks (they have file extension .nb.html) may not include all of the output of your code chunks correctly.  Make sure to actually "knit" a .Rmd file to .html and check the output before submitting it.  
+
+## R Tip
+
+If you don't understand what a multi-line expression is doing, just highlight part of the expression and run it to see the output -- continue adding more lines in so you understand what's happening at each step.  
+
+For example, with this code:
+
+```{r, eval=FALSE}
+med_indicators <- distinct(meds, discharge_id, therapeutic_class) %>%
+  mutate(indicator = 1) %>%
+  pivot_wider(names_from=therapeutic_class,  
+              values_from=indicator,         
+              values_fill=0)  
+```
+
+You could first run just:
+
+```{r, eval=FALSE}
+distinct(meds, discharge_id, therapeutic_class)
+```
+
+Then:
+
+```{r, eval=FALSE}
+distinct(meds, discharge_id, therapeutic_class) %>%
+  mutate(indicator = 1)
+```
+
+Then the whole thing, with or without actually saving the output.  There are packages that will do this automatically for you, but just highlighting the parts you are interested in, then running just the highlighted code, is usually as easy.
+
+
+## Tidyverse Tips
+
+Tidyverse functions are mostly designed to work on data frames.  Most functions take as input the name of the data frame they are working with first.  This allows functions to be chained together with the `%>%` pipe function (read as "then") because they take data frames as input and provide data frames as output.  
+
+The functions also use column names without quotes and without the data frame name as a prefix, since the data frame is supplied as the first argument/input.  
+
+# Setup
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(janitor)
+```
+
+
+This assignment uses the NMH dataset.  **Download the NMH data folder from Canvas and put it as a subdirectory of your working directory.**  It assumes that the data files are in a subdirectory of the working directory called NHM.  Adjust your working directory if needed; do not change the file paths in the code below, or the instructor will not be able to knit your file.
+
+
+```{r}
+stays <- read_csv("NMH/stays.csv")
+meds <- read_csv("NMH/meds.csv") # medications administered
+diagnoses <- read_csv("NMH/diagnoses.csv")  # diagnosis recorded during the stay
+```
+
+See the first Code Lab assignment for an overview of the variables in `stays`.  For other datasets in the NMH data, see the data dictionary. 
+
+# Counting
+
+## with `count`
+
+The `count()` function is a shortcut for the common task of counting how many rows have a given value or combination of values.  
+
+```{r}
+count(stays)  # no column?  counts rows
+count(stays, gender)  # column = counts for each unique value
+count(stays, gender, insulin)  # columns = counts for each unique value combos
+count(stays, gender, insulin, sort=TRUE)  # want highest values first?
+```
+
+`count()` creates a new variable/column called `n` (by default, you could change this).
+
+## With `tabyl`
+
+Want percentages by group instead of just counts?  The [`tabyl()`](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html) function from the `janitor` package is helpful:
+
+```{r}
+tabyl(stays, gender)
+```
+
+It's mostly intended for single columns.  If you give it two columns, it will make a 2D table:
+
+```{r}
+tabyl(stays, gender, insulin)
+```
+
+But you can still get percentages easily by adding a second function call:
+
+```{r}
+tabyl(stays, gender, insulin) %>%
+  adorn_percentages(denominator = "row")
+
+tabyl(stays, gender, insulin) %>%
+  adorn_percentages(denominator = "col")
+```
+
+There's a lot more you can do with `tabyl` and the `adorn_*` helper functions as well to format simple tables.
+
+
+# Slicing
+
+The slice functions aren't covered in [R for Data Science](https://r4ds.had.co.nz).  These can help you when choosing what rows to keep in your output. 
+
+The standard `slice()` chooses rows by position/index, as you might with `[]` notation:
+
+```{r}
+slice(stays, 5:7)  # rows 5, 6, 7
+```
+
+You won't use this very often except perhaps to take the first row of output: `... %>% slice(1)`
+
+The `slice_min()` and `slice_max()` functions choose rows based on the values of a specified column.
+
+```{r}
+slice_max(stays, mean_glucose, n=3)
+```
+
+Finally, `slice_sample()` lets you choose random rows.  This is useful if the output would contain a lot of rows, but you just want to look at a few examples:
+
+```{r}
+slice_sample(meds, n=10)
+```
+
+Randomizing what rows you inspect, instead of just looking at the first few with `head()` can give you a better cross-section of your data.
+
+# EXERCISE 1: Counting and Slicing
+
+A. Using `meds`, what are the 5 most common `therapeutic_class`es?  (count the rows for each class)
+
+B. Repeat the above, but only count each `therapeutic_class` once per `discharge_id`.  You are counting how many distinct patient stays included administration of a medication in each `therapeutic_class`.
+
+C. What are the five most common `therapeutic_class` and `generic_name` combinations?  You are counting the number of times (number of rows) each combination of the values for these two variables appears.  
+
+
+```{r}
+count(meds, therapeutic_class, sort = TRUE, name = "count")
+```
+
+```{r}
+meds %>%
+  distinct(discharge_id, therapeutic_class) %>%
+  count(therapeutic_class, sort = TRUE) %>%
+  top_n(5)
+```
+
+```{r}
+meds %>%
+  count(therapeutic_class, generic_name, sort = TRUE) %>%
+  top_n(5)
+```
+
+
+# Joining
+
+The join functions are based on the same principles as SQL uses for joining tables in databases.  For more on joining data frames, see [R for Data Science: Relational Data](https://r4ds.had.co.nz/relational-data.html).  
+
+The most common join is a left join.  It keeps all of the rows in the first data frame (or table in SQL) at least once in the result, matching each row in the first data frame to one or more rows in the second if there's a match.  
+
+```{r}
+stays %>%  # all rows of stays will be present in the result
+  left_join(meds, # what to match to
+            by="discharge_id") # what column to use to match the rows
+```
+
+The columns from meds are added to the columns from stays:
+
+```{r}
+stays %>%  # all rows of stays will be present in the result
+  left_join(meds, # what to match to
+            by="discharge_id") %>% # what column to use to match the rows
+  names()
+```
+
+```{r}
+dim(stays)
+dim(meds)
+stays %>%  
+  left_join(meds, 
+            by="discharge_id") %>% 
+  dim()
+```
+
+What does the number of rows in the result tell you?  Rows in stays match to multiple rows in meds since the number of rows in the result is much higher.  But the number of rows in the result is lower than the number of rows in meds, which means that there must be some rows in meds that did not match to the rows in stays.  
+
+One type of join that you may not have heard of is an anti-join.  It lets you find rows in one data frame that don't have a match in another data frame.  As with other joins, the function takes two data frames (the order matters), and you use `by` to specify which variables are used to match rows between the data sets.  
+
+If you omit `by`, the join functions will use all columns that appear (by name) in both data frames.  Do NOT rely on these defaults.  It's always a good idea to be explicit about how you are joining to avoid errors that are hard to track down.  
+
+Here's how we could check for rows in `stays` (first data frame) that don't have a match in `meds` (second data frame).  These would be stays (patients) with no medications administered during the stay.
+
+```{r}
+stays %>%
+  anti_join(meds, by="discharge_id")
+```
+
+There are a few.  What about the opposite?
+
+# EXERCISE 2: Anti-Join
+
+What are the `discharge_id`s in `meds` that don't appear in `stays`?  Produce a list of the distinct values of the ids.  Hint: there are 13.  
+
+```{r}
+ meds %>% 
+  anti_join(stays, by="discharge_id") %>%
+  distinct(discharge_id)
+```
+
+
+# EXERCISE 3: Joining
+
+What is the most frequent `diagnosis_group` for patients aged 80 or older? 
+
+Hints: 
+
+* Think about when you need to filter the data to the correct subset of `stays`.
+* Which data frame has `diagnosis_group`?  Which has age?  What is the column that links these?  You're going to need to use a join function.  
+* Anytime you're thinking about frequencies, what function from earlier sections helps you compute the frequency with which different values appear in the data?
+
+```{r}
+stays %>%
+  left_join(diagnoses, by="discharge_id") %>%
+  filter(age>=80) %>%
+  count(diagnosis_group, sort = TRUE) %>%
+  top_n(1)
+```
+
+
+# Pivoting
+
+When working with ggplot2, it's common to need to reshape data - to split one column into multiple or combine multiple columns into one.  This is because you need the data to match the pattern of one variable mapped to one aesthetic.  
+
+The functions for changing the shape of the data from wide or long (or vice versa) are `pivot_longer()` and `pivot_wider()`.  (The older versions are `spread()` and `gather()` but use the pivot functions for any new code you write, as they are the current standard and also have clearer options.)
+
+Here's the very brief version.  If you have wide data (multiple columns that are kind of similar information):
+
+```{r}
+nutrition <- tribble(~food, ~carbs, ~protein, ~fat,
+                     "apple", 14, 0.3, 0.2,
+                     "banana", 23, 1, 0.3)
+nutrition
+```
+
+```{r}
+nutrition %>%
+  pivot_longer(carbs:fat,  # what columns to convert
+               names_to = "macronutrient",  # name for new column that will have old column names as values (default = name)
+               values_to = "grams")  # name for new column with values (default = values)
+```
+
+"food" is the identifying variable -- the basic unit of observation.  It stays in both data sets.
+
+From long data to wide:
+
+```{r}
+food_log <- tribble(~date, ~food, ~servings,
+                    "2022-01-01", "cabbage", 2,
+                    "2022-01-01", "pork", 1,
+                    "2022-01-01", "potatoes", 3,
+                    "2022-01-02", "potatoes", 2,
+                    "2022-01-02", "apple", 1)
+food_log
+```
+
+```{r}
+food_log %>% 
+  pivot_wider(names_from=food,  # what will become column names?
+              values_from=servings)  # what will fill in those columns?
+```
+
+If we don't want a bunch of NAs in the data:
+
+```{r}
+food_log %>% 
+  pivot_wider(names_from=food,  # what will become column names?
+              values_from=servings,  # what will fill in those columns?
+              values_fill=0)  # what to use instead of NA for combos not in the data
+```
+
+
+Need some more background on pivoting?  [R for Data Science: Tidy Data: Pivoting](https://tidyr.tidyverse.org/articles/pivot.html), or [this vignette](https://cran.r-project.org/web/packages/tidyr/vignettes/pivot.html), which has more detail.  
+
+At this point, it's just important to know that:
+
+1. There are different ways to organize or shape the same data
+2. There are functions for changing between different formats and reshaping your data
+3. ggplot2 functions sometime expect data in a particular format
+
+If you run into a case where the data doesn't seem to fit the format for what a function wants as input, you may need to use the pivot functions to reshape it.  
+
+
+# Question: What are the most common medications?
+
+What are the most common medications?  The two exercises below look at different ways to compute this.
+
+# EXERCISE 4
+
+What are the most common `pharmaceutical_class`es of medications (`meds`) administered?  What percentage of medication administrations are of the most common type?
+
+```{r}
+meds %>%
+  count(pharmaceutical_class, sort = TRUE) %>%
+  top_n(1)
+```
+
+
+```{r}
+meds %>%
+  tabyl(pharmaceutical_class) %>%
+  top_n(1)
+```
+
+# EXERCISE 5
+
+Instead of looking at medication administrations as above (rows of `meds`), compute the top `pharmaceutical_class`es based on the number of stays/discharges (`discharge_id`) that received at least one dose.  For each `pharmaceutical_class`, compute the proportion of stays that received the medication type.
+
+Hints: You may want to compute the total number of stays/discharges separately, then use that value to compute the proportions (`n_distinct()` may be helpful).  One way to get the answer involves using the functions `distinct()`, `group_by()`, `summarize()`, and `slice_max()`.  To help check your answer, the proportion of patient stays that receive insulin is .769.  
+
+```{r}
+meds %>% 
+  distinct(discharge_id, pharmaceutical_class, .keep_all = TRUE) %>% 
+  group_by(pharmaceutical_class) %>% 
+  summarize(n_stays = n()) %>% 
+  ungroup() %>% 
+  mutate(prop_stays = n_stays / n_distinct(meds$discharge_id) * 100) %>% 
+  arrange(desc(n_stays)) %>% 
+  mutate(prop_stays = scales::percent(prop_stays / 100))
+
+```
+
+
+
+
+
+
+
+

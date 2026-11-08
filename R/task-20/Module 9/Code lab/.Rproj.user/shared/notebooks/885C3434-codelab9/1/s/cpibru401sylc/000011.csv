@@ -1,0 +1,7 @@
+"0","s <- map_data('state')"
+"0","ggplot(s, aes(x=long, y=lat, group=group))+"
+"0","  geom_polygon(color='black')+"
+"0","  coord_map(""polyconic"")+"
+"0","  labs("
+"0","    title = ""U.S. map"""
+"0","  )"

@@ -1,0 +1,210 @@
+---
+title: "extra_credit_2"
+author: "Dipen Patel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=7, fig.height=4)  # default figure/plot sizes
+```
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+library(maps)
+library(mapproj)
+library(readxl)
+library(janitor)
+library(geojsonio)
+library(RColorBrewer)
+library(rgdal)
+library(broom)
+library(rgeos)
+library(viridis)
+library(showtext)
+```
+
+## Tutorial link
+1. [Hexbin map in R: an example with US states](https://r-graph-gallery.com/328-hexbin-map-of-the-usa.html)
+2. [Visualizing geospatial data](https://clauswilke.com/dataviz/geospatial-data.html)
+
+## Tutorial application
+
+```{r}
+# Load this file. (Note: I stored in a folder called DATA)
+spdf <- geojson_read("us_states_hexgrid.geojson",  what = "sp")
+
+# Bit of reformating
+spdf@data = spdf@data %>%
+  mutate(google_name = gsub(" \\(United States\\)", "", google_name))
+
+# Show it
+plot(spdf)
+```
+```{r}
+spdf@data = spdf@data %>% mutate(google_name = gsub(" \\(United States\\)", "", google_name))
+spdf_fortified <- tidy(spdf, region = "google_name")
+
+centers <- cbind.data.frame(data.frame(gCentroid(spdf, byid=TRUE), id=spdf@data$iso3166_2))
+
+ggplot() +
+  geom_polygon(data = spdf_fortified, aes( x = long, y = lat, group = group), fill="skyblue", color="white") +
+  geom_text(data=centers, aes(x=x, y=y, label=id)) +
+  theme_void() +
+  coord_map()
+```
+
+```{r}
+## Load data
+data <- read.table("https://raw.githubusercontent.com/holtzy/R-graph-gallery/master/DATA/State_mariage_rate.csv", header=T, sep=",", na.strings="---")
+```
+
+
+```{r}
+# Merge geospatial and numerical information
+spdf_fortified <- spdf_fortified %>%
+  left_join(. , data, by=c("id"="state")) 
+ 
+# Make a first chloropleth map
+ggplot() +
+  geom_polygon(data = spdf_fortified, aes(fill =  y_2015, x = long, y = lat, group = group)) +
+  scale_fill_gradient(trans = "log") +
+  theme_void() +
+  coord_map()
+```
+
+```{r}
+spdf_fortified$bin <- cut( spdf_fortified$y_2015 , breaks=c(seq(5,10), Inf), labels=c("5-6", "6-7", "7-8", "8-9", "9-10", "10+" ), include.lowest = TRUE )
+
+my_palette <- rev(magma(8))[c(-1,-8)]
+
+ggplot() +
+  geom_polygon(data = spdf_fortified, aes(fill = bin, x = long, y = lat, group = group) , size=0, alpha=1) +
+  geom_text(data=centers, aes(x=x, y=y, label=id), color="white", size=3, alpha=0.8) +
+  theme_void() +
+  scale_fill_manual( 
+    values=my_palette, 
+    name="Wedding per 1000 people in 2015", 
+    guide = guide_legend( keyheight = unit(3, units = "mm"), keywidth=unit(12, units = "mm"), label.position = "bottom", title.position = 'top', nrow=1) 
+  ) +
+  ggtitle( "A map of marriage rates, state by state" ) +
+  theme(
+    legend.position = c(0.5, 0.9),
+    #text = element_text(color = "#22211d"),
+    plot.background = element_rect(fill = "#f5f5f2", color = NA), 
+    panel.background = element_rect(fill = "#f5f5f2", color = NA), 
+    legend.background = element_rect(fill = "#f5f5f2", color = NA),
+    plot.title = element_text(size= 22, hjust=0.5, color = "#4e4d47", margin = margin(b = -0.1, t = 0.4, l = 2, unit = "cm")),
+  )
+```
+
+
+
+```{r}
+spdf_fortified$bin <- cut( spdf_fortified$y_2015 , breaks=c(seq(5,10), Inf), labels=c("5-6", "6-7", "7-8", "8-9", "9-10", "10+" ), include.lowest = TRUE )
+
+my_palette <- rev(magma(8))[c(-1,-8)]
+
+ggplot() +
+  geom_polygon(data = spdf_fortified, aes(fill = bin, x = long, y = lat, group = group) , size=0, alpha=1, color="NA") +
+  geom_text(data=centers, aes(x=x, y=y, label=id), color="white", size=3, alpha=0.8) +
+  theme_void() +
+  scale_fill_manual( 
+    values=my_palette, 
+    name="Wedding per 1000 people in 2015", 
+    guide = guide_legend( keyheight = unit(3, units = "mm"), keywidth=unit(12, units = "mm"), label.position = "bottom", title.position = 'top', nrow=1) 
+  ) +
+  ggtitle( "A map of marriage rates, state by state" ) +
+  theme(
+    legend.position = c(0.5, 0.9),
+    text = element_text(color = "white"),
+    plot.background = element_blank(),
+    plot.title = element_text(size= 22, hjust=0.5, color = "white", margin = margin(b = -0.1, t = 0.4, l = 2, unit = "cm")),
+  )
+
+ggsave("hexbin_map_without_bg.png", bg=NULL)
+```
+
+## Visualization font
+```{r}
+# do this for any font you want to use
+font_add_google("Poppins", db_cache = FALSE)
+
+showtext_auto()
+```
+
+## Load project dataset
+```{r}
+state <- read_excel("state_M2021_dl.xlsx") %>% clean_names()
+
+df <- state %>% 
+  distinct(occ_title, .keep_all = TRUE) %>%
+  filter(str_detect(occ_code,"29-|31-"),!(tot_emp=="**"), !(a_mean %in% c("*","#"))) %>%
+  mutate(
+    a_mean=as.numeric(a_mean),
+    tot_emp=as.numeric(tot_emp)
+  )
+
+mine_spdf <- tidy(spdf, region = "google_name")
+```
+
+
+## Visualization 1
+```{r,}
+centers_in<-filter(centers,id %in% c("AL","AK","AZ","CA","MN"))
+df %>% 
+  group_by(area_title) %>%
+  summarise(mean=mean(a_mean)) %>%
+  left_join(mine_spdf, by=c("area_title"="id")) %>%
+  ggplot() +
+  geom_polygon(aes(fill = mean, x = long, y = lat, group = group) , size=0, alpha=0.9) +
+  geom_text(data=centers_in, aes(x=x, y=y, label=id), size=5)+
+  scale_fill_viridis_c(option = "C", labels=scales::dollar, na.value = "grey50")+
+  theme_void(base_size = 18,
+             base_family = "Poppins")+
+  theme(
+    legend.position = "right",
+    legend.title = element_blank(),
+    plot.title.position = "panel"
+  )+
+  labs(
+    title = "Healthcare Occupation Mean Annual Wage",
+    subtitle = "in U.S. state",
+    x=NULL,
+    y=NULL
+  )+
+  coord_map()
+```
+
+```{r, fig.width=9, fig.height=5}
+df %>% 
+  group_by(area_title) %>%
+  summarise(mean_emp=mean(tot_emp)) %>%
+  right_join(mine_spdf, by=c("area_title"="id")) %>%
+  ggplot() +
+  geom_polygon(aes(fill = mean_emp, x = long, y = lat, group = group, colour="") , size=0, alpha=0.9) +
+  geom_text(data=centers, aes(x=x, y=y, label=id),size=6)+
+  scale_fill_viridis_c(option = "C", trans="log",labels=scales::comma, na.value = "grey50")+
+  theme_void(base_size = 26,
+             base_family = "Poppins")+
+  theme(
+    legend.position = "right",
+    legend.title = element_blank(),
+    plot.title.position = "panel"
+  )+
+  labs(
+    title = "Healthcare Occupation Mean Employment",
+    subtitle = "in U.S. by state",
+    x=NULL,
+    y=NULL
+  )+
+  scale_colour_manual(values=NA, na.value = "grey50",labels = c("no data"))+
+  coord_map()
+```
+

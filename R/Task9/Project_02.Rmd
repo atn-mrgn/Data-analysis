@@ -1,0 +1,120 @@
+---
+title: "Project_02"
+output: pdf_document
+date: "2023-03-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("tidyverse")
+#install.packages("corrplot")
+#install.packages("caret")
+```
+
+## Load data
+
+The data file provided is an .xlsx file which only returns a single column database. So we had to modify a .csv file while changing the separator used in sep=",". This gave us the file "bank-full.csv".
+
+```{r}
+library(tidyverse)
+
+data <- read_csv("bank-full.csv", show_col_types = FALSE)
+
+head(data)
+```
+
+Reading the data gives us a table 45211 and 17 variables or features.
+
+## Exploratory Data and Analysis
+
+#### Data describe
+
+```{r}
+summary(data)
+```
+
+```{r}
+print(table(sapply(data, class)))
+
+print(table(sapply(data, typeof)))
+```
+
+The database contains 10 categorical variables and 7 numerical variables.
+
+#### Missing values checking
+
+```{r}
+sum(is.na(data))
+```
+
+No missing values in the database.
+
+#### Target encoding
+
+```{r}
+data$y <- as.numeric(factor(data$y))
+
+data$y <- data$y-1
+```
+
+## Data splitting
+
+```{r}
+set.seed(101) # Set Seed so that same sample can be reproduced in future also
+
+data <- select(data, -c("day","month"))
+ 
+sample <- sample.int(n = nrow(data), size = floor(.85*nrow(data)), replace = F) # Now Selecting 85% of data as sample from total 'n' rows of the data 
+
+train_data <- data[sample, ]
+test_data  <- data[-sample, ]
+```
+
+## Modeling
+
+```{r}
+formula <- y~.
+model <- glm(formula, data = train_data, family = 'binomial')
+summary(model)
+```
+
+It is necessary to separate the database into a training and test sample because otherwise it would be impossible to evaluate the real performance of this model.
+
+#### Training on test data ! Yes or No ?
+No need to train the model on the test database. To avoid overfitting the data on the test database and thus compromising our analysis of the real performance of the model.
+There is always the specific case where by studying the learning curve of our model we realize that it is still learning. In this case it would be interesting to complete the training database to gain in performance.
+
+
+## Make prediction on test data
+
+```{r}
+predicted <- predict(model, select(test_data, -c("y")), type="response")
+```
+
+## Evaluate model
+
+```{r}
+library(caret)
+
+confusionMatrix(as.factor(test_data$y), as.factor(round(predicted)))
+```
+
+
+## Confusion matrix
+
+```{r}
+cm <- confusionMatrix(as.factor(test_data$y), as.factor(round(predicted)), dnn = c("Reference", "Prediction"))
+
+plt <- as.data.frame(cm$table)
+plt$Prediction <- factor(plt$Prediction, levels=rev(levels(plt$Prediction)))
+
+ggplot(plt, aes(Prediction,Reference, fill= Freq)) +
+        geom_tile() + geom_text(aes(label=Freq)) +
+        scale_fill_gradient(low="white", high="#009194") +
+        labs(x = "Reference",y = "Prediction") +
+        scale_y_discrete(labels=c("No","Yes")) +
+        scale_x_discrete(labels=c("Yes","No"))
+```

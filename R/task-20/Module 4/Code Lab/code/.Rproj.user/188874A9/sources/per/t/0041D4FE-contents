@@ -1,0 +1,271 @@
+---
+title: "Module 4 Code Lab"
+author: "Your Name Here"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=5, fig.height=3)  # default figure/plot sizes
+```
+
+# Introduction
+
+Check the Module Overview for resources that may be helpful with this assignment.  See the Code Lab Guidelines page for general directions on Code Lab assignments.  See the Dataset Information page for background on the datasets used in the Code Lab assignments.  See the Project Checkpoint Example Assignments for more details on these datasets and examples of working with the data.
+
+
+## Goals
+
+* Use facet functions to create separate, related plots for different groups
+* See Simpson's Paradox in a data set
+* See some options for visualizing groups in a data set
+
+
+# Setup
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(palmerpenguins)
+```
+
+## Data files
+
+This assignment uses the NMH dataset.  **Download the NMH data folder from Canvas and put it as a subdirectory of your working directory.**  It assumes that the data files are in a subdirectory of the working directory called NHM.  Adjust your working directory if needed; do not change the file paths in the code below, or the instructor will not be able to knit your file.
+
+
+```{r}
+stays <- read_csv("NMH/stays.csv")
+```
+
+
+# Simpson's Paradox
+
+When data is aggregated across groups, the relationship between variables in the aggregated data can be different than the relationship between variables within each group individually.  This is one reason it is critical to include categorical variables in data visualizations and examine within-group patterns.  
+
+We can see an example of this situation with data on penguins from the [palmerpenguins package](https://github.com/allisonhorst/palmerpenguins).
+
+```{r}
+penguins
+```
+
+Make a plot of penguins' bill depth vs. bill length, and include a trend line:
+
+```{r}
+ggplot(penguins, aes(x=bill_length_mm,
+                     y=bill_depth_mm)) +
+  geom_point() + 
+  geom_smooth(method="lm")  # linear regression fit
+```
+
+Hmm, this seems off -- penguins with longer bills have flatter bills?  It's possible, but usually two size measurements of an animal would be at least weakly positively correlated.  
+
+Looking at the plot, the overall trend may also seem to not quite fit -- there are some clusters where it seems like there is a positive correlation between these variables.  While visual impressions can be misleading (people have a tendency to see patterns where they may not exist), this is worth investigating further.
+
+So let's look at the data by species:
+
+```{r}
+ggplot(penguins, aes(x=bill_length_mm,
+                     y=bill_depth_mm,
+                     color=species)) +
+  geom_point() + 
+  geom_smooth(method="lm")  # linear regression fit
+```
+
+Ahh - the completely opposite relationship!  This is what we're talking about -- when the relationship within each group (all of the groups here!) is one direction, but the overall relationship between the variables is different.  
+
+
+# Facets
+
+[Facet functions](https://ggplot2-book.org/facet.html) allow you to make multiple small, related plots.  While you can use the facet functions to make various kinds of small multiple plots, by default, the facet functions in ggplot2 are designed to help you make the same plot (same scales, same variable mappings, same geoms) for non-overlapping subsets of the data, defined by a categorical variable.  This means you define the overall plot as you normally would, but when you add a facet function, instead of making just one plot, it makes one plot per group.
+
+There are two different facet functions: `facet_wrap` and `facet_grid`.  While you can control the layout of facets with either function, as a rule of thumb, use `facet_wrap` when you have many groups and a single grouping variable you want to facet with, and use `facet_grid` if you want to facet by two variables or you want to control the layout of the facets.  
+
+Functionally, `facet_wrap` computes the different facets (possibly by crossing 2 or more grouping variables) then lays them all out, while `facet_grid` uses the grouping variables to structure the layout -- it draw the structure, then fills in the facets.  This difference is reflected in the how the facet labels are shown by default.  
+
+
+## Example
+
+Look at how many times a patient's glucose is tested per day.  
+
+```{r}
+stays %>%
+  ggplot(aes(avg_tests_day)) +
+  # choose bins of width .5 (half day) that run 0-.5, .5-1, etc.
+  geom_histogram(binwidth=.5, center=0.25) + 
+  coord_cartesian(xlim=c(0,15))  # limit the range (there are some outliers)
+```
+
+There are two peaks in the distribution.  Let's try to figure this out.  
+
+One partial explanation for the variation may be whether a patient is taking insulin; we can examine this with a faceted plot:
+
+```{r, fig.height=4}
+stays %>%
+  ggplot(aes(avg_tests_day)) +
+  geom_histogram(binwidth=.5, center=0.25) + 
+  coord_cartesian(xlim=c(0,15)) +  # limit the range (there are some outliers)
+  # above lines are the same as the overall plot in the chunk above
+  # then facet:
+  facet_grid(insulin ~ .)
+```
+
+Here, we're using `facet_grid` because `insulin` has only two groups and we want to control the layout of the facets.  The formula syntax used by the function allows us to specify that we want `insulin` groups laid out along the y-axis (`y ~ x`) -- vertically.  The `.` indicates there's no variable to facet along the x-axis (horizontally).  
+
+We want to lay out the facets vertically because we want to compare the two plots based on where values are on the x-axis.  When we lay out the plots vertically, they will all share a single x-axis.  If we lay them out horizontally, it is much harder to tell that the second non-insulin peak aligns with the insulin-taking peak:
+
+```{r, fig.width=6}
+stays %>%
+  ggplot(aes(avg_tests_day)) +
+  geom_histogram(binwidth=.5, center=0.25) + 
+  coord_cartesian(xlim=c(0,15)) + 
+  facet_grid(~ insulin)
+```
+
+This alignment makes it clearer that there are more insulin-takers in the data though.  Facet layout should be chosen depending on what you want to compare.
+
+For patients who are taking insulin, the distribution of number of glucose tests per day is roughly normal.  For patients not taking glucose, there are still two groups - a lower number of average tests per day, and an average number of tests per day that is more similar to patients taking insulin.  
+
+See how the faceted plot above compares to the same plot using color to distinguish the groups instead of facets:
+
+```{r}
+stays %>%
+  ggplot(aes(avg_tests_day, fill=insulin)) +
+  geom_histogram(binwidth=.5, center=0.25) + 
+  coord_cartesian(xlim=c(0,15)) 
+```
+
+Here, we can see that the small peak on the left (lower values of `avg_tests_day`) is mostly those who don't take insulin, but it's harder to see what's going on for the more typical range of values (4+).
+
+
+# EXERCISE 1
+
+Make a histogram of `age`.  Make the bins width 5, running from 0-5, 5-10, etc.  Then facet the plot by `admit_type`.  Align the facets so they are stacked on top of each other (single column).  
+
+Bonus: get the facet labels on the top of each plot instead of on the side to make them easier to read.  
+
+```{r, fig.height=7}
+stays %>%
+  ggplot(aes(age)) +
+  geom_histogram(binwidth=5, center=0.25)+
+  facet_wrap(~admit_type, ncol = 1)
+```
+
+
+
+## Facet Scales
+
+The default with facets is for all small plots to share the same x and y scales, including the ranges.  This is a good default because it allows the viewer of a plot to use position within the plot grid to make inferences and comparisons more easily.
+
+This default behavior can be changed, however, to allow the scale limits on each small plot to be computed independently -- to "free" the x and/or y scale.  
+
+# EXERCISE 2
+
+1. Look up how to free the axis scales in a faceted plot.  Edit the plot you made in Exercise 1 so that the limits on the y-axis can vary for each facet.  
+
+2. Do you find the original or the new plot to be more useful if you are trying to compare the proportion of younger patients for each admit type?
+
+
+```{r, fig.height=7}
+stays %>%
+  ggplot(aes(age)) +
+  geom_histogram(binwidth=5, center=0.25)+
+  facet_wrap(~admit_type, scales = "free_y", ncol = 1)
+```
+
+The graph made in question 1 is more readable in terms of comparing the age distribution by admit_type. But it would be more interesting to make the new graph when we are looking for more precise information on each category.
+
+## Adding Summary Measures
+
+Sometimes it's useful to add indicators of summary statistics such as means or medians to a plot.  This can be a little tricky to do with facets.  
+
+Let's add a vertical line at the median value.  We want the median for each facet separately.
+
+If we add `geom_vline()` and try to compute the median within `aes()`, we get the overall median put on all of the plots (not what we want):
+
+```{r, fig.height=7}
+stays %>%
+  ggplot(aes(mean_glucose)) +
+  geom_histogram(bins=50) + 
+  geom_vline(aes(xintercept=median(mean_glucose)), color="red") +
+  facet_grid(admit_type ~ .)
+```
+
+The most straightforward way is to compute the median for each group ahead of time, stored in a separate data frame, and supply that to `geom_vline()`
+
+```{r, fig.height=7}
+# create a data frame that has our facetting variable, and 
+# then the values we need (here a single one) for the geom 
+# we want to add in each facet
+medians <- stays %>% 
+  group_by(admit_type) %>%
+  summarize(med=median(mean_glucose))
+medians
+
+stays %>%
+  ggplot(aes(mean_glucose)) +
+  geom_histogram(bins=50) + 
+  # admit_type is in medians, so it knows how to map to the facets
+  geom_vline(data=medians,  # the data frame we made
+             aes(xintercept=med), # med is a column in medians
+             color="red") +
+  facet_grid(admit_type ~ .)
+```
+
+# EXERCISE 3
+
+Make a plot showing the distribution of `stay_length` for each `age_decade` of patient age (a histogram for each `age_decade`).  Add the median value for each `age_decade` to the plot.  
+
+Limit the range of the x-axis to where the bulk of the data is so that you can see any differences in the medians by group (exclude outliers with very long stay lengths).  
+
+Choose an appropriate `binwidth` for the histograms.  
+
+Remember: you may need to increase the `fig.height` chunk option to make the plot readable in the html output when you knit.  
+
+```{r}
+stays <- mutate(stays, 
+                age_decade = case_when(age < 20 ~ "Teens",
+                                       age < 30 ~ "20s",
+                                       age < 40 ~ "30s",
+                                       age < 50 ~ "40s",
+                                       age < 60 ~ "50s",
+                                       age < 70 ~ "60s",
+                                       age < 80 ~ "70s",
+                                       TRUE ~ "80s"),
+                age_decade = factor(age_decade, 
+                                    levels=c("Teens", "20s", "30s", "40s", "50s", "60s", "70s", "80s")))
+```
+
+
+```{r, fig.height = 7}
+
+medians <- stays %>% 
+  group_by(age_decade) %>%
+  summarize(med=median(stay_length))
+medians
+
+stays %>%
+  ggplot(aes(stay_length)) +
+  geom_histogram(bins=40) + 
+  # admit_type is in medians, so it knows how to map to the facets
+  geom_vline(data=medians,  # the data frame we made
+             aes(xintercept=med), # med is a column in medians
+             color="red") +
+  coord_cartesian(xlim=c(0,30)) +
+  facet_grid(age_decade ~ .)
+```
+
+
+
+
+

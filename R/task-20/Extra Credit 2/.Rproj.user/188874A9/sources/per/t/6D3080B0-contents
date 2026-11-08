@@ -1,0 +1,1206 @@
+rm(list = ls())
+library(xts)
+library(hyfo)
+library(readxl)
+library(hydroTSM)
+require(hydroTSM) #analyse hydrologique
+require(ggplot2) #grammaire de graphiques
+library(zoo)
+require(zoo)
+library(scales)
+library(lubridate)
+require(lubridate)
+library(reshape2)
+require(reshape2)
+require(dplyr)
+require(trend)
+library(tidyr)
+library(tidyverse)
+library(Metrics)
+
+ETP_futur= read_excel("C:/Users/USER/Downloads/Pour Jules/ETP_2011_2100.xlsx")
+ETP_futur
+ETP_futur.xts1<- xts(ETP_futur[,-1],seq.Date(as.Date("2011-01-01"),
+                                             as.Date("2100-12-31"),"day"))
+Precip_HIRHAM <- read_excel("C:/Users/USER/Downloads/Pour Jules/Precipitations HIRHAM.xlsx")
+
+Pluie.mensuel=tapply(as.numeric(ETP_futur$ETP), list(year(seq.Date(as.Date("2011-01-01"),
+                                                                   as.Date("2100-12-31"),"day")),month(seq.Date(as.Date("2011-01-01"),as.Date("2100-12-31"),"day"))),sum,na.rm=T)
+date3 <- seq.Date(from = as.Date("2011-01-01"), to = as.Date("2040-12-31"), by = "day")
+length(date3)
+
+ETP_2011_2040=ETP_futur$ETP[1:10958]
+ETP_2011_2040
+Precip_RCP4.5=Precip_HIRHAM$`Sc?nario RCP4.5`[1:10958]
+Periode1=data.frame(date3,ETP_2011_2040,Precip_RCP4.5)
+
+Long <- Periode1 %>% group_by(Jour=format(date3,format="%m%d")) %>%
+  summarise(M1=mean(ETP_2011_2040),M2=mean(Precip_RCP4.5),.groups='drop')%>%
+  as.data.frame()
+Long
+
+D?bit <- read_excel("C:/Memoire/Donn?es Objectifs Sp?cifiques 1/Pour Jules/Pour OS2/D?bit.xlsx")
+
+long <- D?bit %>%
+  pivot_longer(
+    cols = paste0(1961:1990), names_to = "Date",
+    values_to = "D?bit",
+    values_drop_na = TRUE)
+long
+long1<-long[order(long$Date,decreasing=F),]
+long1
+
+
+dates <- seq.Date(from = as.Date("1961-01-01"), to = as.Date("1991-01-23"), by = "day")
+dates <- dates[1:10980]
+debit=long1$D?bit
+Debit0=data.frame(dates,debit)
+debit=Debit0$debit
+debit <- debit[1:10957]
+Donn?e_Pluie_ETP <- read_excel("C:/Memoire/Donn?es Objectifs Sp?cifiques 1/Pour Jules/Pour OS2/Donn?es+Pluie_ETP.xlsx")
+Pluie_ETP=data.frame(Donn?e_Pluie_ETP)
+Pluie_ETP
+
+ETP=Pluie_ETP$ETP[1:10957]
+ETP
+Precip=Pluie_ETP$Pluie[1:10957]
+date0 <- seq.Date(from = as.Date("1961-01-01"), to = as.Date("1990-12-31"), by = "day")
+Periode0=data.frame(date0,ETP,Precip,debit)
+
+Long0 <- Periode0 %>% group_by(Jour=format(date0,format="%m%d")) %>%
+  summarise(ETP=mean(ETP),Precip=mean(Precip),M11=mean(debit),.groups='drop')%>%
+  as.data.frame()
+Long0
+
+PET=Long0$ETP
+Precip= Long0$Precip
+
+Mu=0.9689
+LANDA=15.365
+TX=0.038
+SF=0.016
+P2=0.62
+
+
+effective_rainfall <- function(Precip,PET){
+  q<-rep(NA, 366)
+  n=length(Precip)
+  for (i in 1:n) {
+    if(Precip[i]-PET[i]>0){
+      q[i]=Precip[i]-PET[i]
+    }
+    else{
+      q[i]=0
+    }
+  }
+  return(q)
+}
+q
+
+Q=effective_rainfall(Precip,PET)
+Q
+Rsquare <- function(x,y,p){
+  Ymeasure=y
+  Ycalculate=(p[1]*x)+p[2]
+  meanY=mean(Ymeasure)
+  deltaY2=sum((Ycalculate-Ymeasure)^2)
+  distanceY2=sum((Ymeasure-meanY)^2)
+  r2=1-(deltaY2/distanceY2)
+  return(r2)
+}
+
+state_soil <- function(MU,LANDA,q,P2){
+  X<-rep(0, 366)
+  X[1]=0
+  X[2]=0
+  X[3]=0
+  n=length(q)
+  for (i in 4:n) {
+    if (q[i]==0){
+      X[i]=X[i-1]-MU/LANDA*X[i-1]
+    }else{
+      X[i]=X[i-1]+MU/LANDA*(q[i])^(2*MU-P2)
+    }
+  }
+  return(X)
+}
+
+nash <- function(fobs,fcal){
+  N=364
+  errcal=numeric(N+1)
+  errobs=numeric(N+1)
+  errcal_som=numeric(N+1)
+  errobs_som=numeric(N+1)
+  
+  for (t in 1:N+1) {
+    errcal[t]=(fobs[t]-fcal[t])^2
+    errobs[t]=(fobs[t]-mean(fobs))^2
+  }
+  
+  for (t in 1:N){
+    errcal_som[1]=errcal[1]
+    errcal_som[t+1]=errcal_som[t]+errcal[t+1]
+    
+    errobs_som[1]=errobs[1];
+    errobs_som[t+1]=errobs_som[t]+errobs[t+1]
+  }
+  
+  Nash=1-(errcal_som[N+1])/(errobs_som[N+1])
+  
+  return(Nash)
+}
+
+
+HyMoLAP <- function(Parameters,Data,P2){
+  
+  Data=data.frame(Precip,PET,debit=Long0$M11)
+  Precip = Data[,1]
+  PET = Data[,2]
+  Qobs = Data[,3]
+  Parameters=c(0.9689,15.365,0.038)
+  MU = Parameters[1]
+  LANDA = Parameters[2]
+  TX = Parameters[3]
+  SF=0.016
+  P2=0.62
+  
+  q = effective_rainfall(Precip, PET)
+  X = state_soil(MU,LANDA,q,P2)
+  
+  X[1]=0
+  X[2]=0
+  X[3]=0
+  
+  
+  for (i in 4:length(Precip)) {
+    if (X[i]*SF>TX){
+      X[i]=X[i]
+    } else {
+      X[i]=0
+    }
+  }
+  
+  q = effective_rainfall(Precip, PET)
+  
+  X = state_soil(MU,LANDA,q,P2)
+  X[1]=0
+  X[2]=0
+  X[3]=0
+  
+  Qsim<-rep(NA, 366)
+  
+  Qsim[1]=Qobs[1]
+  Qsim[2]=Qobs[2]
+  
+  
+  for (i in 3:length(Precip)) {
+    Qsim[i]=Qsim[i-1]-MU/LANDA*(Qsim[i-1])^(2*MU-1)+X[i]*q[i-1]/LANDA
+    
+    if (Qsim[i]<=0){
+      Qsim[i]=0
+    } else {
+      Qsim[i]=Qsim[i]
+    }
+  }
+  
+  return(Qsim)
+}
+Qsim=HyMoLAP(Parameters = Parameters,Data=Data,P2=P2)
+Data=data.frame(Precip,PET,debit=Long0$M11)
+Qobs=Data[,3]
+Qobs
+Qsim
+Date1=Long0$Jour
+Date1
+table01=data.frame(Date1,Qsim,Qobs)
+long00 <- table01 %>%
+  pivot_longer(
+    cols=c("Qsim","Qobs"),
+    names_to = "Debit",
+    values_to = "Value",
+  )
+long00
+
+graphique0=ggplot(long00)+aes(x = Date1, y=as.numeric(Value), group=Debit, color=Debit)+
+  geom_line(size=1)+ theme(axis.title.x = element_blank())+
+  labs( x=NULL, y="Debit" )+
+  theme(axis.title.y = element_blank())+scale_x_discrete(breaks=c(0,100,200,300))
+
+
+
+
+Precip= Long$M2
+PET=Long$M1
+MU=0.9689
+LANDA=15.365
+TX=0.038
+SF=0.016
+P2=0.62
+
+effective_rainfall <- function(Precip,PET){
+  q<-rep(NA, 366)
+  n=length(Precip)
+  for (i in 1:n) {
+    if(Precip[i]-PET[i]>0){
+      q[i]=Precip[i]-PET[i]
+    }
+    else{
+      q[i]=0
+    }
+  }
+  return(q)
+}
+
+q=effective_rainfall(Precip=Precip,PET=PET)
+Rsquare <- function(x,y,p){
+  Ymeasure=y
+  Ycalculate=(p[1]*x)+p[2]
+  meanY=mean(Ymeasure)
+  deltaY2=sum((Ycalculate-Ymeasure)^2)
+  distanceY2=sum((Ymeasure-meanY)^2)
+  r2=1-(deltaY2/distanceY2)
+  return(r2)
+}
+
+state_soil <- function(MU,LANDA,q,P2){
+  X<-rep(0, 366)
+  X[1]=0
+  X[2]=0
+  X[3]=0
+  n=length(q)
+  for (i in 4:n) {
+    if (q[i]==0){
+      X[i]=X[i-1]-MU/LANDA*X[i-1]
+    }else{
+      X[i]=X[i-1]+MU/LANDA*(q[i])^(2*MU-P2)
+    }
+  }
+  return(X)
+}
+
+nash <- function(fobs,fcal){
+  N=364
+  errcal=numeric(N+1)
+  errobs=numeric(N+1)
+  errcal_som=numeric(N+1)
+  errobs_som=numeric(N+1)
+  
+  for (t in 1:N+1) {
+    errcal[t]=(fobs[t]-fcal[t])^2
+    errobs[t]=(fobs[t]-mean(fobs))^2
+  }
+  
+  for (t in 1:N){
+    errcal_som[1]=errcal[1]
+    errcal_som[t+1]=errcal_som[t]+errcal[t+1]
+    
+    errobs_som[1]=errobs[1];
+    errobs_som[t+1]=errobs_som[t]+errobs[t+1]
+  }
+  
+  Nash=1-(errcal_som[N+1])/(errobs_som[N+1])
+  
+  return(Nash)
+}
+
+HyMoLAP <- function(Parameters,Data,P2){
+  
+  Data=data.frame(Precip,PET)
+  Precip = Data[,1]
+  PET = Data[,2]
+  Parameters=c(0.9689,15.365,0.038)
+  MU = Parameters[1]
+  LANDA = Parameters[2]
+  TX = Parameters[3]
+  SF=0.016
+  P2=0.62
+  
+  q = effective_rainfall(Precip=Precip, PET=PET)
+  X = state_soil(MU,LANDA,q,P2)
+  
+  X[1]=0
+  X[2]=0
+  X[3]=0
+  
+  
+  for (i in 4:length(Precip)) {
+    if (X[i]*SF>TX){
+      X[i]=X[i]
+    } else {
+      X[i]=0
+    }
+  }
+  
+  q = effective_rainfall(Precip, PET)
+  
+  X = state_soil(MU,LANDA,q,P2)
+  X[1]=0
+  X[2]=0
+  X[3]=0
+  
+  Qsim<-rep(NA, 366)
+  Qobs=debit
+  Qsim[1]=Qobs[1]
+  Qsim[2]=Qobs[2]
+  
+  
+  for (i in 3:length(Precip)) {
+    Qsim[i]=Qsim[i-1]-MU/LANDA*(Qsim[i-1])^(2*MU-1)+X[i]*q[i-1]/LANDA
+    
+    if (Qsim[i]<=0){
+      Qsim[i]=0
+    } else {
+      Qsim[i]=Qsim[i]
+    }
+  }
+  
+  return(Qsim)
+}
+Qsim=HyMoLAP(Parameters = Parameters,Data=Data,P2=P2)
+Data=data.frame(Precip,PET)
+Qsim
+Qref=Qobs
+Date1=Long$Jour
+Date1
+table1=data.frame(Date1,Qsim,Qref)
+long1a <- table1 %>%
+  pivot_longer(
+    cols=c("Qsim","Qref"),
+    names_to = "Debit",
+    values_to = "Value",
+  )
+long1a
+
+graphique4=ggplot(long1a)+aes(x=Date1, y=as.numeric(Value), group=Debit, color=Debit)+
+  geom_line(size=1)+ theme(axis.title.x = element_blank())+
+  labs( x=NULL, y="Debit" )+
+  theme(axis.title.y = element_blank())+ ggtitle(
+    "Periode du debut du si?cle 2011-2040/sc?narios RCP4.5"
+  )+scale_x_discrete(breaks=c(0,100,200,300))
+
+
+ETP_2011_2040=ETP_futur$ETP[1:10958]
+ETP_2011_2040
+Precip_RCP8.5=Precip_HIRHAM$`Sc?nario RCP8.5`[1:10958]
+Periode2=data.frame(date3,ETP_2011_2040,Precip_RCP8.5)
+
+L1 <- Periode2 %>% group_by(Jour=format(date3,format="%m%d")) %>%
+  summarise(M1=mean(ETP_2011_2040),M3=mean(Precip_RCP8.5),.groups='drop')%>%
+  as.data.frame()
+L1
+
+Precip1= L1$M3
+PET=L1$M1
+
+MU=0.9689
+LANDA=15.365
+TX=0.038
+SF=0.016
+P2=0.62
+
+
+effective_rainfall1 <- function(Precip1,PET){
+  q1<-rep(NA, 366)
+  n=length(Precip1)
+  for (i in 1:n) {
+    if(Precip1[i]-PET[i]>0){
+      q1[i]=Precip1[i]-PET[i]
+    }
+    else{
+      q1[i]=0
+    }
+  }
+  return(q1)
+}
+q1=effective_rainfall1(Precip1, PET)
+
+Rsquare <- function(x,y,p){
+  Ymeasure=y
+  Ycalculate=(p[1]*x)+p[2]
+  meanY=mean(Ymeasure)
+  deltaY2=sum((Ycalculate-Ymeasure)^2)
+  distanceY2=sum((Ymeasure-meanY)^2)
+  r2=1-(deltaY2/distanceY2)
+  return(r2)
+}
+
+state_soil1 <- function(MU,LANDA,q1,P2){
+  X1<-rep(0, 366)
+  X1[1]=0
+  X1[2]=0
+  X1[3]=0
+  n=length(q1)
+  for (i in 4:n) {
+    if (q1[i]==0){
+      X1[i]=X1[i-1]-MU/LANDA*X1[i-1]
+    }else{
+      X1[i]=X1[i-1]+MU/LANDA*(q1[i])^(2*MU-P2)
+    }
+  }
+  return(X1)
+}
+X1 = state_soil1(MU,LANDA,q1,P2)
+
+nash <- function(fobs,fcal){
+  N=364
+  errcal=numeric(N+1)
+  errobs=numeric(N+1)
+  errcal_som=numeric(N+1)
+  errobs_som=numeric(N+1)
+  
+  for (t in 1:N+1) {
+    errcal[t]=(fobs[t]-fcal[t])^2
+    errobs[t]=(fobs[t]-mean(fobs))^2
+  }
+  
+  for (t in 1:N){
+    errcal_som[1]=errcal[1]
+    errcal_som[t+1]=errcal_som[t]+errcal[t+1]
+    
+    errobs_som[1]=errobs[1];
+    errobs_som[t+1]=errobs_som[t]+errobs[t+1]
+  }
+  
+  Nash=1-(errcal_som[N+1])/(errobs_som[N+1])
+  
+  return(Nash)
+}
+
+debit=Debit0$debit
+debit <- debit[1:10958]
+HyMoLAP1 <- function(Parameters,Data1,P2){
+  
+  Data1=data.frame(Precip1,PET)
+  Precip1 = Data1[,1]
+  PET = Data1[,2]
+  Parameters=c(0.9689,15.365,0.038)
+  MU = Parameters[1]
+  LANDA = Parameters[2]
+  TX = Parameters[3]
+  SF=0.016
+  P2=0.62
+  
+  q1 = effective_rainfall1(Precip1, PET)
+  X1 = state_soil1(MU,LANDA,q1,P2)
+  
+  X1[1]=0
+  X1[2]=0
+  X1[3]=0
+  
+  
+  for (i in 4:length(Precip1)) {
+    if (X1[i]*SF>TX){
+      X1[i]=X1[i]
+    } else {
+      X1[i]=0
+    }
+  }
+  
+  q1 = effective_rainfall1(Precip1, PET)
+  
+  X1 = state_soil1(MU=MU,LANDA=LANDA,q1=q1,P2=P2)
+  X1[1]=0
+  X1[2]=0
+  X1[3]=0
+  
+  Qsim<-rep(NA, 366)
+  Qobs=debit
+
+  Qsim[1]=Qobs[1]
+  Qsim[2]=Qobs[2]
+  
+  for (i in 3:length(Precip1)) {
+    Qsim[i]=Qsim[i-1]-MU/LANDA*(Qsim[i-1])^(2*MU-1)+X1[i]*q1[i-1]/LANDA
+    
+    if (Qsim[i]<=0){
+      Qsim[i]=0
+    } else {
+      Qsim[i]=Qsim[i]
+    }
+  }
+  
+  return(Qsim)
+}
+Qsim=HyMoLAP1(Parameters = Parameters,Data1=Data1,P2=P2)
+Data1=data.frame(Precip1,PET)
+Qsim
+Qref
+Date1=Long$Jour
+Date1
+table2=data.frame(Date1,Qsim,Qref)
+
+long5a <- table2 %>%
+  pivot_longer(
+    cols=c("Qsim","Qref"),
+    names_to = "Debit",
+    values_to = "Value",
+  )
+long5a
+
+graphique5=ggplot(long5a)+aes(x=Date1, y=as.numeric(Value), group=Debit, color=Debit)+
+  geom_line(size=1)+ theme(axis.title.x = element_blank())+
+  labs( x=NULL, y="Debit" )+
+  theme(axis.title.y = element_blank())+ ggtitle(
+    "Periode du debut du si?cle 2011-2040/sc?narios RCP8.5"
+  )+scale_x_discrete(breaks=c(0,100,200,300))
+
+
+
+date4 <- seq.Date(from = as.Date("2041-01-01"), to = as.Date("2070-12-31"), by = "day")
+length(date4)
+ETP_2041_2070=ETP_futur$ETP[10959:21915]
+ETP_2041_2070
+Precip_RCP4.5.1=Precip_HIRHAM$`Sc?nario RCP4.5`[10959:21915]
+Periode3=data.frame(date4,ETP_2041_2070,Precip_RCP4.5.1)
+
+L2 <- Periode3 %>% group_by(Jour=format(date4,format="%m%d")) %>%
+  summarise(M4=mean(ETP_2041_2070),M5=mean(Precip_RCP4.5.1),.groups='drop')%>%
+  as.data.frame()
+L2
+
+Precip2= L2$M5
+PET2=L2$M4
+
+MU=0.9689
+LANDA=15.365
+TX=0.038
+SF=0.016
+P2=0.62
+
+effective_rainfall2 <- function(Precip2,PET2){
+  q2<-rep(NA, 366)
+  n=length(Precip2)
+  for (i in 1:n) {
+    if(Precip2[i]-PET2[i]>0){
+      q2[i]=Precip2[i]-PET2[i]
+    }
+    else{
+      q2[i]=0
+    }
+  }
+  return(q2)
+}
+q2=effective_rainfall2(Precip2, PET2)
+
+Rsquare <- function(x,y,p){
+  Ymeasure=y
+  Ycalculate=(p[1]*x)+p[2]
+  meanY=mean(Ymeasure)
+  deltaY2=sum((Ycalculate-Ymeasure)^2)
+  distanceY2=sum((Ymeasure-meanY)^2)
+  r2=1-(deltaY2/distanceY2)
+  return(r2)
+}
+
+state_soil2 <- function(MU,LANDA,q2,P2){
+  X2<-rep(0, 366)
+  X2[1]=0
+  X2[2]=0
+  X2[3]=0
+  n=length(q2)
+  for (i in 4:n) {
+    if (q2[i]==0){
+      X2[i]=X2[i-1]-MU/LANDA*X2[i-1]
+    }else{
+      X2[i]=X2[i-1]+MU/LANDA*(q2[i])^(2*MU-P2)
+    }
+  }
+  return(X2)
+}
+X2=state_soil2(MU,LANDA,q2,P2)
+nash <- function(fobs,fcal){
+  N=364
+  errcal=numeric(N+1)
+  errobs=numeric(N+1)
+  errcal_som=numeric(N+1)
+  errobs_som=numeric(N+1)
+  
+  for (t in 1:N+1) {
+    errcal[t]=(fobs[t]-fcal[t])^2
+    errobs[t]=(fobs[t]-mean(fobs))^2
+  }
+  
+  for (t in 1:N){
+    errcal_som[1]=errcal[1]
+    errcal_som[t+1]=errcal_som[t]+errcal[t+1]
+    
+    errobs_som[1]=errobs[1];
+    errobs_som[t+1]=errobs_som[t]+errobs[t+1]
+  }
+  
+  Nash=1-(errcal_som[N+1])/(errobs_som[N+1])
+  
+  return(Nash)
+}
+
+debit=Debit0$debit
+
+HyMoLAP2 <- function(Parameters,Data2,P2){
+  
+  Data2=data.frame(Precip2,PET2)
+  Precip2 = Data2[,1]
+  PET2 = Data2[,2]
+  Parameters=c(0.9689,15.365,0.038)
+  MU = Parameters[1]
+  LANDA = Parameters[2]
+  TX = Parameters[3]
+  SF=0.016
+  P2=0.62
+  
+  q2 = effective_rainfall2(Precip2, PET2)
+  X2 = state_soil2(MU,LANDA,q2,P2)
+  
+  X2[1]=0
+  X2[2]=0
+  X2[3]=0
+  
+  
+  for (i in 4:length(Precip2)) {
+    if (X2[i]*SF>TX){
+      X2[i]=X2[i]
+    } else {
+      X2[i]=0
+    }
+  }
+  q2 = effective_rainfall2(Precip2, PET2)
+  
+  X2 = state_soil2(MU,LANDA,q2,P2)
+  X2[1]=0
+  X2[2]=0
+  X2[3]=0
+  
+  Qsim<-rep(NA, 366)
+  Qobs=debit
+  Qsim[1]=Qobs[1]
+  Qsim[2]=Qobs[2]
+  
+  
+  for (i in 3:length(Precip2)) {
+    Qsim[i]=Qsim[i-1]-MU/LANDA*(Qsim[i-1])^(2*MU-1)+X2[i]*q2[i-1]/LANDA
+    
+    if (Qsim[i]<=0){
+      Qsim[i]=0
+    } else {
+      Qsim[i]=Qsim[i]
+    }
+  }
+  
+  return(Qsim)
+}
+Qsim=HyMoLAP2(Parameters = Parameters,Data2=Data2,P2=P2)
+Data2=data.frame(Precip2,PET2)
+Qsim
+Qref
+Date2=L2$Jour
+table3=data.frame(Date2,Qsim,Qref)
+long8a<-table3 %>%
+  pivot_longer(
+    cols=c("Qsim","Qref"),
+    names_to = "Debit",
+    values_to = "Value",
+  )
+long8a
+
+graphique6=ggplot(long8a)+aes(x=Date2, y=as.numeric(Value), group=Debit, color=Debit)+
+  geom_line(size=1)+ theme(axis.title.x = element_blank())+
+  labs( x=NULL, y="Debit" )+
+  theme(axis.title.y = element_blank())+ ggtitle(
+    "Periode du milieu du si?cle 2041-2070/sc?narios RCP4.5"
+  )+scale_x_discrete(breaks=c(0,100,200,300))
+
+
+ETP_2041_2070=ETP_futur$ETP[10959:21915]
+ETP_2041_2070
+Precip_RCP8.5.2=Precip_HIRHAM$`Sc?nario RCP8.5`[10959:21915]
+Periode4=data.frame(date4,ETP_2041_2070,Precip_RCP8.5.2)
+
+L3 <- Periode4 %>% group_by(Jour=format(date4,format="%m%d")) %>%
+  summarise(M4=mean(ETP_2041_2070),M6=mean(Precip_RCP8.5.2),.groups='drop')%>%
+  as.data.frame()
+L3
+
+Precip3=L3$M6
+PET2=L3$M4
+
+
+
+Mu=0.9689
+LANDA=15.365
+TX=0.038
+SF=0.016
+P2=0.62
+
+
+effective_rainfall3 <- function(Precip3,PET2){
+  q3<-rep(NA, 366)
+  n=length(Precip3)
+  for (i in 1:n) {
+    if(Precip3[i]-PET2[i]>0){
+      q3[i]=Precip3[i]-PET2[i]
+    }
+    else{
+      q3[i]=0
+    }
+  }
+  return(q3)
+}
+q3=effective_rainfall3(Precip3, PET2)
+
+Rsquare <- function(x,y,p){
+  Ymeasure=y
+  Ycalculate=(p[1]*x)+p[2]
+  meanY=mean(Ymeasure)
+  deltaY2=sum((Ycalculate-Ymeasure)^2)
+  distanceY2=sum((Ymeasure-meanY)^2)
+  r2=1-(deltaY2/distanceY2)
+  return(r2)
+}
+
+state_soil3 <- function(MU,LANDA,q3,P2){
+  X3<-rep(0, 366)
+  X3[1]=0
+  X3[2]=0
+  X3[3]=0
+  n=length(q3)
+  for (i in 4:n) {
+    if (q3[i]==0){
+      X3[i]=X3[i-1]-MU/LANDA*X3[i-1]
+    }else{
+      X3[i]=X3[i-1]+MU/LANDA*(q3[i])^(2*MU-P2)
+    }
+  }
+  return(X3)
+}
+X3=state_soil2(MU,LANDA,q3,P2)
+nash <- function(fobs,fcal){
+  N=364
+  errcal=numeric(N+1)
+  errobs=numeric(N+1)
+  errcal_som=numeric(N+1)
+  errobs_som=numeric(N+1)
+  
+  for (t in 1:N+1) {
+    errcal[t]=(fobs[t]-fcal[t])^2
+    errobs[t]=(fobs[t]-mean(fobs))^2
+  }
+  
+  for (t in 1:N){
+    errcal_som[1]=errcal[1]
+    errcal_som[t+1]=errcal_som[t]+errcal[t+1]
+    
+    errobs_som[1]=errobs[1];
+    errobs_som[t+1]=errobs_som[t]+errobs[t+1]
+  }
+  
+  Nash=1-(errcal_som[N+1])/(errobs_som[N+1])
+  
+  return(Nash)
+}
+
+debit=Debit0$debit
+debit <- debit[1:10957]
+HyMoLAP3 <- function(Parameters,Data3,P2){
+  
+  Data3=data.frame(Precip3,PET2)
+  Precip3 = Data3[,1]
+  PET2 = Data3[,2]
+  Parameters=c(0.9689,15.365,0.038)
+  MU = Parameters[1]
+  LANDA = Parameters[2]
+  TX = Parameters[3]
+  SF=0.016
+  P2=0.62
+  
+  q3 = effective_rainfall3(Precip3, PET2)
+  X3 = state_soil3(MU,LANDA,q3,P2)
+  
+  X3[1]=0
+  X3[2]=0
+  X3[3]=0
+  
+  
+  for (i in 4:length(Precip3)) {
+    if (X3[i]*SF>TX){
+      X3[i]=X3[i]
+    } else {
+      X3[i]=0
+    }
+  }
+  
+  q3 = effective_rainfall3(Precip3, PET2)
+  
+  X3 = state_soil2(MU,LANDA,q3,P2)
+  X3[1]=0
+  X3[2]=0
+  X3[3]=0
+  
+  Qsim<-rep(NA, 366)
+
+  Qobs=debit
+  Qsim[1]=Qobs[1]
+  Qsim[2]=Qobs[2]
+  
+  for (i in 3:length(Precip3)) {
+    Qsim[i]=Qsim[i-1]-MU/LANDA*(Qsim[i-1])^(2*MU-1)+X3[i]*q3[i-1]/LANDA
+    
+    if (Qsim[i]<=0){
+      Qsim[i]=0
+    } else {
+      Qsim[i]=Qsim[i]
+    }
+  }
+  
+  return(Qsim)
+}
+Qsim=HyMoLAP3(Parameters = Parameters,Data3=Data3,P2=P2)
+Data3=data.frame(Precip3,PET2)
+Qsim
+Qref
+Date3=ETP_futur$Date[10959:21915]
+Date3=L3$Jour
+table4=data.frame(Date3,Qsim,Qref)
+
+long10a <- table4 %>%
+  pivot_longer(
+    cols=c("Qsim","Qref"),
+    names_to = "Debit",
+    values_to = "Value",
+  )
+long10a
+
+graphique7=ggplot(long10a)+aes(Date3, y=as.numeric(Value), group=Debit, color=Debit)+
+  geom_line(size=1)+ theme(axis.title.x = element_blank())+
+  labs( x=NULL, y="Debit" )+
+  theme(axis.title.y = element_blank())+ ggtitle(
+    "Periode du milieu du si?cle 2041-2070/sc?narios RCP8.5"
+  )+scale_x_discrete(breaks=c(0,100,200,300))
+
+
+date5 <- seq.Date(from = as.Date("2071-01-01"), to = as.Date("2100-12-31"), by = "day")
+length(date4)
+ETP_2071_2100=ETP_futur$ETP[21916:32872]
+ETP_2071_2100
+Precip_RCP4.5.3=Precip_HIRHAM$`Sc?nario RCP4.5`[21916:32872]
+Periode4=data.frame(ETP_2071_2100, Precip_RCP4.5.3)
+
+L4 <- Periode4 %>% group_by(Jour=format(date5,format="%m%d")) %>%
+  summarise(M6=mean(ETP_2071_2100),M7=mean(Precip_RCP4.5.3),.groups='drop')%>%
+  as.data.frame()
+L4
+
+Precip4=L4$M7
+PET4=L4$M6
+Mu=0.9689
+LANDA=15.365
+TX=0.038
+SF=0.016
+P2=0.62
+
+
+effective_rainfall4 <- function(Precip4,PET4){
+  q4<-rep(NA, 366)
+  n=length(Precip4)
+  for (i in 1:n) {
+    if(Precip4[i]-PET4[i]>0){
+      q4[i]=Precip4[i]-PET4[i]
+    }
+    else{
+      q4[i]=0
+    }
+  }
+  return(q4)
+}
+q4=effective_rainfall4(Precip4, PET4)
+
+Rsquare <- function(x,y,p){
+  Ymeasure=y
+  Ycalculate=(p[1]*x)+p[2]
+  meanY=mean(Ymeasure)
+  deltaY2=sum((Ycalculate-Ymeasure)^2)
+  distanceY2=sum((Ymeasure-meanY)^2)
+  r2=1-(deltaY2/distanceY2)
+  return(r2)
+}
+
+state_soil4 <- function(MU,LANDA,q4,P2){
+  X4<-rep(0, 366)
+  X4[1]=0
+  X4[2]=0
+  X4[3]=0
+  n=length(q4)
+  for (i in 4:n) {
+    if (q4[i]==0){
+      X4[i]=X4[i-1]-MU/LANDA*X4[i-1]
+    }else{
+      X4[i]=X4[i-1]+MU/LANDA*(q4[i])^(2*MU-P2)
+    }
+  }
+  return(X4)
+}
+X4=state_soil4(MU,LANDA,q4,P2)
+nash <- function(fobs,fcal){
+  N=364
+  errcal=numeric(N+1)
+  errobs=numeric(N+1)
+  errcal_som=numeric(N+1)
+  errobs_som=numeric(N+1)
+  
+  for (t in 1:N+1) {
+    errcal[t]=(fobs[t]-fcal[t])^2
+    errobs[t]=(fobs[t]-mean(fobs))^2
+  }
+  
+  for (t in 1:N){
+    errcal_som[1]=errcal[1]
+    errcal_som[t+1]=errcal_som[t]+errcal[t+1]
+    
+    errobs_som[1]=errobs[1];
+    errobs_som[t+1]=errobs_som[t]+errobs[t+1]
+  }
+  
+  Nash=1-(errcal_som[N+1])/(errobs_som[N+1])
+  
+  return(Nash)
+}
+
+debit=Debit0$debit
+debit <- debit[1:10957]
+HyMoLAP4 <- function(Parameters,Data4,P2){
+  
+  Data4=data.frame(Precip4,PET4)
+  Precip4 = Data4[,1]
+  PET4 = Data4[,2]
+  Parameters=c(0.9689,15.365,0.038)
+  MU = Parameters[1]
+  LANDA = Parameters[2]
+  TX = Parameters[3]
+  SF=0.016
+  P2=0.62
+  
+  q4 = effective_rainfall4(Precip3, PET2)
+  X4 = state_soil4(MU,LANDA,q4,P2)
+  
+  X4[1]=0
+  X4[2]=0
+  X4[3]=0
+  
+  
+  for (i in 4:length(Precip4)) {
+    if (X3[i]*SF>TX){
+      X4[i]=X4[i]
+    } else {
+      X4[i]=0
+    }
+  }
+  
+  q4 = effective_rainfall4(Precip4, PET4)
+  
+  X4 = state_soil4(MU,LANDA,q4,P2)
+  X4[1]=0
+  X4[2]=0
+  X4[3]=0
+  
+  Qsim<-rep(NA, 366)
+  Qobs=debit
+  Qsim[1]=Qobs[1]
+  Qsim[2]=Qobs[2]
+  
+  for (i in 3:length(Precip4)) {
+    Qsim[i]=Qsim[i-1]-MU/LANDA*(Qsim[i-1])^(2*MU-1)+X4[i]*q4[i-1]/LANDA
+    
+    if (Qsim[i]<=0){
+      Qsim[i]=0
+    } else {
+      Qsim[i]=Qsim[i]
+    }
+  }
+  
+  return(Qsim)
+}
+Qsim=HyMoLAP4(Parameters = Parameters,Data4=Data4,P2=P2)
+Data4=data.frame(Precip4,PET4)
+Qsim
+Qref
+Date4=L4$Jour
+Date4
+table5=data.frame(Date4,Qsim,Qref)
+
+long13a <- table5 %>%
+  pivot_longer(
+    cols=c("Qsim","Qref"),
+    names_to = "Debit",
+    values_to = "Value",
+  )
+long13a
+
+graphique8=ggplot(long13a)+aes(Date4, y=as.numeric(Value), group=Debit, color=Debit)+
+  geom_line(size=1)+ theme(axis.title.x = element_blank())+
+  labs( x=NULL, y="Debit" )+
+  theme(axis.title.y = element_blank())+ ggtitle(
+    "Periode de fin du si?cle 2071-2100/sc?narios RCP4.5"
+  )+scale_x_discrete(breaks=c(0,100,200,300))
+
+Precip_RCP8.5.3=Precip_HIRHAM$`Sc?nario RCP8.5`[21916:32872]
+Periode5=data.frame(ETP_2071_2100, Precip_RCP8.5.3)
+
+L5 <- Periode5 %>% group_by(Jour=format(date5,format="%m%d")) %>%
+  summarise(M6=mean(ETP_2071_2100),M8=mean(Precip_RCP8.5.3),.groups='drop')%>%
+  as.data.frame()
+L5
+
+Precip5=L5$M8
+PET4=L5$M6
+
+
+effective_rainfall5 <- function(Precip5,PET4){
+  q5<-rep(NA, 366)
+  n=length(Precip5)
+  for (i in 1:n) {
+    if(Precip5[i]-PET4[i]>0){
+      q5[i]=Precip5[i]-PET4[i]
+    }
+    else{
+      q5[i]=0
+    }
+  }
+  return(q5)
+}
+q5=effective_rainfall5(Precip5, PET4)
+
+Rsquare <- function(x,y,p){
+  Ymeasure=y
+  Ycalculate=(p[1]*x)+p[2]
+  meanY=mean(Ymeasure)
+  deltaY2=sum((Ycalculate-Ymeasure)^2)
+  distanceY2=sum((Ymeasure-meanY)^2)
+  r2=1-(deltaY2/distanceY2)
+  return(r2)
+}
+
+state_soil5 <- function(MU,LANDA,q5,P2){
+  X5<-rep(0, 366)
+  X5[1]=0
+  X5[2]=0
+  X5[3]=0
+  n=length(q5)
+  for (i in 4:n) {
+    if (q5[i]==0){
+      X5[i]=X5[i-1]-MU/LANDA*X5[i-1]
+    }else{
+      X5[i]=X4[i-1]+MU/LANDA*(q5[i])^(2*MU-P2)
+    }
+  }
+  return(X5)
+}
+X5=state_soil5(MU,LANDA,q5,P2)
+nash <- function(fobs,fcal){
+  N=364
+  errcal=numeric(N+1)
+  errobs=numeric(N+1)
+  errcal_som=numeric(N+1)
+  errobs_som=numeric(N+1)
+  
+  for (t in 1:N+1) {
+    errcal[t]=(fobs[t]-fcal[t])^2
+    errobs[t]=(fobs[t]-mean(fobs))^2
+  }
+  
+  for (t in 1:N){
+    errcal_som[1]=errcal[1]
+    errcal_som[t+1]=errcal_som[t]+errcal[t+1]
+    
+    errobs_som[1]=errobs[1];
+    errobs_som[t+1]=errobs_som[t]+errobs[t+1]
+  }
+  
+  Nash=1-(errcal_som[N+1])/(errobs_som[N+1])
+  
+  return(Nash)
+}
+
+debit=Debit0$debit
+debit <- debit[1:10957]
+HyMoLAP5 <- function(Parameters,Data5,P2){
+  
+  Data5=data.frame(Precip5,PET4)
+  Precip5 = Data5[,1]
+  PET4 = Data5[,2]
+  Parameters=c(0.9689,15.365,0.038)
+  MU = Parameters[1]
+  LANDA = Parameters[2]
+  TX = Parameters[3]
+  SF=0.016
+  P2=0.62
+  
+  q5 = effective_rainfall5(Precip5, PET2)
+  X5 = state_soil5(MU,LANDA,q5,P2)
+  
+  X4[1]=0
+  X4[2]=0
+  X4[3]=0
+  
+  
+  for (i in 4:length(Precip5)) {
+    if (X3[i]*SF>TX){
+      X5[i]=X5[i]
+    } else {
+      X5[i]=0
+    }
+  }
+  
+  q5 = effective_rainfall5(Precip5, PET4)
+  
+  X4 = state_soil5(MU,LANDA,q5,P2)
+  X5[1]=0
+  X5[2]=0
+  X5[3]=0
+  
+  Qsim<-rep(NA, 366)
+  
+ 
+  Qobs=debit
+  Qsim[1]=Qobs[1]
+  Qsim[2]=Qobs[2]
+  
+  for (i in 3:length(Precip5)) {
+    Qsim[i]=Qsim[i-1]-MU/LANDA*(Qsim[i-1])^(2*MU-1)+X5[i]*q5[i-1]/LANDA
+    
+    if (Qsim[i]<=0){
+      Qsim[i]=0
+    } else {
+      Qsim[i]=Qsim[i]
+    }
+  }
+  
+  return(Qsim)
+}
+Qsim=HyMoLAP5(Parameters = Parameters,Data5=Data5,P2=P2)
+Data5=data.frame(Precip5,PET4)
+Qsim
+Qref
+Date5=L5$Jour
+Date5
+table6=data.frame(Date5,Qsim,Qref)
+
+long15a <- table6%>%
+  pivot_longer(
+    cols=c("Qsim","Qref"),
+    names_to = "Debit",
+    values_to = "Value",
+  )
+long15a
+
+graphique9=ggplot(long15a)+aes(Date5, y=as.numeric(Value), group=Debit, color=Debit)+
+  geom_line(size=1)+ theme(axis.title.x = element_blank())+
+  labs( x=NULL, y="Debit" )+
+  theme(axis.title.y = element_blank())+ ggtitle(
+    "Periode du fin de si?cle 2071-2100/sc?narios RCP8.5"
+  )+scale_x_discrete(breaks=c(0,100,200,300))
+
+
+Q1=((mean(table1$Qsim)-mean(Qref))/mean(Qref))*100
+Q2=((mean(table2$Qsim)-mean(Qref))/mean(Qref))*100
+Q3=((mean(table3$Qsim)-mean(Qref))/mean(Qref))*100
+Q4=((mean(table4$Qsim)-mean(Qref))/mean(Qref))*100
+Q5=((mean(table5$Qsim)-mean(Qref))/mean(Qref))*100
+Q6=((mean(table6$Qsim)-mean(Qref))/mean(Qref))*100

@@ -1,0 +1,165 @@
+---
+title: "codelab9"
+author: "Dipen Patel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=7, fig.height=4)  # default figure/plot sizes
+```
+
+
+```{r}
+#install.packages("mapproj")
+
+library(tidyverse)
+library(nycflights13)
+library(maps)
+library(mapproj)
+library(readxl)
+library(janitor)
+library(grid)
+library(RColorBrewer)
+```
+
+## Tutorial link
+1. [How to create map](https://www.youtube.com/watch?v=lta5Mu1nryQ)
+2. [12 Methods for Visualizing Geospatial Data on a Map](https://www.safegraph.com/guides/visualizing-geospatial-data)
+3. [Visualizing geospatial data](https://clauswilke.com/dataviz/geospatial-data.html)
+
+## Tutorial application
+
+```{r}
+w <- map_data('world')
+icj <- map_data("world",
+                region = c("India", 'China', "Japan"))
+ggplot(icj, aes(x=long,y=lat, group=group, fill=region))+
+  geom_polygon(color='black')+
+  coord_map("polyconic")+
+  labs(
+    title = "World map"
+  )
+```
+
+```{r}
+s <- map_data('state')
+ggplot(s, aes(x=long, y=lat, group=group))+
+  geom_polygon(color='black')+
+  coord_map("polyconic")+
+  labs(
+    title = "U.S. map"
+  )
+```
+
+## Visualization theme
+```{r}
+library(showtext)
+
+# do this for any font you want to use
+font_add_google("Poppins", db_cache = FALSE)
+# do this for any font you want to use
+font_add_google("Nunito", db_cache = FALSE)
+
+showtext_auto()
+
+my_theme <- theme_minimal() +  # start with closest built-in (uses theme_gray() if not specified), 
+  # then override specific settings
+  theme(text = element_text("Poppins", size=18),
+        plot.title.position = "panel",
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_text(margin = margin(t=10)),
+        axis.title.y = element_text(margin = margin(r=10)),
+        plot.title = element_text(size = 20, face = "bold"),
+        #panel.grid.major.y = element_blank(),
+        panel.grid.major.x = element_line(linewidth = 0.5, color = "gray"),
+        legend.position = "bottom",
+        axis.text.x=element_text(),
+        axis.ticks.x=element_blank(),
+        plot.margin = margin(r=0.5, unit="cm"))
+```
+
+## Visualization 1
+
+```{r}
+df1<-flights %>%
+  group_by(dest) %>%
+  summarise(mean_arr_delay=mean(arr_delay, na.rm = TRUE),
+            mean_dep_delay=mean(dep_delay, na.rm = TRUE)) %>%
+  filter(dest %in% c("PDX", "LNK", "JAC", "SAT", "MIA"))
+
+df2<-airports %>%
+  filter(faa %in% c("PDX", "LNK", "JAC", "SAT", "MIA")) %>%
+  select(dest="faa","name","lat","lon")
+
+df <- left_join(df1, df2, by="dest")
+
+ggplot(stat = "identity") + 
+  geom_polygon(data=s, 
+               aes(x=long, y=lat,group=group, fill=group)) + 
+  geom_point(data = df,
+             aes(x = lon, y = lat, group=dest),
+             color = "red", size=2) +
+  geom_text(data=df, aes(x=lon, y=lat, group=dest, label=paste("Arr_Del :",round(mean_arr_delay,2),"\n","Dep_del :",round(mean_dep_delay,2))), vjust=-0.25, size=4, color="red")+
+  coord_map("polyconic")+
+  labs(
+    title = "U.S. airport flight delays",
+    subtitle = "Mean arrival and departure delays in some states",
+    x=NULL,
+    y=NULL
+  )+
+  my_theme+
+  theme(legend.position = "none",
+        axis.text = element_blank(),
+        axis.ticks = element_blank())
+```
+
+
+### Load data
+```{r}
+state <- read_excel("state_M2021_dl.xlsx") %>% clean_names()
+```
+
+## Visualization 2 
+
+#### This visualization was created using data from my project
+
+```{r}
+state %>% 
+  distinct(occ_title, .keep_all = TRUE) %>%
+  filter(str_detect(occ_code,"29-|31-"),!(tot_emp=="**"), !(a_mean %in% c("*","#"))) %>%
+  mutate(
+    a_mean=as.numeric(a_mean),
+    tot_emp=as.numeric(tot_emp)
+  )%>%
+  group_by(area_title) %>%
+  summarise(mean=mean(a_mean)) %>%
+  mutate(
+    region = str_to_lower(area_title)
+  ) %>%
+  right_join(s, by="region") %>%
+  ggplot(aes(x=long, y=lat, group=group, fill=mean))+
+  geom_polygon(color="black")+
+  coord_map("polyconic")+
+  my_theme+
+  theme(
+    legend.position = c(0.95, 0.25),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.title = element_text()
+  )+
+  labs(
+    title = "Healthcare Occupation Mean Wage",
+    subtitle = "in U.S. state",
+    x=NULL,
+    y=NULL
+  )
+  guides(fill=guide_legend(title="Mean Wage"))
+  
+```
+

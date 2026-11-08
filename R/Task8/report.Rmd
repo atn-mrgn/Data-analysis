@@ -1,0 +1,235 @@
+---
+title: "report"
+output: html_document
+date: '2023-02-24'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# **REPORT**
+
+
+## *(2)* Identify patterns
+
+
+### Load dataset
+```{r}
+# Create a bar chart to visualize the summary statistics by StoreName
+ggplot(summary_stats, aes(x = StoreName, y = mean_TotalPaid)) +
+  geom_bar(stat = "identity", fill = "blue", width = 0.7) +
+  labs(title = "Summary Statistics of TotalPaid by StoreName",
+       x = "Store Name",
+       y = "Mean TotalPaid") +
+  theme_bw()
+```
+
+
+```{r}
+library(tidyverse)
+
+df <- read_csv("df_Morgan.csv")
+
+#df <- df[1:100,]
+```
+```{r}
+### Create product column in dataset
+
+k=1
+col=c()
+for (dept in df$Department) {
+  if (dept==2 || dept %in% c(101:129)){
+    col[k]="Tires"
+  } else if (dept==6){
+    col[k]="Mechanical"
+  } else if (dept==10){
+    col[k]="Misc"
+  } else if (dept==11){
+    col[k]="Parts"
+  } else {
+    col[k]="Other"
+  }
+  k=k+1
+}
+
+df["Products"]=col
+```
+
+The database at our disposal does not contain the names of the products. So we use the department to find the products sold. So we created a new column "Products" based on the column "Department". 
+
+### Distinguish repeat from first-time client
+
+```{r}
+library(dplyr)
+customers <- unique(df$CustomerId)
+freq = c()
+i=1
+for (customer in customers) {
+  x <- n_distinct(subset(df, CustomerId==customer, select = TransactionId))
+  freq[i]=x
+  i=i+1
+}
+customers_freq <- data.frame(customers, freq)
+```
+
+We determine which customers are repeat customers and which are first-time customers by checking whether a customer's ID appears in several different transactions. If yes, it is a regular customer, if not, it is a first time customer. 
+
+### Determine most product sold per customer frequence
+
+We thus determine the most sold products by frequency of purchase of the customers.
+
+#### *freq = 1*
+
+```{r}
+
+library(ggplot2)
+
+selected_customers<-subset(customers_freq, freq==1, select=customers)
+
+filter_df_per_cus_freq <- subset(df, CustomerId %in% selected_customers$customers, select = Products)
+
+prop_df_1<-as.data.frame(table(filter_df_per_cus_freq$Products)) 
+
+colnames(prop_df_1) <- c("Products", "Percent")
+
+total<-sum(prop_df_1$Percent)
+
+ggplot(prop_df_1, aes(x = "", y = Percent/total, fill = Products)) +
+  geom_col(color = "black") +
+  geom_label(aes(label = as.integer(Percent*100/total)),
+             position = position_stack(vjust = 0.5),
+             show.legend = FALSE) +
+  labs(y="% of sales", x="")+
+  coord_polar(theta = "y")
+```
+
+We notice that the products most purchased by new customers are those coming from the "Parts" department with 58% of sales. 
+
+#### *freq in [2-5]*
+```{r}
+
+library(ggplot2)
+
+selected_customers<-subset(customers_freq, freq %in% c(2:5), select=customers)
+
+filter_df_per_cus_freq <- subset(df, CustomerId %in% selected_customers$customers, select = Products)
+
+prop_df_2<-as.data.frame(table(filter_df_per_cus_freq$Products)) 
+
+colnames(prop_df_2) <- c("Products", "Percent")
+
+total<-sum(prop_df_2$Percent)
+
+ggplot(prop_df_2, aes(x = "", y = Percent/total, fill = Products)) +
+  geom_col(color = "black") +
+  geom_label(aes(label = as.integer(Percent*100/total)),
+             position = position_stack(vjust = 0.5),
+             show.legend = FALSE) +
+  labs(y="% of sales", x="")+
+  coord_polar(theta = "y")
+
+```
+
+
+## *(3)* Influence of the purchase of one product on others
+
+We therefore try to analyze the influence of the purchase of a product on the purchase of others. To do this, we first identify all the transactions containing a particular product. Then we determine what is the percentage of purchase of the other products following the purchase of the studied product.
+
+#### *for Tires*
+```{r}
+
+Tires_transaction_df <- subset(df, Products=="Tires", select = TransactionId)
+
+trans_prod<-subset(df, TransactionId %in% Tires_transaction_df$TransactionId, select = Products)
+
+trans_prod <- subset(trans_prod, !(Products=="Tires"))
+
+prop_df_3 <- as.data.frame(table(trans_prod))
+
+colnames(prop_df_3) <- c("Products", "Percent")
+
+total<-sum(prop_df_3$Percent)
+
+ggplot(prop_df_3, aes(x = "", y = Percent/total, fill = Products)) +
+  geom_col(color = "black") +
+  geom_label(aes(label = as.integer(Percent*100/total)),
+             position = position_stack(vjust = 0.5),
+             show.legend = FALSE) +
+  labs(y="% of sales", x="")+
+  coord_polar(theta = "y")
+
+
+```
+
+#### *for Misc*
+```{r}
+Misc_transaction_df <- subset(df, Products=="Misc", select = TransactionId)
+
+trans_prod<-subset(df, TransactionId %in% Misc_transaction_df$TransactionId, select = Products)
+
+trans_prod <- subset(trans_prod, !(Products=="Misc"))
+
+prop_df_4 <- as.data.frame(table(trans_prod))
+
+colnames(prop_df_4) <- c("Products", "Percent")
+
+total<-sum(prop_df_4$Percent)
+
+ggplot(prop_df_4, aes(x = "", y = Percent/total, fill = Products)) +
+  geom_col(color = "black") +
+  geom_label(aes(label = as.integer(Percent*100/total)),
+             position = position_stack(vjust = 0.5),
+             show.legend = FALSE) +
+  labs(y="% of sales", x="")+
+  coord_polar(theta = "y")
+```
+
+#### *for Parts*
+
+```{r}
+Parts_transaction_df <- subset(df, Products=="Parts", select = TransactionId)
+
+trans_prod<-subset(df, TransactionId %in% Parts_transaction_df$TransactionId, select = Products)
+
+trans_prod <- subset(trans_prod, !(Products=="Parts"))
+
+prop_df_5 <- as.data.frame(table(trans_prod))
+
+colnames(prop_df_5) <- c("Products", "Percent")
+
+total<-sum(prop_df_5$Percent)
+
+ggplot(prop_df_5, aes(x = "", y = Percent/total, fill = Products)) +
+  geom_col(color = "black") +
+  geom_label(aes(label = as.integer(Percent*100/total)),
+             position = position_stack(vjust = 0.5),
+             show.legend = FALSE) +
+  labs(y="% of sales", x="")+
+  coord_polar(theta = "y")
+```
+
+
+#### *for Mechanical*
+```{r}
+Mechanical_transaction_df <- subset(df, Products=="Mechanical", select = TransactionId)
+
+trans_prod<-subset(df, TransactionId %in% Mechanical_transaction_df$TransactionId, select = Products)
+
+trans_prod <- subset(trans_prod, !(Products=="Mechanical"))
+
+prop_df_6 <- as.data.frame(table(trans_prod))
+
+colnames(prop_df_6) <- c("Products", "Percent")
+
+total<-sum(prop_df_6$Percent)
+
+ggplot(prop_df_6, aes(x = "", y = Percent/total, fill = Products)) +
+  geom_col(color = "black") +
+  geom_label(aes(label = as.integer(Percent*100/total)),
+             position = position_stack(vjust = 0.5),
+             show.legend = FALSE) +
+  labs(y="% of sales", x="")+
+  coord_polar(theta = "y")
+```
+

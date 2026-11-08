@@ -1,0 +1,22 @@
+Each row of this set relates to a store's performance, "Performance".
+
+Town: town where store is located
+Country: country where store is located
+Store ID: unique identifier for this store
+Manager name: name of the lead member of staff in the store
+Staff: number of staff employed by the store
+Floor Space: size of store in square feet
+Window: size (sq ft) of store windows suitable for displaying new books, posters, promotions etc.
+Car park: does the store have a car park?
+Demographic score: a number indicating relative wealth of the people living in the area around the store
+Location: location of the store
+40min population: approximate number of people living within a 40 minute drive of the store
+30 min population: approximate number of people living within a 30 minute drive of the store
+20 min population: approximate number of people living within a 20 minute drive of the store
+10 min population: approximate number of people living within a 10 minute drive of the store
+Store age: in years
+Clearance space: sq feet of shelving reserved for book clearance promotions
+Competition number: number of competing stores within a 30 minute drive of the store
+Competition score: assigned by the store's management, this is a score in the range 1-20 showing how strong on average the competing stores are
+Performance: Good or Bad
+

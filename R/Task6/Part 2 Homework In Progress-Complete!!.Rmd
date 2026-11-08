@@ -1,0 +1,186 @@
+---
+title: "Week 7 Homework"
+author: ''
+date: "December 10th 2022"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+urlcolor: blue
+---
+
+# Part 2
+
+## *Part A*
+
+### Question 1:
+
+### In this question, you will use a series of datasets to investigate population density in the United States.
+
+#### a) Load in poulation data for Alabama ("sub-est2016_1.csv") and Alaska ("sub-est2016_2.csv"), then append the two datasets together so that all of the information is within one dataframe.
+
+```{r}
+alabama_df<-read.csv("sub-est2016_1.csv")
+alaska_df<- read.csv("sub-est2016_2.csv")
+df<-rbind(alabama_df, alaska_df)
+```
+
+After loading the datasets of Alabama and Alaska we combine the two in a new dataset named "df".
+
+#### b) Read in the csv file that already contains population information for each state. Check to see which unique states are included in this dataset.
+
+```{r}
+table(df$STNAME)
+```
+
+We can notice that the dataset contains only two states. Alabama with 1105 observations and Alaska with 347.
+
+#### c) There's a lot of interesting data in this population dataset, but for our purposes in this problem set, we are only interested in a few columns. Use the subset() function to subset the "NAME", "STNAME" and "POPESTIMATE2012" columns into new dataset. (Using a different function to complete the same task will result in partial credit.)
+
+```{r}
+filter_df<-subset(df, select = c("NAME","STNAME","POPESTIMATE2012"))
+```
+
+We therefore create the filtered database named "filter_df" containing only the columns "NAME", "STNAME" and "POPESTIMATE2012".
+
+#### d) This new subsetted dataset definitely makes our lives easier, but it still includes the population stats for each city and town. You'll notice, however, that the first observation for each new state is the population total for the entire state where the states name appears in both the NAME and STNAME columns. Use the subset() function to choose only these rows. Make sure that your new data set doesn't have any repeating/redundant observations or columns (The resulting dataframe should be 1x2)
+
+```{r}
+cpt=sum(duplicated(filter_df)) ## cpt=565
+filter_df<-unique(filter_df)
+subset(filter_df, NAME==STNAME)$POPESTIMATE2012
+```
+
+Redundancy is checked in the database. After verification, we find 565 redundant lines. We delete the redundant lines and we extract the two lines that interest us. It turns out that we have two states Alabama and Alaska with populations of 4815960 and 731089 respectively.
+
+#### e) We're going to try to find the population density of each state. Our first step in doing this is to read in some online data about the square mileage of each state from this link:(<https://raw.githubusercontent.com/jakevdp/PythonDataScienceHandbook/master/notebooks/data/state-areas.csv>) Once the data is read in, merge that data set with our 2012 state populations dataset from the last question. Which observations can be matched? Make sure to not merge obervation(s) that have no match.
+
+```{r}
+state_areas<-read.csv("state-areas.csv")
+merge_df<-merge(subset(filter_df, NAME==STNAME), state_areas, by.x="STNAME", by.y="state")
+merge_df
+```
+
+After importing using the github link and loading into R the square mileage data across multiple states. We merge this information with our given base by keeping only the information on the two states that interest us. it shows that Alabama has a square mileage of 52423 and Alaska 656425.
+
+#### f) Next, we are going to create a new variable in this merged dataset that tells us each state's population density in 2012. Do this by dividing the population variable by state size variable.
+
+```{r}
+merge_df["Density"]<-merge_df$POPESTIMATE2012/merge_df$area..sq..mi.
+merge_df<-subset(merge_df,select=c("STNAME","POPESTIMATE2012","area..sq..mi.", "Density"))
+merge_df
+```
+
+We add the new "Density" to the database. We can conclude that the state of Alabama has a population density of 91.867 and Alaska a population density of 1.114
+
+#### g) Finally we've finished preparing our dataset, now we're going to get into some more interesting investigative work. Let's first load in the "ECN_2012_US_52A1.csv" dataset which includes economic data for each sector within each state. Get rid of the first row, as this merely gives us descriptions of each variable.
+
+```{r}
+ECN_df<-read.csv("ECN_2012_US_52A1.csv")
+ECN_df<-ECN_df[2:3800,]
+```
+
+We load the economic data in "ECN_df" by getting rid of the first line.
+
+#### h) Find the total revenue per sector by state.
+
+```{r}
+# Alabama total revenue per sector
+Albm_sec_rev<-unique(subset(ECN_df,GEO.display.label=="Alabama",select=c("NAICS.display.label", "RCPTOT")))
+
+# Alaska total revenue per sector
+Alsk_sec_rev<-unique(subset(ECN_df,GEO.display.label=="Alaska",select=c("NAICS.display.label", "RCPTOT")))
+
+# Merge two table in one
+merge_rev<-merge(Albm_sec_rev, Alsk_sec_rev, by="NAICS.display.label", suffixes = c(".Alabama",".Alaska"))
+
+merge_rev
+```
+
+The "merge_rev" table gives us the total revenue by sector in Alaska and Alabama. \#### i) Now merge this dataset with our population density dataset.
+
+```{r}
+elem1=sum(na.omit(as.numeric(Albm_sec_rev$RCPTOT)))
+elem2=sum(na.omit(as.numeric(Alsk_sec_rev$RCPTOT)))
+merge_df["RCPTOT"]=c(elem1, elem2)
+merge_df
+```
+
+We create a new column "RCPTOT" in merge_df to indicate the total income by state. It turns out that Alabama has a total income of 14650865 and Alaska a total income of 923252.
+
+#### j) Plot the relationship between state population density and the state's total revenue to see if there's a relationship. Comment on your findings.
+
+```{r}
+plot(merge_df$Density,merge_df$RCPTOT, type="l", col="green", lwd=5, xlab="Density", ylab="Total revenue", main="Relationship")
+```
+We can conclude from a certain linear relation between the density and the total revenue
+
+## *Part B*
+
+### For this question, you will use the data file "nes.rda" (which will require you to use load("nes.rda") to read in the data.) The codebook, called 'nes2012_codebook.pdf' is also available to you on Canvas. This data comes from the ANES 2012 Times Series Study, which looks at attitudes toward political ideologies and groups, among many other things.
+
+### Question 1:
+
+### According to this survey, of those who claimed to have voted in the 2008 election, what percentage of survey respondents voted for Barack Obama in 2008? (Hint: you will need to search the codebook to find the variables 'interest_voted2008' and 'interest_whovote2008' in order to clean them correctly.)
+
+```{r}
+load("nes.rda")
+n1=nrow(subset(nes, interest_voted2008==1)) # Number of voted
+n2=nrow(subset(nes, (interest_voted2008==1 & interest_whovote2008==1))) # Number of person who voted and vote for Barack Obama
+
+Percentage=(n2/n1)*100
+Percentage
+```
+
+Of the people who said they voted in the 2008 election, about 67% said they voted for Barack Obama.
+
+### Question 2:
+
+### A 'Feeling Thermometer' is a type of survey question that asks respondents to rate how warmly or cool they feel toward an individual or group. A feeling thermometer score of 100 indicates a respondent feels the most positive toward that entity. A feeling score of 0 indicates the respondent feels most negative about that entity. A score of 50 indicates indifference. Using the variable that records the feeling thermometer score towards the 'Federal Government in Washington', clean the variable to only include scores between 0 and 100. (Use the codebook to locate the 'ftgr_fedgov' variable to clean it properly.)
+
+```{r}
+res=nes$ftgr_fedgov[(nes$ftgr_fedgov>=0) & (nes$ftgr_fedgov<=100)]
+```
+
+According to the codebook the variable "ftgr_fedgov" contains values less than zero such as -6 and -7. So we want to clean it up keeping the values between 0 and 100. And that's what we did. This allowed us to go from a table with 2054 rows to 1891 rows.
+
+### Question 3:
+
+### Using the cleaned variable, what is the average feeling thermomether for the Federal Government in Washington, according to this survey?
+
+```{r}
+weighted.mean(res, w = nes$weight_full[(nes$ftgr_fedgov>=0) & (nes$ftgr_fedgov<=100)])
+```
+
+The average feeling thermomether is 47.98
+
+### Question 4:
+
+### Using the 'prevote_regpty' variable, create a new variable that indicates whether a respondent is Democrat or a Republican. All other political affiliations or unknowns should be set to 'N.A.' (Use the codebook to clean this variable correctly.)
+
+```{r}
+nes["Indicator"]<-nes$prevote_regpty
+nes$Indicator[nes$Indicator == 1] <- "Democrat"
+nes$Indicator[nes$Indicator == 2] <- "Republican"
+nes$Indicator[nes$Indicator == 4 | 
+                     nes$Indicator == 5 | 
+                     nes$Indicator == -1 | 
+                     nes$Indicator == -8 | 
+                     nes$Indicator == -9] <- "NA"
+table(nes$Indicator)
+```
+
+We have created a new column in the "nes" database giving the requested characteristics
+
+### Question 5:
+
+### Find the difference in means between the average feeling thermometer score for Democrats vs. Republicans. what do you conclude?
+
+```{r}
+m1=weighted.mean(nes$ftgr_fedgov[(nes$ftgr_fedgov>=0) & (nes$ftgr_fedgov<=100) & (nes$Indicator=="Democrat")])
+m2=weighted.mean(nes$ftgr_fedgov[(nes$ftgr_fedgov>=0) & (nes$ftgr_fedgov<=100) & (nes$Indicator=="Republican")])
+m= m1-m2
+m
+```
+
+The difference in means between the average feeling thermometer score for Democrats vs. Republicans is 19.28 The difference being positive, we can conclude that the Democrats are generally cool than the Republicans.

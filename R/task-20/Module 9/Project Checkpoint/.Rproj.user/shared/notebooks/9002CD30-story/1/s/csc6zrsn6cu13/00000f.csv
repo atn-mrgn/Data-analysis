@@ -1,0 +1,8 @@
+"0","library(showtext)"
+"0",""
+"0","# do this for any font you want to use"
+"0","font_add_google(""Poppins"", db_cache = FALSE)"
+"0","# do this for any font you want to use"
+"0","font_add_google(""Nunito"", db_cache = FALSE)"
+"0",""
+"0","showtext_auto()"

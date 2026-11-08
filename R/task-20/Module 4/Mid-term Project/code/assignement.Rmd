@@ -1,0 +1,117 @@
+---
+title: "Assignement"
+output:
+  html_document:
+    df_print: paged
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
+```
+
+```{r}
+#install.packages("tidytext")
+#install.packages("wordcloud")
+#install.packages("wordcloud2")
+
+library(tidyverse)
+library(tidytext)
+library(wordcloud)
+library(wordcloud2)
+```
+
+# Question 1
+
+```{r}
+imdb_dataset =read_csv("IMDB Dataset.csv", show_col_types = FALSE)
+
+imdb_dataset$review[2]
+```
+
+# Question 2
+View code in .Rmd file
+```{r}
+# a- Replace the line breaks from the reviews
+imdb_dataset$review <- str_replace_all(imdb_dataset$review, "<br /><br />", "")
+```
+
+```{r}
+# b- Replace “.” with a “. ”
+imdb_dataset <- imdb_dataset %>%
+  rowwise() %>%
+  mutate(review=str_replace_all(review, fixed("."), fixed(". ")))
+```
+
+```{r}
+# c- Remove all the special characters
+imdb_dataset$review<-str_to_lower(imdb_dataset$review)
+
+imdb_dataset$review<-str_remove_all(imdb_dataset$review, pattern = "[`~!@#$%^&*()|'-_+\"{}\\[\\]><?/:,;\\.]")
+
+```
+
+```{r}
+# d- Remove any extra spaces in the reviews 
+imdb_dataset$review<-str_trim(imdb_dataset$review, side = c("both"))
+```
+
+```{r}
+# e- Remove all numbers
+imdb_dataset$review<-str_remove_all(imdb_dataset$review, pattern = "\\d+")
+```
+
+
+# Question 3
+```{r}
+movie_reviews_words<-imdb_dataset %>% 
+  unnest_tokens(word,review) %>%
+  filter(nchar(word)>=3) %>%
+  select("word")
+
+movie_reviews_words
+```
+
+# Question 4
+```{r}
+movie_reviews_words<-
+  anti_join(movie_reviews_words,stop_words, by = c("word" = "word"))
+
+movie_reviews_words
+```
+
+# Question 5
+```{r}
+movie_reviews_words %>%
+  count(word, sort=TRUE, name="word_frequency")
+```
+
+# Question 6
+```{r}
+movie_reviews_words %>%
+  count(word, sort=TRUE, name="word_frequency") %>%
+  mutate(rank=dense_rank(desc(word)))
+```
+# Question 7
+
+```{r}
+df<-movie_reviews_words %>%
+  count(word, sort=TRUE, name="word_frequency") 
+  
+ggplot(df[1:25,], aes(y=reorder(word, word_frequency), x=word_frequency))+
+  geom_bar(stat = "identity", fill="blue")+
+  labs(x="Word_Freqquency", y="Word")
+```
+
+# Question 8
+```{r}
+wordcloud(df[0:100,]$word, 
+          df[0:100,]$word_frequency)
+
+```
+
+# Question 9
+```{r}
+wordcloud2(df[1:100,])
+```
+

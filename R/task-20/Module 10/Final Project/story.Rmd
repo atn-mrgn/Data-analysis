@@ -1,0 +1,118 @@
+---
+title: "Healthcare Occupation in U.S."
+author: "Dipen Patel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = FALSE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=7, fig.height=4)  # default figure/plot sizes
+```
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+library(maps)
+library(mapproj)
+library(readxl)
+library(janitor)
+library(grid)
+library(RColorBrewer)
+```
+
+```{r}
+library(showtext)
+
+# do this for any font you want to use
+font_add_google("Poppins", db_cache = FALSE)
+# do this for any font you want to use
+font_add_google("Nunito", db_cache = FALSE)
+
+showtext_auto()
+```
+
+John Doe is an American researcher at the University of Michigan and the father of a young daughter, Elena. The latter has just finished high school and is wondering about her career path, but she's particularly interested in careers in the health sector. So she enlists her father's help to sort things out. John is a scientist, so it's only natural that he should justify any decision on the basis of concrete statistics. 
+
+To do this, he collects data on healthcare occupations in the USA. He then looks for a list of occupations with the highest employment rates in the U.S.
+
+```{r}
+## Load data
+national <- read_excel("national_M2021_dl.xlsx") %>% clean_names()
+```
+
+
+```{r, fig.width=11, fig.height=4}
+national %>% 
+  distinct(occ_title, .keep_all = TRUE) %>%
+  filter(str_detect(occ_code,"29-|31-"),!(tot_emp=="**"), !(a_mean %in% c("*","#"))) %>%
+  mutate(
+    a_mean=as.numeric(a_mean),
+    tot_emp=as.numeric(tot_emp)
+  )%>%
+  arrange(desc(tot_emp)) %>%
+  mutate(prop=round(tot_emp*100/sum(tot_emp))) %>%
+  slice(1:5) %>%
+  ggplot(aes(x=prop, y=reorder(occ_title,prop)))+
+  geom_col()+
+  geom_text(aes(label=paste(prop,"%")), hjust=1.2, size=6, color="white") +
+  labs(title="Occupations with the most estimated employment",
+       subtitle="Top 5 by proportion of estimated employment in 2021",
+       y="Occupations",
+       x=NULL) +
+  theme_minimal() +
+  # remove legend
+  theme(axis.text.x = element_blank(),
+        text = element_text("Poppins", size=18),
+        # remove tick marks
+        axis.ticks.x = element_blank(),
+        # remove major horizontal grids
+        panel.grid.major.y = element_blank(),
+        # remove both minor grids
+        panel.grid.minor = element_blank())
+```
+
+John then asks what the average annual salary for these occupations would be.
+
+```{r, fig.width=11, fig.height=4}
+national %>% 
+  distinct(occ_title, .keep_all = TRUE) %>%
+  mutate(mean_wage=mean(as.numeric(a_mean), na.rm = TRUE))%>%
+  filter(str_detect(occ_code,"29-|31-"),!(tot_emp=="**"), !(a_mean %in% c("*","#"))) %>%
+  mutate(
+    a_mean=as.numeric(a_mean),
+    tot_emp=as.numeric(tot_emp)
+  )%>%
+  arrange(desc(tot_emp)) %>%
+  mutate(prop=round(tot_emp*100/sum(tot_emp)),
+         highlight=as.numeric(a_mean)>mean_wage) %>%
+  slice(1:5) %>%
+  ggplot(aes(x=reorder(occ_title,prop), y=as.numeric(a_mean), fill=highlight))+
+  geom_col()+
+  geom_text(aes(label=paste(as.numeric(a_mean), "$")), hjust=1.2, size=6, color="white", face=rep(c("bold")))+
+  annotate("segment", x=0.5, xend=5.7, y=67382.66, yend = 67382.66, color="darkred", linewidth=1.5)+
+  annotate("segment", y = 75000, yend = 68383, x = 1.5, xend = 1.5,
+           size = 1.5, arrow = arrow(length = unit(.25,"cm")))+
+  annotate( "text", y=72000, x=1.5, label="Mean Wage in U.S.",hjust=-0.2, size=5)+
+  coord_flip()+
+  scale_fill_manual(values=c("gray30", "darkgreen")) +
+  labs(title="Annual Wage in Health Occupations",
+       subtitle="Mean annual wage in top 5 Health Occupations",
+       x="Occupations",
+       y=NULL) +
+  theme_minimal() +
+  # remove legend
+  theme(axis.text.x = element_blank(),
+        text = element_text("Poppins", size=18),
+        # remove legend
+        legend.position = "none",
+        # remove tick marks
+        axis.ticks.x = element_blank(),
+        # remove both minor grids
+        panel.grid.minor = element_blank())
+```
+

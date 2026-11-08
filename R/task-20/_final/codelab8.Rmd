@@ -1,0 +1,242 @@
+---
+title: "Module 8 Code Lab"
+author: "Your Name Here"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=5, fig.height=3)  # default figure/plot sizes
+```
+
+# Introduction
+
+Check the Module Overview for resources that may be helpful with this assignment.  See the Code Lab Guidelines page for general directions on Code Lab assignments.  See the Dataset Information page for background on the datasets used in the Code Lab assignments.  
+
+
+## Goals
+
+* Build a data story
+* Combine data exploration and visualization skills
+
+You'll need to put your dplyr skills to use this week, along with visualization skills!
+
+# Setup
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(ggridges) # for ridgeline option for an exercise
+```
+
+## Data files
+
+This assignment uses the WHO data.  **Download the WHO data folder from Canvas and put it as a subdirectory of your working directory.**  It assumes that the data files are in a subdirectory of the working directory called WHO.  Adjust your working directory if needed; do not change the file paths in the code below, or the instructor will not be able to knit your file.
+
+
+```{r}
+vaccines <- read_excel("WHO/coverage--2020.xlsx") %>% clean_names()
+country_regions <- read_csv("WHO/country_regions.csv") ## maps countries to regions
+```
+
+
+# Rotavirus
+
+The [rotavirus vaccine](https://en.wikipedia.org/wiki/Rotavirus_vaccine) prevents death and severe disease from diarrhea in young children.  It is administered to infants.  It was approved in the US in 2006, and global distribution has expanded since then.  
+
+We want to tell a story of rotavirus vaccine coverage growth and the global rollout of the vaccine.  The WHO does not have data on cases of rotavirus.
+
+This story will start with the big picture and then dig into the explanations/details.  
+
+#### Sidenote: Some Context for This Assignment
+
+The story in this assignment did not just magically work out.  This is a case where the starting point was a data set; it took work to find a story to tell.  Alternatives that were considered before landing on this one:
+
+* Measles vaccines and cases in the US since there has been coverage of vaccine refusal leading to breakouts.  But looking at the data, vaccination rates have risen steadily.  Would need subnational data to tell the story.
+* An internet search for vaccine success stories didn't lead to examples that were easy to pull out of this data.
+* Meningitis vaccines are also relatively new.  However, there is limited data (years and countries).  The countries with data are many of the high risk countries in the African meningitis belt, which could be a story.  However the coverage rate data bounced around a bit, and there were some rapid changes over just a single year.  There were no regional or global rates to work with.  There are also two types of meningitis vaccines, but the cases data had just one meningitis category.  There's probably a story here, but it wasn't as clear.
+* A story about rotavirus vaccination leading to a reduction in cases, but there isn't case/incidence data on rotavirus.  
+
+Finding a story is the data is difficult, but so is finding data to tell a story.  When you start with a question instead of with the data, you're likely to run into different challenges.  In those situations, the challenge is more about finding proxies or approximations for your concepts or ideas, and searching for data sources.  
+
+You're likely to encounter both situations in your work -- starting from a dataset and extracting meaning, and starting with a question you want to answer and trying to answer it the best you can with the data you can find.  
+
+
+## Big Picture
+
+What is the big picture?  The rotavirus vaccine is relatively new.  We have a chance to see its adoption over time.  So let's start our story at the global level.  
+
+
+# EXERCISE 1: Global Vaccine Coverage
+
+To start with, make a plot of the global vaccination coverage rate for rotavirus.  
+
+Clean up your plot to a reasonable level for a presentation (no annotations are needed).  You may have a theme from a previous assignment that you can use.  
+
+```{r}
+
+
+```
+
+# Explaining the Increase
+
+Now, there are a few ways that the global rate could be increasing.  
+
+* Even spread across the globe -- multiple countries all rolling out vaccination programs.
+* Some countries vaccinate before others.  Increases globally are more about adding new countries than increasing rates within countries that have already started.  Then the next part of the story becomes about which countries are added over time.
+* Combination of the two -- there is a global spread across countries, but also growth within countries in the coverage rate.  
+
+The next exercises make some plots to investigate these possibilities.  
+
+# EXERCISE 2: Number of Countries
+
+Compute the number of countries reporting rotavirus vaccinations per year, meaning that coverage is not missing and not 0.  Plot the number of reporting countries over time.
+
+Note that a country reporting to WHO is not a perfect indicator for vaccine administration.  But it's a proxy to examine.  
+
+Clean up the graph to a reasonable level for a presentation.
+
+Hint: `n_distinct()`
+
+```{r}
+# data frame to work from - this is used later (below) as well
+rota <- filter(vaccines, antigen=="ROTAC", !is.na(coverage), coverage != 0, group=="Countries") %>%
+  left_join(country_regions, by="code") 
+```
+
+
+```{r}
+
+
+```
+
+
+# EXERCISE 3: Coverage Rate across Countries
+
+There can be multiple estimates of vaccine coverage per year.  To choose just one, reshape the data first:
+
+```{r}
+rota_yearly <- rota %>%
+  # just the columns we need to use
+  select(code, name, region, year, coverage_category, coverage) %>%
+  # put each estimate type in a separate column
+  pivot_wider(names_from=coverage_category,
+              values_from=coverage) %>%
+  # take the first estimate that isn't missing, checking in this order
+  mutate(coverage = coalesce(WUENIC, OFFICIAL, ADMIN))
+```
+
+Now, plot the distribution of coverage levels across countries for each year.  This will allow you to see how many countries had low coverage levels vs. high coverage levels over time, to see if they all move largely together or not.  
+
+Multiple options here (choose one):
+
+* Make boxplots: if you do this, use the varwidth option, and consider annotating the graph in some way with the number of countries per year.
+* Make a dotplot: this will be harder to get looking good with the large number of countries in later years, but it does a better job of conveying the growth in the number of countries over time.
+* Make a ridgeline plot: this can plot density, histograms, or dots
+
+In all cases, this will be a fairly large plot.  
+
+Your plot needs to be clear to read, but you do not have to clean up the styling on this one if you don't want, as you may need to do some research to figure out how to get basic plots to work OK.
+
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+
+
+# Dig Deeper
+
+The number of countries is increasing.  Which countries came first?  Which came later?
+
+This plot was a first attempt at getting at this question:
+
+```{r, fig.width=8, fig.height=10}
+rota %>%
+  group_by(name, region) %>%
+  summarize(year = min(year)) %>%
+  ungroup() %>%
+  mutate(name = fct_rev(fct_reorder(name, year))) %>%
+  ggplot(aes(x=year, y=name, color=region, shape=region)) + 
+  geom_point()
+```
+
+This isn't great.  While it could definitely be improved, even with some of the obvious issues addressed, it won't be a great visualization.  
+
+Instead of focusing on each individual country, try focusing on regions instead to see if there's a story there.  
+
+
+# EXERCISE 4: Regional Breakdown (Countries)
+
+Make a plot showing the number (or proportion) of countries reporting rotavirus vaccination by year *by region*.  
+
+No need to style the plot beyond what's needed to make it easily understood.  
+
+```{r}
+
+
+```
+
+
+
+# EXERCISE 5: Regional Breakdown (Rates)
+
+Make a plot of the rotavirus vaccination rate over time *by region*.  Regional rates are available in the data; you do not need to compute them.  
+
+No need to style the plot beyond what's needed to make it easily understood.  
+
+```{r}
+
+
+```
+
+
+
+
+# What's Missing?  What's Next?
+
+While the global vaccination coverage rate has grown, it's still under 50%.  Why?
+
+It could be because key countries are missing.  Or it could be because vaccination rates are low across countries that have started.  We know from visualizations above that the latter isn't accurate -- coverage rates are fairly high in most countries that are reporting by 2020.  So what countries are missing?
+
+# EXERCISE 6: What Countries Are Missing
+
+Figure out which countries are not reporting rotavirus vaccination rates.  Which of the top 20 countries by population are not reporting?  Note: you need to find a list of the 20 most populous countries on your own.  
+
+Note: no visualization required -- just write code to help you figure it out and then answer the question.  The answer should be a list of countries.
+
+```{r}
+
+
+```
+
+
+
+
+# EXERCISE 7: Story Summary
+
+Now, think through what you've learned and tell the story of the rotavirus vaccine in a few sentences or bullet points.    
+
+
+
+
+# Note
+
+The color for each region is not consistent across all of the plots above.  If you were using multiple plots together, you'd want to make sure that the same color is used consistently for a given region through all plots.

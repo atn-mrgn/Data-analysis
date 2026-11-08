@@ -1,0 +1,105 @@
+---
+title: "Project Checkpoint 3: Focus Attention and Provide Context"
+author: "Dipen Patel"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=9, fig.height=4)  # default figure/plot sizes
+```
+
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(grid)
+```
+
+#### Load dataset
+```{r}
+national <- read_excel("national_M2021_dl.xlsx") %>% clean_names()
+```
+
+## Audience
+My audience is the general public, anyone interested in employment in the health field. My visualizations allow you to find the most advantageous professions in terms of employment and salary. 
+There is no need to have any previous knowledge before understanding my visualizations.
+
+
+## Visualization 1
+```{r}
+national %>% 
+  distinct(occ_title, .keep_all = TRUE) %>%
+  filter(str_detect(occ_code,"29-")) %>%
+  arrange(desc(tot_emp)) %>%
+  mutate(prop=round(tot_emp*100/sum(tot_emp))) %>%
+  slice(1:5) %>%
+  ggplot(aes(x=prop, y=reorder(occ_title,prop)))+
+  geom_col()+
+  geom_text(aes(label=paste(prop,"%")), hjust=1.2, size=3.5, color="white") +
+  labs(title="Occupations with the most estimated employment",
+       subtitle="Top 5 by proportion of estimated employment in 2021",
+       y="Occupations",
+       x=NULL) +
+  theme_minimal() +
+  # remove legend
+  theme(axis.text.x = element_blank(),
+        # remove tick marks
+        axis.ticks.x = element_blank(),
+        # remove major horizontal grids
+        panel.grid.major.y = element_blank(),
+        # remove both minor grids
+        panel.grid.minor = element_blank())
+  
+```
+
+## Visualization 2
+```{r}
+national %>% 
+  distinct(occ_title, .keep_all = TRUE) %>%
+  mutate(mean_wage=mean(as.numeric(a_mean), na.rm = TRUE))%>%
+  filter(str_detect(occ_code,"29-")) %>%
+  arrange(desc(tot_emp)) %>%
+  mutate(prop=round(tot_emp*100/sum(tot_emp)),
+         highlight=as.numeric(a_mean)>mean_wage) %>%
+  slice(1:5) %>%
+  ggplot(aes(x=reorder(occ_title,prop), y=as.numeric(a_mean), fill=highlight))+
+  geom_text(aes(label=as.numeric(a_mean)), hjust=-0.1, size=3.5, color="black")+
+  annotate("segment", x=0, xend=6, y=67382.66, yend = 67382.66, color="red")+
+  annotate("segment", y = 75000, yend = 68383, x = 1.5, xend = 1.5,
+           size = 1.5, arrow = arrow(length = unit(.25,"cm")))+
+  annotate( "text", y=72000, x=1.5, label="Mean Wage in U.S.",hjust=-0.2, size=4)+
+  geom_col()+
+  coord_flip()+
+  scale_fill_manual(values=c("gray30", "darkgreen")) +
+  labs(title="Annual Wage",
+       subtitle="Mean annual wage in top 5 occupations",
+       y=NULL,
+       x="Occupations") +
+  theme_minimal() +
+  # remove legend
+  theme(axis.text.x = element_blank(),
+        # remove legend
+        legend.position = "none",
+        # remove tick marks
+        axis.ticks.x = element_blank(),
+        # remove major horizontal grids
+        panel.grid.major.y = element_blank(),
+        # remove both minor grids
+        panel.grid.minor = element_blank())
+
+```
+
+
+

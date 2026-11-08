@@ -1,0 +1,152 @@
+---
+title: "submission"
+output: html_document
+date: "2023-03-09"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=10, fig.height = 10)
+```
+
+
+### Packages needed
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+## Load Dataset
+```{r}
+df <- read_csv("df_sample.csv", show_col_types = FALSE)
+
+df$Year <- format(df$Date, format="%Y")
+
+df<-df[!(df$PackageFocus %in% c("History","Standard Service","Shop") | df$Year=="2023"),]
+
+```
+
+## Distinct first-time and returning customers
+This is done through the category variable which takes the value "first-time" if the customer is new and "returning" if the customer is old.
+```{r}
+df <- df %>% 
+  group_by(TransactionId, CustomerId) %>% 
+  mutate(count = n()) %>%
+  mutate(category=ifelse(count==1, "first-time", "returning"))
+```
+
+## The 4 most sold PackageFocus
+```{r}
+order_count <- as.data.frame(table(df$PackageFocus))
+colnames(order_count) <- c("PackageFocus", "count")
+order_count <- order_count[order(-order_count$count),][1:4,]
+
+ggplot(order_count, aes(y=reorder(PackageFocus, count), x=count))+
+  geom_bar(stat="identity",fill="lightblue")+ geom_text(aes(label = count), hjust = 0.4) + 
+  labs(y = "PackageFocus", x = "Count")
+```
+
+
+The 4 most sold PackageFocus are : 
+- Oil Change with 20508 sales
+- Tire Package with 18622 sales
+- State Inspection with 10073 sales
+- Alignment with 5817 sales
+
+## The 4 most store based on sales
+```{r}
+sales_count <- as.data.frame(table(df$StoreName))
+colnames(sales_count) <- c("StoreName", "Sales")
+sales_count <- sales_count[order(-sales_count$Sales),][1:4,]
+
+ggplot(sales_count, aes(y=reorder(StoreName, Sales), x=Sales))+
+  geom_bar(stat="identity",fill="lightblue")+ geom_text(aes(label = Sales), hjust = 0.4) + 
+  labs(y = "StoreName", x = "Sales")
+```
+
+The 4 most store based on sales are :
+- Windham with 2362 sales
+- Saco with 2330 sales
+- Yarmouth with 2192 sales
+- Stratham with 2048 sales
+
+# Most sales by year for fist-time and returning customer
+```{r}
+
+sales_df<-df[(df$PackageFocus %in% as.factor(order_count$PackageFocus) & (df$StoreName %in% as.factor(sales_count$StoreName))),]
+
+ggplot(sales_df, aes(x=Year, fill=StoreName)) +
+    geom_bar(position = "stack")+
+    facet_wrap(~PackageFocus+category, ncol = 2,scales = "free_y")+
+#   facet_grid(PackageFocus~category,scales = "free_y")+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.background = element_rect(fill = "white"),
+        strip.text = element_text(face = "bold", size = 14, hjust = 0.5),
+        panel.grid.major.y = element_blank(),
+        panel.spacing.y = unit(0.5, "lines"),
+        legend.key.size = unit(1.5, 'cm'))
+```
+
+We can directly notice an upward trend in sales per year for the best selling products with a strong increase in 2021.
+Most of the orders on the best selling products come from new customers and they tend to come back less to buy the same product again.
+
+# Growth (CAGR?) in sales of top packages
+
+## First-time customers
+
+```{r}
+df_fc <- filter(df,category=="first-time")
+
+
+df_fc$Year %>%
+  aggregate(by=list(df_fc$Year, df_fc$PackageFocus, df_fc$StoreName), FUN = length) %>%
+  filter(Group.2 %in% as.factor(order_count$PackageFocus) & Group.3 %in% as.factor(sales_count$StoreName)) %>%
+  mutate(lagD = lag(x), #get lad Data
+         t = 1, #calculate time
+         CAGR = (x / lagD)^(1/t) - 1) %>%
+  na.omit(.)%>%
+  ggplot(., aes(x=Group.1, y=CAGR, fill=Group.3)) +
+    geom_bar(stat = "identity",position="stack")+ 
+    xlab("Year")+
+    facet_wrap(~Group.2, ncol = 1, scales = "free_y")+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.background = element_rect(fill = "white"),
+        strip.text = element_text(face = "bold", size = 14, hjust = 0.5),
+        panel.grid.major.y = element_blank(),
+        panel.spacing.y = unit(0.5, "lines"),
+        legend.key.size = unit(1.5, 'cm'))
+```
+
+
+## Return customers
+
+```{r}
+df_fc <- filter(df,category=="returning")
+
+
+df_fc$Year %>%
+  aggregate(by=list(df_fc$Year, df_fc$PackageFocus, df_fc$StoreName), FUN = length) %>%
+  filter(Group.2 %in% as.factor(order_count$PackageFocus) & Group.3 %in% as.factor(sales_count$StoreName)) %>%
+  mutate(lagD = lag(x), #get lad Data
+         t = 1, #calculate time
+         CAGR = (x / lagD)^(1/t) - 1) %>%
+  na.omit(.)%>%
+  ggplot(., aes(x=Group.1, y=CAGR, fill=Group.3)) +
+    geom_bar(stat = "identity",position = "stack")+
+    xlab("Year")+
+    facet_wrap(~Group.2, ncol = 1, scales = "free_y")+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.background = element_rect(fill = "white"),
+        strip.text = element_text(face = "bold", size = 14, hjust = 0.5),
+        panel.grid.major.y = element_blank(),
+        panel.spacing.y = unit(0.5, "lines"),
+        legend.key.size = unit(1.5, 'cm'))
+```
+
+From the last two graphs we can conclude: Whatever the sales store, there is a strong growth in sales of the selected products in 2021 and a slight increase in 2022.
+
+
+
+
+
+

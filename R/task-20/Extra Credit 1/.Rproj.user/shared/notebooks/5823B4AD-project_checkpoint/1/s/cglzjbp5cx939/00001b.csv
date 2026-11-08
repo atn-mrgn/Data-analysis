@@ -1,0 +1,4 @@
+"0","df %>%"
+"0","  filter(age_group==""12 - 15 Years"") %>%"
+"0","  ggplot(aes(x = prop_first_dose, y=prop_complete))+"
+"0","  geom_bin2d()"

@@ -1,0 +1,29 @@
+The data story I chose is: Limbo Lines: Dead Here, Alive There
+
+The link are: https://pudding.cool/2018/02/death/
+
+
+** Question 1: What type of storytelling was used and/or what was the structure of the story? (Think about Ben Jones’s Seven Data Story Types or any other story types from this week’s materials.)
+
+Referring to Ben Jones's seven data story types, the one used here is: "Highlight Contrasts". Indeed, this story highlights the differences in laws and guidelines between different regions of the world.
+
+** Question 2: What was your main takeaway? 
+
+From this story we can draw that depending on the laws and guidelines in different regions a brain dead person can be declared officially dead in one region but by moving him to another region would be declared alive. This state of brain death saves lives because the organs of these people can be transplanted to other patients in need. It should be noted that this organ transplantation is only possible over a certain period of time. This highlights our problem that depending on the region, a brain-dead person can be declared officially dead sooner and the organs used. 
+
+** Question 3: Was the overall story effective? Why or why not?
+
+The overall story is effective. In fact, I would like to point out that the writing format used is very similar to the Lead-Development-Resolution format that is used in newspaper articles. First the Lead which exposes the global state and puts us directly in front of the main problem, then the Development part which explains a little more the problem and its origin and finally the Resolution part which exposes the details and actions. The story did not allow us to be distracted, it attracted our curiosity from the first lines of the writing.
+
+** Question 4: How were visualizations incorporated into the story? What role did they play? 
+
+The visualizations were used for illustrative and informative purposes and inserted after each analysis question.
+The first graph, which is a map, gives a global overview of the regions with the mandatory or optional laws and guidelines concerning brain death and also the regions on which there is no information.
+The second graph gives the typical and maximum time of viability of some organs after death.
+And finally the last graph gives the information about the laws and guidelines in several.
+
+** Question 5: Choose a specific visualization and discuss how it either successfully incorporates or fails to effectively use at least two things you've learned in this course. 
+
+I choose the last graph, the bar graph.
+The first thing to note is that I flipped the axes of the graph so that I have the names of each bar on the y axis. This makes the graph more readable. 
+The second thing is the choice of discrete colors to specify that there is no order relationship and therefore to mark the distinction. 

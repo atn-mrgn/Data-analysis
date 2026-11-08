@@ -1,0 +1,145 @@
+---
+title: "assignement"
+output: pdf_document
+date: "2023-03-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = TRUE)
+```
+
+## Load dataset
+
+```{r, echo=FALSE}
+library(tidyverse)
+
+str(diamonds)
+```
+
+# Question 1
+
+***Assumptions***
+
+1.  The data is made up of basic random values drawn from the population
+
+2.  First, we test the hypothesis of normality of the dependent variable therefore the price of diamonds
+
+```{r, echo=FALSE}
+shapiro.test(diamonds$price[1:5000])
+```
+
+Since the p-value < 2.2e-16, implies that data distribution don't follows the normal distribution.
+
+3.  Next, we will test the hypothesis of equality of variances between the groups.
+
+```{r, echo=FALSE}
+bartlett.test(diamonds$price ~ diamonds$cut)
+```
+
+Since the p-value< 2.2e-16, implies that the variances don't to be equal. Hence not assuming equal variances.
+
+***ANOVA***
+
+Let m1, m2, m3, m4 and m5 respectively be the mean prices of diamonds which group are "Ideal", "Premium", "Good", "Very Good", and "Fair".
+
+The hypotheses are:
+
+-   H0: m1=m2=m3=m4=m5
+
+-   Ha: At least one mean different
+
+```{r, echo=FALSE}
+oneway.test(price ~ cut, data = diamonds, var.equal = FALSE)
+```
+
+*Conclusion*
+With an alpha of 0.05, and a p-value<2.2e-16, we reject the null and stat that we have sufficient evidence to show that there was a effect of cut on diamond prices.
+
+# Question 2
+
+The hypotheses are:
+
+-   H0: m1=m2=m3=m4=m5
+
+-   Ha: At least one mean different
+
+```{r, echo=FALSE}
+oneway.test(price ~ cut, data = diamonds, var.equal = TRUE)
+```
+
+There is no obvious difference in p-value but the F-statistic is different as well as "num df" and "denom df".
+
+# Question 3
+
+```{r, echo=FALSE}
+diamonds["cut_labelled"]=factor(diamonds$cut, levels = c("Ideal","Premium","Good","Very Good","Fair"), labels = c("I","P","G","VG","F"))
+model<-aov(price ~ cut_labelled, data = diamonds)
+TUKEY<-TukeyHSD(model, conf.level=0.95)
+TUKEY
+```
+
+```{r, fig.width=9, fig.height=8, echo=FALSE}
+plot(TUKEY)
+```
+
+***Interpretations***
+
+# Question 4
+
+The hypotheses are:
+
+-   H0: m3=m4
+
+-   Ha: m3!=m4
+
+```{r, echo=FALSE}
+## Extraction and delete cut_labelled column 
+df <- subset(diamonds, cut %in% c("Good", "Very Good"), select=-c(cut_labelled))
+## Perform one way ANOVA
+oneway.test(price ~ cut, data = df, var.equal = TRUE)
+```
+
+*Conclusion*
+With an alpha of 0.05, and a p-value of 0.4188, we fail to reject the null and stat that we have insufficient evidence to show that there was a cut effect of on diamond prices.
+
+# Question 5
+
+```{r, echo=FALSE}
+model<-aov(price ~ cut, data = df)
+TUKEY<-TukeyHSD(model, conf.level=0.95)
+TUKEY
+```
+
+```{r, echo=FALSE}
+plot(TUKEY)
+```
+
+# Question 6
+
+```{r, echo=FALSE}
+df <- subset(diamonds, select = c("cut","carat","color","depth","price"))
+df$cut<- as.factor(df$cut)
+df$color<- as.factor(df$color)
+lr<-lm(price~cut+color+carat+depth, data = df)
+summary(lr)
+```
+
+# Question 7
+
+```{r, echo=FALSE}
+fitAll <- lm(price ~ ., data = subset(diamonds, select = -c(cut_labelled)))
+
+lr.final <- step(fitAll, direction = "forward")
+
+summary(lr.final)
+```
+
+# Question 8
+
+```{r, echo=FALSE}
+df<-df[sample(nrow(df), 1000), ]
+lr<-lm(price~cut+color+carat+depth, data = df)
+#par(mfrow=c(2,2))
+plot(lr)
+```
+

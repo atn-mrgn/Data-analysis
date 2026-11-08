@@ -1,0 +1,323 @@
+---
+title: 'Project Checkpoint 1 Example: NMH Data'
+author: "Christina Maimone"
+date: "1/4/2022"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE}
+library(tidyverse)
+library(DT)
+library(lubridate)
+```
+
+# Overview
+
+I am using a dataset derived from inpatient discharges from Northwestern Memorial Hospital from April 2018-March 2019 for patients diagnosed with diabetes.  This dataset consists of several data frames, all of which are linked by a discharge ID and patient ID.  The information comes from electronic medical records and includes data about labs, diagnoses, and medications.  There is limited demographic information about each patient.
+
+Note: This file uses the original raw data files, not the version used for the Code Lab assignments.  This provides an example of some of the cleanup often required when working with supplied data files.
+
+```{r, cached=TRUE, message=FALSE}
+labs <- read_delim("NMH_raw/labs.txt", delim="|")
+discharges <- read_delim("NMH_raw/discharges.txt", delim="|")
+diagnoses <- read_delim("NMH_raw/diagnoses.txt", delim="|")
+meds <- read_delim("NMH_raw/meds.txt", delim="|")
+```
+
+
+
+## Citation
+
+This is not a public dataset, so there is no formal source citation.  If I were working for Northwestern Medicine, barring any other internal guidelines, I would internally cite this dataset as something like: Data comes from the electronic medical records for inpatients with diabetes diagnoses discharged between April 2018-March 2019.  
+
+## Codebook
+
+There is a codebook; it is included with the data files: "DataDictionary.xlsx"
+
+
+# Data Collection
+
+The data was collected as a part of patient's electronic medical records; it was extracted from the Northwestern Medicine Enterprise Data Warehouse.  The documentation says it includes patients discharged between April 2018-March 2019, but the data show discharges as late as April 14, 2019.  
+
+```{r}
+discharges %>%
+  summarize(min(discharge_datetime),
+            max(discharge_datetime),
+            min(admit_datetime),
+            max(admit_datetime)) %>%
+  pivot_longer(everything())  # just for printing
+labs %>%
+  summarize(min(result_datetime),
+            max(result_datetime))
+```
+
+# What's in the Data?
+
+The data is all from NMH, only for in-patients with a diabetes diagnosis.  It includes some parts of the medical record: labs, diagnoses, medicines.  It includes all patients that meet the criteria for the time period.
+
+From data exploration, there are no children in the dataset:
+
+```{r}
+summary(discharges$age_at_admit)
+```
+
+
+
+**What is the unit of observation?**
+
+* Discharge data: a single discharge event
+* Labs data: a single lab report, multiple lab reports per patient 
+* Diagnoses: each diagnosis, only once per discharge id
+* Meds: each administration of a medication
+
+There are be more than one discharge per patient in the data:
+
+```{r}
+discharges %>%
+  count(patient_id) %>%  # produces a variable called n with number of rows for each patient
+  count(n) # counts number of patients with each number of rows
+```
+
+Most patients only have one discharge in the data, but 894 have 2, and some have more than 2.
+
+## Special Notes
+
+From preliminary analysis, there appear to be a few observations outside of the stated data range.  Looking at the data description, the data have been de-identified, and dates have been shifted by a random number for each patient.  This likely explains why some dates are outside of the stated range.  This means that dates can't be compared across patients.  So we can't ask questions such as how many active patients there are on a given day.
+
+This is important!  The dates are only relative -- the specific dates don't have real meaning!
+
+
+# Variables
+
+Not all variables are included below -- some examples.
+
+Continuous: 
+* Lab results, although to be meaningful, this dataset will need to be separated by lab type
+* Patient age (age_at_admit)
+* Dates: admit and discharge datetimes, lab result datetimes, medication datetimes
+* Medication dose: like lab results, has to be separated by medication to be meaningful
+
+Discrete: 
+* gender
+* admit sources and departments
+* insurance type
+* discharge department
+* admit type
+* diagnosis code (hard to use raw: best to group or pull out specific categories)
+* medication (hard to use raw: best to group or pull out specific medications)
+
+Other variables can be derived from the data.  For example:
+* number of times a patient receives a particular lab test; min, max, and average values for those lab tests
+* indicator variables for which patients have been diagnosed with which diagnoses
+* duration of hospital stay
+
+
+# Data Exploration
+
+The data is read in above.
+
+## Data Dimensions
+
+```{r}
+dim(discharges)
+dim(diagnoses)
+dim(meds)
+dim(labs)
+```
+
+The number of columns matches what's in the codebook. 
+
+## Missing Values Check
+
+I expect the missing values to be standardized, as the codebook doesn't note any special codes, and I know the data was originally in a database, where missing values should have been consistently encoded.  Check:
+
+```{r}
+summary(discharges)
+summary(diagnoses)
+```
+
+I don't see any missing values here.  I wouldn't necessarily expect there to be any.
+
+```{r}
+summary(meds)
+summary(labs)
+```
+
+There are some missing values here.  In addition, for the labs, for result_value_num, there is a max value of 9999999 which is suspicious as a possible missing value code -- or it could mean infinite value.  Check these:
+
+```{r}
+filter(labs, result_value_num == 9999999) %>%
+  nrow()
+```
+
+That's a lot of rows with that value.  Look at just a few:
+
+```{r}
+filter(labs, result_value_num == 9999999) %>%
+  # take a random sample of 100 of these observations
+  slice_sample(n=100) %>%
+  # format it in a paged datatable for exploring
+  datatable()
+```
+
+It looks like these should probably be coded as missing.  Will recode these when this data is used.
+
+```{r}
+str(discharges)
+str(diagnoses)
+str(meds)
+str(labs)
+```
+
+These seem reasonable.  Dates and datetimes are in date formats, except ed_arrival_datetime.  Note that the meds admin_dose column is text, so it need to be converted to numeric for some medications.  Lab results have both a character and numeric version of the column.
+
+```{r}
+sample(discharges$ed_arrival_datetime, 20)
+```
+
+Looks like some missing values.
+
+Do all patients have a diabetes diagnosis?
+
+```{r}
+diagnoses %>%
+  filter(diagnosis_group == "DIABETES MELLITUS") %>%
+  # get just the discharge_id column
+  pull(discharge_id) %>%
+  # reduce it to unique values in case there are multiple 
+  unique() %>%
+  # how many unique values?
+  length()
+
+length(unique(discharges$discharge_id))
+```
+
+Hmm, these don't match up.  There are some discharge IDs without a diabetes mellitus diagnosis.  Maybe these are patients with multiple inpatient stays?  
+
+First, is there some other type of diabetes diagnosis we're missing?
+
+```{r}
+filter(diagnoses, str_detect(diagnosis_group, "DIABETES"),  # search for "DIABETES" in variable value
+       diagnosis_group != "DIABETES MELLITUS") %>%
+  count(diagnosis_group, sort=TRUE)
+```
+
+Nope.
+
+Now, see if all *patients* instead of all *discharges* have a diabetes diagnosis:
+
+```{r}
+diabetes_patients <- filter(diagnoses, diagnosis_group == "DIABETES MELLITUS") %>%
+  left_join(discharges, by="discharge_id") %>%
+  # just get the set of patient ids
+  pull(patient_id) %>%
+  unique()
+
+# patients not in this group?
+filter(discharges, !patient_id %in% diabetes_patients)
+```
+
+There are 15 patients without a diabetes mellitus diagnosis.  The others may not have one for every discharge, but do have one.  Check these 15 patients diagnoses:
+
+```{r}
+filter(discharges, !patient_id %in% diabetes_patients) %>%
+  left_join(diagnoses) %>%
+  select(discharge_id, patient_id, diagnosis_desc, diagnosis_group) %>%
+  datatable()
+```
+
+It looks like these patients have some type of metabolic disorder - most have diagnoses related to diabetes, without actually listing diabetes.  Perhaps their diagnosis was outside of the date range of selected data, but still in the database so they were selected?  It's not clear.  But it's a small number of patients relative to the full set of patients, so we'll ignore this issue in our analysis for now.  
+
+## Check Dataset Joins
+
+The main issue to check for is whether everything matches up as expected.  So check if any of the detail data sets have discharge_ids that aren't in the main discharge dataset.
+
+`anti_join()` finds rows in the first data frame that don't have a match in the second data frame.
+
+```{r}
+anti_join(diagnoses, discharges, by="discharge_id") %>%
+  nrow()
+anti_join(meds, discharges, by="discharge_id") %>%
+  nrow()
+anti_join(labs, discharges, by="discharge_id") %>%
+  nrow()
+```
+
+That looks OK.  Check the other direction to see if there are certain details about all patients or not:
+
+```{r}
+anti_join(discharges, diagnoses, by="discharge_id") %>%
+  nrow()
+anti_join(discharges, meds, by="discharge_id") %>%
+  nrow()
+anti_join(discharges, labs, by="discharge_id") %>%
+  nrow()
+```
+
+There are a few discharge cases without meds and labs.  This isn't necessarily an error, but good to know.
+
+## Variable Names 
+
+```{r}
+names(discharges)
+names(diagnoses)
+names(meds)
+names(labs)
+```
+
+These look like reasonable names to use.
+
+Every data frame has a discharge_id column, which can be used to join the data.  All data sets also have datetime stamps when things happen.
+
+# Dataset Selection/Cleanup
+
+Since we'll be using this dataset for multiple assignments, I'm not ruling out most of the variables yet.  But there are some columns we're unlikely to use.  And some columns we'd want to transform.
+
+The code below uses dplyr, but this isn't required if you aren't yet familiar with dplyr.  I'm also doing more transformation here than you necessarily need to do at this point.  For this first assignment, it's most important to at least note some issues with the data you may see, and then you can address them later.
+
+```{r}
+discharges <- select(discharges, -admit_source, -starts_with("msdrg"), -admit_department) %>%
+  mutate(ed_arrival_datetime = na_if(ed_arrival_datetime, "\\N"),
+         ed_arrival_datetime = ymd_hms(ed_arrival_datetime))
+
+# diagnoses: nothing to change at this point
+
+meds <- select(meds, -schedule_time, -saved_time, -pharmaceutical_subclass, -rxnorm_med_ingredient,
+               -admin_route)
+
+labs <- select(labs, -component_id, -loinc_code, -loinc_name) %>%
+  mutate(result_value_num = na_if(result_value_num, 9999999))
+```
+
+I can use this code chunk above as a starting point for other analysis (along with the code chunk that imports the data).  I could copy and paste it into my other files, or I could save it in a separate R script (.R) and source it into my .Rmd files.  If I find more issues later, I can add to this script.
+
+```{r, eval=FALSE}
+library(tidyverse)
+
+labs <- read_delim("NMH/labs.txt", delim="|")
+discharges <- read_delim("NMH/discharges.txt", delim="|")
+diagnoses <- read_delim("NMH/diagnoses.txt", delim="|")
+meds <- read_delim("NMH/meds.txt", delim="|")
+
+discharges <- select(discharges, -admit_source, -starts_with("msdrg"), -admit_department) %>%
+  # convert missing values to actual NA
+  mutate(ed_arrival_datetime = na_if(ed_arrival_datetime, "\\N"),
+         # make this colum a datetime now that missing values are properly marked
+         ed_arrival_datetime = parse_date_time(ed_arrival_datetime))
+
+meds <- select(meds, -schedule_time, -saved_time, -pharmaceutical_subclass, -rxnorm_med_ingredient,
+               -admin_route)
+
+labs <- select(labs, -component_id, -loinc_code, -loinc_name) %>%
+  mutate(result_value_num = na_if(result_value_num, 9999999))
+```
+
+

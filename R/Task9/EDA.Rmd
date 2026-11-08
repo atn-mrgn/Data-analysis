@@ -1,0 +1,98 @@
+---
+title: "EDA"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+date: "2023-03-03"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exploratory_Data_Analysis - Melbourne Housing Prices
+
+#### To create a PDF output, make sure that you have the latex installed. You need to run tinytex::install_tinytex()
+
+### Q1. Read the file and print summary
+
+
+```{r}
+library(tidyverse)
+
+data <- read_csv("melbourne_housing_prices.csv", show_col_types = FALSE)
+
+summary(data)
+```
+
+### Q2. Which variables/vectors have missing data
+
+```{r}
+print(colSums(is.na(data)))
+
+print("--------------Percentage Of missing values--------------")
+
+# percentage of missing value
+print(colSums(is.na(data))*100/nrow(data))
+```
+
+Here are the columns that have missing values are: car, CounciArea, BuildingArea and YearBuilt.
+
+It would be more interesting to remove the BuildingArea and YearBuilt columns. Since each of these columns has respectively 47.49% and 39.58% of missing value. However, for the variables car and CouncilArea we can fill in the missing values by the mean.
+
+### How is the price distributed? Create a histogram using ggplot2
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x=Price))+
+  geom_histogram(color="darkblue", fill="lightblue", bins = 30)
+```
+
+```{r}
+
+library(ggplot2)
+
+ggplot(data, aes(x=Price))+
+  geom_histogram(color="darkblue", fill="lightblue", bins = 30)+
+  scale_x_log10(expand = c(0.09, 0.03))
+```
+
+### Q4. Will the number of bedrooms impact the price of the house?
+
+#### First graph
+
+```{r}
+
+ggplot(data, aes(x=Price, group=Rooms, fill=Rooms)) +
+    geom_histogram(color="darkblue",fill="lightblue",bins=30)+
+    scale_x_log10(limits=c(1e5, 3e6), expand = c(0.1, 0))+
+    facet_wrap(~Rooms) 
+```
+
+#### Second graph
+```{r}
+
+ggplot(data, aes(x=Price, group=Rooms, fill=Rooms)) +
+    geom_histogram(color="darkblue",fill="blue",bins=30,position = "identity")+
+    scale_x_log10(limits=c(1e5, 3e6), expand = c(0.1, 0))+
+    facet_wrap(~Rooms, scales = "free_y") 
+```
+
+### Create a correlation matrix for the numeric variables included below (Do not include any character variable for correlation analysis) and display the correlation matrix. Additional information is provided for your reference. INTERPRET THE CORRELATION ANALYSIS IN YOUR OWN WORDS AND IN A DETAILED MANNER TO RECEIVE FULL CREDIT FOR THIS QUESTION
+
+```{r}
+
+library(corrplot)
+data <- na.omit(data)
+M = cor(select(data, -c("Suburb","Address","Type","Method", "SellerG", "Date", "CouncilArea", "Regionname")))
+
+
+corrplot(M, method = "circle")
+
+```
+
+`
+

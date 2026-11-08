@@ -1,0 +1,241 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={gf},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{gf}
+\author{}
+\date{\vspace{-2.5em}2023-03-30}
+
+\begin{document}
+\maketitle
+
+\begin{verbatim}
+## tibble [53,940 x 10] (S3: tbl_df/tbl/data.frame)
+##  $ carat  : num [1:53940] 0.23 0.21 0.23 0.29 0.31 0.24 0.24 0.26 0.22 0.23 ...
+##  $ cut    : Ord.factor w/ 5 levels "Fair"<"Good"<..: 5 4 2 4 2 3 3 3 1 3 ...
+##  $ color  : Ord.factor w/ 7 levels "D"<"E"<"F"<"G"<..: 2 2 2 6 7 7 6 5 2 5 ...
+##  $ clarity: Ord.factor w/ 8 levels "I1"<"SI2"<"SI1"<..: 2 3 5 4 2 6 7 3 4 5 ...
+##  $ depth  : num [1:53940] 61.5 59.8 56.9 62.4 63.3 62.8 62.3 61.9 65.1 59.4 ...
+##  $ table  : num [1:53940] 55 61 65 58 58 57 57 55 61 61 ...
+##  $ price  : int [1:53940] 326 326 327 334 335 336 336 337 337 338 ...
+##  $ x      : num [1:53940] 3.95 3.89 4.05 4.2 4.34 3.94 3.95 4.07 3.87 4 ...
+##  $ y      : num [1:53940] 3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
+##  $ z      : num [1:53940] 2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...
+\end{verbatim}
+
+\hypertarget{question-1}{%
+\subsection{Question 1}\label{question-1}}
+
+\textbf{\emph{Assumptions}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The data is made up of basic random values drawn from the population
+\item
+  First, we test the hypothesis of normality of the dependent variable
+  therefore the price of diamonds
+\end{enumerate}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  diamonds$price[1:5000]
+## W = 0.66175, p-value < 2.2e-16
+\end{verbatim}
+
+Since the p-value \textless{} 2.2e-16, implies that data distribution
+don't follows the normal distribution.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Next, we will test the hypothesis of equality of variances between the
+  groups.
+\end{enumerate}
+
+\begin{verbatim}
+## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  diamonds$price by diamonds$cut
+## Bartlett's K-squared = 406.7, df = 4, p-value < 2.2e-16
+\end{verbatim}
+
+Since the p-value\textless{} 2.2e-16, implies that the variances don't
+to be equal.
+
+\textbf{\emph{ANOVA}}
+
+Let m1, m2, m3, m4 and m5 respectively be the mean prices of diamonds
+which group are ``Ideal'', ``Premium'', ``Good'', ``Very Good'', and
+``Fair''.
+
+H0: m1=m2=m3=m4=m5 Ha: At least one mean different
+
+\begin{verbatim}
+## 
+##  One-way analysis of means (not assuming equal variances)
+## 
+## data:  price and cut
+## F = 166.04, num df = 4.0, denom df = 9398.6, p-value < 2.2e-16
+\end{verbatim}
+
+\emph{Conclusion} With an alpha of 0.05, and a p-value\textless{}
+2.2e-16, we reject the null and stat that we have sufficient evidence to
+show that there was a effect of cut on diamond prices.
+
+\hypertarget{question-2}{%
+\section{Question 2}\label{question-2}}
+
+The hypotheses are:
+
+\begin{itemize}
+\item
+  H0: m1=m2=m3=m4=m5
+\item
+  Ha: At least one mean different
+\end{itemize}
+
+\begin{verbatim}
+## 
+##  One-way analysis of means
+## 
+## data:  price and cut
+## F = 175.69, num df = 4, denom df = 53935, p-value < 2.2e-16
+\end{verbatim}
+
+There is no obvious difference in p-value but the F-statistic is
+different as well as ``num df'' and ``denom df''.
+
+\hypertarget{question-3}{%
+\section{Question 3}\label{question-3}}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = price ~ cut_labelled, data = diamonds)
+## 
+## $cut_labelled
+##            diff       lwr        upr     p adj
+## P-I  1126.71573 1008.8088 1244.62267 0.0000000
+## G-I   471.32248  300.2823  642.36268 0.0000000
+## VG-I  524.21792  401.3312  647.10467 0.0000000
+## F-I   901.21579  621.8602 1180.57139 0.0000000
+## G-P  -655.39325 -835.1353 -475.65120 0.0000000
+## VG-P -602.49781 -737.2331 -467.76249 0.0000000
+## F-P  -225.49994 -510.2665   59.26664 0.1950425
+## VG-G   52.89544 -130.1519  235.94273 0.9341158
+## F-G   429.89331  119.3378  740.44880 0.0014980
+## F-VG  376.99787   90.1336  663.86215 0.0031094
+\end{verbatim}
+
+\includegraphics{gh_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\textbf{\emph{Interpretations}}
+
+\hypertarget{question-4}{%
+\section{Question 4}\label{question-4}}
+
+The hypotheses are:
+
+\begin{itemize}
+\item
+  H0: m3=m4
+\item
+  Ha: m3!=m4
+\end{itemize}
+
+\begin{verbatim}
+## 
+##  One-way analysis of means
+## 
+## data:  price and cut
+## F = 0.65381, num df = 1, denom df = 16986, p-value = 0.4188
+\end{verbatim}
+
+\emph{Conclusion} With an alpha of 0.05, and a p-value of 0.4188, we
+fail to reject the null and stat that we have insufficient evidence to
+show that there was a cut effect of on diamond prices.
+
+\hypertarget{question-5}{%
+\section{Question 5}\label{question-5}}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = price ~ cut, data = df)
+## 
+## $cut
+##                    diff       lwr      upr     p adj
+## Very Good-Good 52.89544 -75.32923 181.1201 0.4187652
+\end{verbatim}
+
+\includegraphics{gh_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\end{document}

@@ -1,0 +1,4 @@
+"0","df %>%"
+"0","  filter(age_group %in% c(""12 - 15 Years"",""16 - 17 Years"",""18 - 24 Years"", ""25 - 39 Years"")) %>%"
+"0","  ggplot(aes(y = age_group, x = prop_first_dose))+"
+"0","  geom_density_ridges()"

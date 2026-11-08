@@ -1,0 +1,37 @@
+Welcome to your hands-on activity!  This assignment invites you to work with Tableau using a mix of generated and real-world data.  You will:
+
+Download the attached spreadsheet and upload those data sets into Tableau. If you need help loading your data sources, refer to Assignment A.2 for help.
+Go through this document and use Tableau to answer all the questions listed below.   Where applicable, paste screenshots into the template below. 
+Remember, you can always reach out for help to your instructor if needed.
+Your faculty member will be grading this manually.
+If you need to adjust the size of your visualizations to match the options in the questions, use the “Format”->”Cell size” options.  For example, “Ctrl+Shift+B” on a Windows computer will make the visualization bigger and “Ctrl+Up” will make it taller.
+ 
+
+This assignment has four datasets. All of them show the high/low temperatures (in Celsius) for each day in July 2021 at a particular location.
+
+Assignment A.8 Data Set A shows data for Keflavík International Airport, Iceland.
+Assignment A.8 Data Set B shows data for Noi Bai International Airport, Hanoi, Vietnam.
+Assignment A.8 Data Sets C and D are the same as A and B, but with random values missing.
+ 
+
+For problems 1–3, a visualization with Data Set A is given. The assignment is to re-create the visualization with Data Set B. For problems 4–6, use Data Sets C and D.
+
+----------------------------------------------------------------
+
+Bienvenue dans votre activité pratique !  Cette mission vous invite à travailler avec Tableau en utilisant un mélange de données générées et de données réelles.  Vous allez :
+
+Télécharger la feuille de calcul ci-jointe et charger ces ensembles de données dans Tableau. Si vous avez besoin d'aide pour charger vos sources de données, reportez-vous à l'exercice A.2.
+Parcourez ce document et utilisez Tableau pour répondre à toutes les questions énumérées ci-dessous.   Le cas échéant, collez les captures d'écran dans le modèle ci-dessous. 
+N'oubliez pas que vous pouvez toujours demander de l'aide à votre professeur si nécessaire.
+Votre professeur évaluera ce travail manuellement.
+Si vous devez ajuster la taille de vos visualisations pour qu'elles correspondent aux options des questions, utilisez les options "Format"->"Taille des cellules".  Par exemple, "Ctrl+Shift+B" sur un ordinateur Windows agrandira la visualisation et "Ctrl+Up" la rendra plus grande.
+ 
+
+Ce travail comporte quatre ensembles de données. Tous montrent les températures hautes/basses (en Celsius) pour chaque jour de juillet 2021 à un endroit particulier.
+
+L'ensemble de données A de l'exercice A.8 montre les données de l'aéroport international de Keflavík, en Islande.
+L'ensemble de données B de la mission A.8 présente des données pour l'aéroport international de Noi Bai, à Hanoï, au Vietnam.
+Affectation A.8 Les ensembles de données C et D sont les mêmes que A et B, mais avec des valeurs aléatoires manquantes.
+ 
+
+Pour les problèmes 1 à 3, une visualisation de l'ensemble de données A est donnée. L'objectif est de recréer la visualisation avec l'ensemble de données B. Pour les problèmes 4-6, utilisez les ensembles de données C et D.

@@ -1,0 +1,419 @@
+---
+title: "Module 1 Code Lab"
+author: "Your Name Here"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=5, fig.height=3)  # default figure/plot sizes
+```
+
+# Introduction
+
+Check the Module Overview for resources that may be helpful with this assignment.  See the Code Lab Guidelines page for general directions on Code Lab assignments.  See the Dataset Information page for background on the datasets used in the Code Lab assignments.
+
+## Goals
+
+* Make a few basic types of plots with ggplot2
+* Map variables to visual aesthetics
+* Use ggplot function classes: geom, scale, stat (indirectly), coord
+* Set title and axis labels
+
+
+## RStudio Tip
+
+In the upper right of the code window (when you have this .Rmd file open), there's a button with horizontal lines that looks like an outline (a few buttons to the right of the Run button).  Click that button to open a document outline on the right side of this window.  It shows the headers in this document.  You can click on the headers to navigate in the document.  It also shows you where you are currently in the document.  
+
+# Setup
+
+Loading tidyverse, which loads ggplot2 along with other packages.  DT is for displaying an interactive table in the Viewer tab in the bottom right of RStudio or in the knitted html document.
+
+```{r}
+library(tidyverse)
+library(DT)
+```
+
+This assignment uses the NMH dataset.  **Download the NMH data folder from Canvas and put it as a subdirectory of your working directory.**  The code below assumes that the data files are in a subdirectory of the working directory called NHM.  Adjust your working directory if needed; do not change the file paths in the code below, or the instructor will not be able to knit your file.
+
+
+```{r}
+stays <- read_csv("NMH/stays.csv")
+```
+
+The data is derived from inpatient discharges from Northwestern Memorial Hospital from April 2018 - March 2019 for patients diagnosed with diabetes.  The unit of observation for `stays` is a single hospital stay.  Patients can have more than one stay.  Data on some lab results and medications taken during the stay has been combined with basic information on each stay.  
+
+* `discharge_id`: a unique identifier for the stay
+* `patient_id`: a unique identifier for the person
+* `stay_length`: in days 
+* `age`: patient age at admit (years)
+* `gender`
+* `admit_type`: type of admission to the hospital
+* `discharge_department`: which department did the patient discharge from
+* `num_glucose_tests`: number of glucose tests (any kind) administered during the stay
+* `max_glucose`: highest glucose test value
+* `min_glucose`: lowest glucose test value
+* `median_glucose`: median value across all tests
+* `mean_glucose`: mean value across all tests
+* `avg_tests_day`: `num_glucose_tests`/`stay_length`, with `stay_length` having a minimum value of 1
+* `insulin`: TRUE if the patient received insulin during the stay
+* `mean_creatinine`: average value on creatinine tests, a measure of kidney function
+* `mean_bun`: average value on blood urea nitrogen (bun) tests, a measure of kidney function
+
+After reading in and/or manipulating the data, it's always useful to look at it to see if it's what you expect.
+
+The `eval=FALSE` in the code chunk options prevents this code from running when you knit the file, since viewing the data in this way is an interactive operation.
+
+```{r, eval=FALSE}
+View(stays)
+```
+
+It's also very useful to have the names of the variables in the dataset, as you'll need to refer to these frequently:
+
+```{r}
+names(stays)
+```
+
+
+# ggplot basics
+
+Every ggplot starts with a call to the ggplot function.  You need your data to be in a data frame to use ggplot.
+
+If we just call `ggplot()` it will set up a blank plot.
+
+```{r}
+ggplot(stays)
+```
+
+This should give you a blank plot in the Plot tab in the bottom right of RStudio.
+
+The next component is to specify which variables from the data frame will be used in the plot.  Map from variables in the data frame to aesthetics (visual components of the plot that represent data) with the `aes()` function.  This function is called within the `ggplot()` function (or alternatively within `geom_*()` functions).  The output of this function is an input to ggplot/geom functions.
+
+With ggplot2, any function that has an argument called `data` wants the data frame to use, and any argument called `mapping` wants the output of a call to `aes()`, where you specify which columns in the `data` to map to which visual aesthetics.
+
+```{r}
+ggplot(stays, aes(x=stay_length, y=num_glucose_tests))
+```
+
+This says we want to map the stay_length variable to the x axis (the position on the axis), and num_tests to the y axis.  The blank plot now has these variables assigned to these axes, with the default range (min and max values) determined by the range of data for each variable.  But there's still no representation of the actual data because we haven't picked a plot type yet.
+
+The default label for the axis is taken from the variable/column name.
+
+Now, we choose the plot type by adding a call to a geom function.  It's good style to have one function call per line for ggplot -- each line ends with the `+` to continue the plot code to the next line.  Here we make a scatter plot:
+
+```{r}
+ggplot(stays, aes(x=stay_length, y=num_glucose_tests)) + 
+  geom_point()
+```
+
+The geom function tells us how to represent the data -- what to draw.  
+
+# EXERCISE 1
+
+Part A: Make a scatter plot of `min_glucose` (on the x-axis) and `max_glucose` (on the y-axis)
+
+```{r}
+
+ggplot(stays, aes(x=min_glucose, y=max_glucose)) + 
+  geom_point()
+```
+
+Note: the glucose test result values are truncated.  Values less than 25 are coded as 25; values above 550 are coded as 550.
+
+Part B: Why is there a diagonal line of points along the bottom of the plot?
+
+
+
+
+## Different Plot Types
+
+This scatterplot gives you a sense of the overall trend, but there are a lot of points on top of each other, so you can't really see how much data there is at each point in the big blob of data in the bottom left.  
+
+Make a plot using `geom_bin2d()` instead:
+
+```{r}
+ggplot(stays, aes(x=min_glucose, y=max_glucose)) + 
+  geom_bin2d()
+```
+
+This geom is not plotting the data points directly as `geom_point()` does.  Instead, it is binning the data (dividing it into intervals), and then counting the number of observations in each interval, and then visualizing that count instead.  This process is discussed more below with histograms.
+
+Note that everything about making the plot stays the same -- the same variables are still mapped to the same aesthetics.  All we did was change which `geom_*()` function was used.
+
+
+## Multiple Layers
+
+You can have more than one geom on the same plot.  There are some geoms, like `geom_rug()` that are designed to be add-ons to a plot to provide additional information:
+
+```{r}
+ggplot(stays, aes(x=stay_length, y=num_glucose_tests)) + 
+  geom_point() +
+  geom_rug()
+```
+
+The geom layers are drawn in the order they appear in the code.  
+
+
+## Aesthetics vs. Settings
+
+There are aesthetics beyond x and y position.  One of the most common is color.  
+
+```{r}
+ggplot(stays, 
+       aes(x=min_glucose, y=max_glucose, color=insulin)) + 
+  geom_point()
+```
+
+Here, the variable `insulin` can take on two different values: `TRUE` if the patient was administered insulin at any point in the stay; `FALSE` otherwise.  
+
+Note that the points are drawn in order of the rows in the data, and they are opaque by default.  So some points are masked in the plot above (you can't see them because other points are on top of them).  It looks like those who are not taking insulin have lower max glucose test results.  This might be true, but it might be the result of how the points were drawn.
+
+If you want to change something about the plot that doesn't have to do with a variable -- that is just a style choice -- then you will specify this outside of `aes()`.  Usually if it's related to how the geom is drawn, it will be specified in the `geom_*()` function.  Here, let's make the points 1) a little smaller, and 2) transparent so we can tell where there's overlap a little better.  
+
+```{r}
+ggplot(stays, aes(x=min_glucose, y=max_glucose, color=insulin)) + 
+  # alpha is transparency (0 = completely transparent; 1 = completely opaque)
+  geom_point(alpha=.1, size=.75)
+```
+
+Now, we can be a bit more sure that the pink points for lower max glucose values aren't drawn on top of points for patients who are taking insulin. We'll cover how to split the data into separate plots (a better way to check for overlap) in a future code lab assignment.  
+
+
+## aes() and data
+
+As mentioned above, any ggplot2 functions that have a data argument want as input the name of the data frame to use, and any mapping arguments want as input the result of calling `aes()`.  If you look at the documentation for the geom functions, they all have data and mapping arguments, which default to NULL.  When these aren't explicitly specified, they inherit this information from `ggplot()`.  But instead of inheriting this information, you can specify it in the `geom_*()` function:
+
+```{r, eval=FALSE}
+# these are all the same
+ggplot(stays, aes(x=min_glucose, y=max_glucose)) + 
+  geom_point()
+
+ggplot(stays) + 
+  # "mapping = " is optional, since mapping is the first argument to a geom function
+  geom_point(mapping = aes(x=min_glucose, y=max_glucose))
+
+ggplot() + 
+  # if you put the data first, you have to include "data = " because 
+  # data is not the first argument -- otherwise the inputs won't match the expected order
+  geom_point(data = stays, 
+             mapping = aes(x=min_glucose, y=max_glucose))
+```
+
+
+Whether you specify the aesthetic mappings in `ggplot()` or the `geom_*()` function is partly an issue of code style and partly an issue of function.  When you use have more than one geom in a plot, it can matter where you specify what.  There are certain types of plots you'll make in this course where one geom layer needs to use a different dataset and different aesthetic mappings than another layer.
+
+In other cases, and in any situation where you only have one `geom_*()` function, where the `aes()` function call is is a matter of style.
+
+The materials in this course put the `aes()` call in `ggplot()` unless it needs to be somewhere else for functional reasons.  The [R for Data Science](https://r4ds.had.co.nz) book usually puts the `aes()` call in the `geom_*()` function. Both are acceptable.  
+
+
+# EXERCISE 2
+
+As noted above, when you have more than one `geom_*()`, where you put the `aes()` mapping can have more of an impact.  Make two versions of the plot below:
+
+  1. Color the points by whether the patient is taking insulin (`insulin` variable), and have two fitted lines, one for patients taking insulin and one for patients who are not.
+  2. Color the points by whether the patient is taking insulin (`insulin` variable), and keep a single fitted line for the entire dataset.
+  
+Look at [R for Data Science: Geometric Objects](https://r4ds.had.co.nz/data-visualisation.html#geometric-objects) if needed. 
+
+
+```{r}
+ggplot(stays, aes(x=mean_glucose, y=avg_tests_day)) + 
+  geom_point(alpha=.2) +
+  # geom_smooth adds a trend line.  Method "lm" is to use linear regression, like
+  # the lm() function.  se=FALSE says to not draw an error band on the fit
+  geom_smooth(method="lm", se=FALSE)
+```
+
+
+```{r}
+ggplot(stays, aes(x=mean_glucose, y=avg_tests_day, color=insulin)) + 
+  geom_point(alpha=.2) +
+  # geom_smooth adds a trend line.  Method "lm" is to use linear regression, like
+  # the lm() function.  se=FALSE says to not draw an error band on the fit
+  geom_smooth(method="lm", se=FALSE)
+
+```
+
+```{r}
+ggplot(stays, aes(x=mean_glucose, y=avg_tests_day)) + 
+  geom_point(aes(color=insulin),alpha=.2) +
+  # geom_smooth adds a trend line.  Method "lm" is to use linear regression, like
+  # the lm() function.  se=FALSE says to not draw an error band on the fit
+  geom_smooth(method="lm", se=FALSE)
+
+```
+
+
+# Labels
+
+If you want to set the title, subtitle, or caption for the plot, use the `labs()` function.  For axis or legend titles, you can use either the `labs()` function or an appropriate `scale_*()` function for the aesthetic that you're trying to label.
+
+# EXERCISE 3
+
+Make a bar plot of the number of stays based on whether the patient was given insulin (`insulin` variable).  Label the x axis, y axis, and include a title for the plot.  There's more on bar plots below.  
+
+```{r}
+ggplot(stays, aes(x=insulin, fill=insulin)) + 
+  geom_bar()+
+  labs(x="Insulin", y="Number", title = "Bar Plot")
+```
+
+# Limiting the Axis Range
+
+You can increase or decrease the automatic limits on the axes (the range of values shown) with the `scale_x/y_*()` functions, or with the `coord_cartesian()` functions.  They work slightly differently though.
+
+## Scale Functions
+
+The scale functions set observations (rows of the dataframe) outside of the limits to missing, and then produce the plot.  When you limit with the coord functions, the plot is computed, and then "zoomed" in or out to the specified range.  
+
+```{r}
+ggplot(stays, aes(x=min_glucose, y=max_glucose)) + 
+  geom_point() + 
+  # limits is a vector with two values:c(minimum, maximum)
+  scale_y_continuous(limits = c(0, 500))
+```
+
+The warning message you are getting is because by setting the limits on the y-axis, some points are being excluded from the plot.  The way the scale function works is by setting these observations to missing (NA).  
+
+You will also get a warning message like this if you have actual missing (NA) values in the data you are plotting.
+
+You can make the limits smaller or larger than the defaults.
+
+```{r}
+ggplot(stays, aes(x=min_glucose, y=max_glucose)) + 
+  geom_point() + 
+  # limits is a vector with two values: minimum and maximum
+  scale_x_continuous(limits = c(0, 2000))
+```
+
+With a coord function, you won't get a warning message because it doesn't change the data before plotting.  But some points are still not showing on the plot.
+
+```{r}
+ggplot(stays, aes(x=min_glucose, y=max_glucose)) + 
+  geom_point() + 
+  # instead of limits, it uses xlim and ylim, since there is just 
+  # one function (not two different scale functions); they still take 
+  # a vector with two values: min and max
+  coord_cartesian(ylim = c(0, 500))
+```
+
+Another difference you can see is that while the points stopped right at 500 on the y-axis when you limit with the scale function, with the coord function, the axes are still the same, but you can continue to see points to the end of the plot region.  Note that ggplot has an expansion factor on the limits you specify on a scale to pad the min and max of the scale.  You can control this expansion with the `expand` argument to the scale functions.  
+
+## Coord Functions
+
+A coord function will also allow you to match the scale of two axes - meaning how much physical distance a unit on the scale takes up.  This is a good idea if you're plotting two variables that are measured on the same scale against each other, as you did with min and max glucose.  While these variables take on different ranges (0 to 2000 vs. 0 to 500), it's still often a good idea for 1 unit on the glucose scale to be the same on both axes; by default they are not.
+
+Use `coord_equal()` to enforce that constraint.
+
+```{r}
+ggplot(stays, aes(x=min_glucose, y=max_glucose)) + 
+  geom_point() + 
+  coord_equal() 
+```
+
+As you can see, this doesn't make the plot exactly square or change the axes limits.  You can do that as well, but you'll need to use the scale function:
+
+```{r}
+ggplot(stays, aes(x=min_glucose, y=max_glucose)) + 
+  geom_point() + 
+  coord_equal() +
+  scale_x_continuous(limits = c(0, 600)) +
+  scale_y_continuous(limits = c(0, 600))
+```
+
+Without `coord_equal()` the limits would be the same, but the length of each axis would depend on the figure dimensions (height and width).
+
+It's a good idea to manually specify both the x and y limits in this case to make sure they are the same.  
+
+Here you can more easily see that the diagonal line along the bottom is running where the two values are equal - it's a 45 degree line.  
+
+
+# EXERCISE 4
+
+Make a histogram of the `mean_glucose` variable in the `stays` data frame.
+
+```{r}
+ggplot(stays, aes(x=mean_glucose)) +
+  geom_histogram()
+```
+
+
+# Histogram: Stat Function
+
+With a histogram, you've only specified one variable.  But there is still both an x and y axis.  ggplot is doing some additional work here.  It created a "count" variable that is on the y-axis.  This aggregation work is done by the "stat" (statistic) associated with the geom function chosen.  Every geom function in ggplot has a default stat function (you can see the defaults in the documentation/help page for the function).  For a histogram, this is `stat_bin()`, which splits the variable into bins and then counts the observations in each bin.  Stats can be indicated with just the second part of the function name: `stat="bin"`.  
+
+This is why there's the message: `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+What this is telling you is that the default number of bins that the stat function uses is 30.  It's suggesting that you should pick a value either for `bins` or `binwidth` instead of relying on the default.  This is good advice with histograms, because the patterns you see can change significantly when the bins change.  Setting `bins` just chooses a number of bins; the function figures out how wide they should be.  Setting `binwidth` says how wide each bin should be; the function figures out how many.
+
+
+```{r}
+ggplot(stays, aes(x=mean_glucose)) +
+  geom_histogram(bins = 50)
+```
+
+```{r}
+ggplot(stays, aes(x=mean_glucose)) +
+  geom_histogram(binwidth=25)
+```
+
+```{r}
+ggplot(stays, aes(x=mean_glucose)) +
+  geom_histogram(binwidth=25, center=12.5)
+```
+
+With the last option, you know the bins will run from 0-25, 25-50, 50-75, etc. instead of being calculated based on the data values.
+
+# Bar Plot
+
+A histogram is for visualizing the distribution of a continuous variable.  A bar plot is for discrete/categorical data.  The data for a bar plot might be in two different formats:
+
+1. A single categorical variable where each row takes on a different value, so you want ggplot to count how many times each value appears for you
+2. Two variables: one with the categories and a second with the count or value for each category.
+
+By default, `geom_bar()` expects the first type:
+
+```{r}
+head(stays$gender)
+ggplot(stays, aes(gender)) + 
+  geom_bar()
+```
+
+If you have the second type of data, use `geom_col()` instead, as that's what it expects.
+
+# EXERCISE 5
+
+Using `stays`, make bar plots of `admit_type` and `discharge_department`.  If the category labels are too long to read with a typical bar plot, make it a horizontal bar plot.  Reference: https://www.r-graph-gallery.com/218-basic-barplots-with-ggplot2.html  Note: A horizontal bar chart is a much better option than rotating just the labels -- they're hard to read when they are turned sideways.
+
+```{r}
+ggplot(stays, aes(x = admit_type))+
+  geom_bar()
+```
+
+```{r}
+ggplot(stays, aes(x = discharge_department))+
+  geom_bar()
+```
+
+
+```{r}
+ggplot(stays, aes(y = admit_type))+
+  geom_bar()
+```
+
+```{r}
+ggplot(stays, aes(y = discharge_department))+
+  geom_bar()
+```
+

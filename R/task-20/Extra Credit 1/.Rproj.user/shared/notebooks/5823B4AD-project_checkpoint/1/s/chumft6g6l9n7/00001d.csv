@@ -1,0 +1,4 @@
+"0","df %>%"
+"0","  filter(age_group %in% c(""12 - 15 Years"",""16 - 17 Years"",""18 - 24 Years"", ""25 - 39 Years"")) %>%"
+"0","  ggplot(aes(x = prop_first_dose, fill=age_group))+"
+"0","  geom_density(alpha=0.5)"

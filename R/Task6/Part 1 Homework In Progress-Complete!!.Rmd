@@ -1,0 +1,143 @@
+---
+title: "Week 7 Homework"
+author: ""
+date: "December 10th 2022"
+output:
+  html_document:
+    df_print: paged
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+#Loading all packages to be used
+knitr::opts_chunk$set(echo = FALSE) 
+knitr::opts_knit$set(root.dir = "~/Dropbox/Box Sync/DATA/Data/Course Files/Week17/")
+library(tidyverse)
+```
+
+Data: Don't forget that all data we provide you for this class can only be used for class purposes.
+
+```{r}
+load("felons.RData")
+head(felons,3)
+attributes(felons$treatment)
+attributes(felons$registered)
+attributes(felons$vote12)
+attributes(felons$vote08)
+attributes(felons$returntoprison)
+```
+
+Treatment Column: 1: No letter control 2: SOS Registration 3: Registration with no intimidation lang.
+
+Seems like 1 = "Yes" in most of the other columns.
+
+## Question 1
+
+### In many states, almost all states convicted felons are banned from voting while they serve their prison, parole, or probation sentence. In some of those states, they are able to have their voting rights restored. Even after voting rights are restored, former felons continue to register to vote and vote at extremely low rates. In this question, we will look at an experiment (co-authored by UPenn's Dr. Marc Meredith) that sought to understand what caused these low rates. The researchers were specifically interested in how much of this low rate could be explained by felons' not knowing that their voting rights had been or could be restored after serving their sentence.
+
+### For these exercises, you will use the dataset 'felons.RData' to replicate some of the findings in the article "Can Incarcerated Felons be (Re)integrated into the Political System? Results from a Field Experiment."
+
+### A. Imagine you wanted to understand the effect that felony convictions and incarceration have on voter registration and turnout (after the sentence has been served). Somebody suggests that you compare the voter registration rates and turnout rates of former felons to people who never have served time for a felony. Discuss why this research design could or could not help you to get a good estimate of the causal effect that you are interested in.
+
+Two tests of hypotheses are carried out: The first to test whether the actual proportion of people registered in the population who have experienced incarceration is higher, lower or equivalent to that who have never experienced incarceration. Then we will test the same hypothesis for participation rates. We can then conclude whether or not incarceration has an effect on voter registration and turnout.
+
+### B. Read the Experimental Design section of the "Can Incarcerated Felons be (Re)integrated into the Political System?" (pages 915 through 917 in gerber, et al 2015.pdf ).
+
+### B. Part A: What are the causal effect(s) that the authors are interested in studying?
+
+The authors tested for the following causes: The fact that former inmates were not informed that their right to vote could be restored or that former inmates just no longer showed interest in political achievement.
+
+### B. Part B: Describe the treatment and control conditions in the experiment.
+
+They considered an inmate population that they followed after their release. And also a portion of the population that has never been incarcerated.
+
+### B. Part C: Describe the randomization strategy that the authors used.
+
+The strategy consists in constituting the two populations of former detainees and non-detainees by carrying out completely random selections. So that the two groups are completely independent of each other.
+
+### C.Now we're going to analyze the results from the experiment. Begin by removing the 161 people in the dataset who returned to prison before the experiment was conducted. Then create a new variable called 'treatment_collapsed' which tells us whether each observation in the data was in the control group (FALSE) or a treatment group (TRUE).
+
+```{r}
+table(felons$returntoprison)
+felons_filter1 <- felons[!felons$returntoprison == 1,]
+
+`felons_filter1`$treatment_collapsed <- FALSE
+`felons_filter1`$treatment_collapsed[`felons_filter1`$treatment == 2 | `felons_filter1`$treatment == 3] <- TRUE
+
+table(`felons_filter1`$treatment_collapsed)
+```
+
+### D. The first thing you should always do before analyzing the results of an experiment is assess whether you have balance in your treatment and control groups. In a well-balanced experiment, no pre-treatment covariates (i.e. the variables that existed before you ran the experiment) would predict whether or not somebody ended up in the treatment or control group. For the following questions, use the treatment_collapsed variable.
+
+### D. Part A:Use 4 t-tests to assess whether the felons' age, number of days served in prison, time since their release from prison, or 2008 vote turnout is a statistically significant predictor of treatment. To do the t-tests, you'll want to write code that looks like this: t.test(felons$age ~ felons$treatment_collapsed). Create a well-formatted table the present the average values for each of these variables in the treatment and control groups, as well as the the p-value associated with the difference between those averages. You can pull out these values from the output of the t.test() object using the \$ operator. Is there significant imbalance for any of those four variables?
+
+```{r}
+age.test <- t.test(felons_filter1$age ~ felons_filter1$treatment_collapsed)
+
+time.served.test <- t.test(felons_filter1$days_served ~ felons_filter1$treatment_collapsed)
+
+years.released.test <- t.test(felons_filter1$yrs_since_release ~ felons_filter1$treatment_collapsed)
+
+vote08.test <- t.test(felons_filter1$vote08 ~ felons_filter1$treatment_collapsed)
+
+t.tests <- data.frame(Variable = character(0),
+                      Estimate = numeric(0),
+                      P.Value = numeric(0))
+
+t.tests <- rbind(t.tests, c("Age", age.test$estimate, age.test$p.value))
+t.tests <- rbind(t.tests, c("Time Served", time.served.test$estimate, 
+                            time.served.test$p.value))
+t.tests <- rbind(t.tests, c("Years Released", years.released.test$estimate, 
+                            years.released.test$p.value))
+t.tests <- rbind(t.tests, c("Vote 08", vote08.test$estimate, vote08.test$p.value))
+
+colnames(t.tests) <- c("Variable", "Control Estimate", "Treated Estimate", "P.Value")
+
+
+t.tests
+```
+
+There is no significant imbalance. All the values of the p-values obtained are well above 0.05. These hypotheses are therefore rejected.
+
+### D. Part B: Use linear regression to assess whether the type of crime predicts whether somebody ended up in the treatment or control group. Were any crimes strong predictors of the treatment?
+
+```{r}
+summary(lm(treatment_collapsed ~ felony_type, data = felons_filter1))
+```
+
+### D. Part C: Use linear regression to assess balance for all the variables (age, days in prison, time since release, 2008 turnout, crime type) simultaneously. When you do this, do you find imbalance for any of the pre-treatment covariates?
+
+```{r}
+summary(lm(treatment_collapsed ~ age + days_served + yrs_since_release + 
+             vote08 + felony_type, data = felons_filter1))
+```
+
+No, this is not the case. Because no coefficient is significant.
+
+### E. Did the experiment have an effect on whether or not ex-felons registered to vote? Did it impact their turnout in 2012? If so, how much did the treatment increase or decrease the probability that they registered or turned out?
+
+```{r}
+summary(lm(registered ~ treatment_collapsed, data = felons_filter1))
+```
+
+```{r}
+summary(lm(vote12 ~ treatment_collapsed, data = felons_filter1))
+```
+
+Considering the results obtained. The treatment had no effect on turnout and voting. Because in both cases the linear regression gives no significant coefficient.
+
+### F: Use linear regression to estimate these two treatment effects again. This time, control for the five pre-treatment covariates (the ones you checked for balance in part C in your regression. What effect did the treatment have on registration and voting?
+
+```{r}
+summary(lm(registered ~ treatment_collapsed + age + days_served + 
+             yrs_since_release + vote08 + felony_type, data = felons_filter1))
+```
+
+```{r}
+summary(lm(vote12 ~ treatment_collapsed + age + days_served + 
+             yrs_since_release + vote08 + felony_type, data = felons_filter1))
+```
+
+No significant coefficient is observed.
+
+\`\`\`{r ref.label=knitr::all_labels(), echo = T, eval = F} #Appendix

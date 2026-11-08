@@ -1,0 +1,34 @@
+Welcome to your hands-on activity!  This assignment invites you to work with Tableau using a mix of generated and real-world data.  You will:
+
+Download the attached spreadsheet and upload those data sets into Tableau. If you need help loading your data sources, refer to Assignment A.2 for help.
+Go through this document and use Tableau to answer all the questions listed below.   Where applicable, paste screenshots into the template below. 
+When you are ready, complete the online quiz, Assignment B.2 Chapter 4 Self Check which verifies your homework.  You are welcome to refer to this document when you complete the quiz. 
+You are welcome to use the quiz results to update your homework file.
+When you have completed the online quiz, submit the Word document.
+Remember, you can always reach out for help to your instructor if needed.
+If you need to adjust the size of your visualizations to match the options in the questions, use the “Format”->”Cell size” options.  For example, “Ctrl+Shift+B” on a Windows computer will make the visualization bigger and “Ctrl+Up” will make it taller.
+ The spreadsheet attached to this assignment contains two datasets, each within its own sheet on the Excel doc:
+
+ 1.B.2 San Francisco Excel
+
+2. B.2 Student grades
+
+
+
+----------------------------------------------------------------
+
+
+Bienvenue dans votre activité pratique !  Cette mission vous invite à travailler avec Tableau en utilisant un mélange de données générées et de données réelles.  Vous allez :
+
+Télécharger la feuille de calcul ci-jointe et charger ces ensembles de données dans Tableau. Si vous avez besoin d'aide pour charger vos sources de données, reportez-vous à l'exercice A.2.
+Parcourez ce document et utilisez Tableau pour répondre à toutes les questions énumérées ci-dessous.   Le cas échéant, collez les captures d'écran dans le modèle ci-dessous. 
+Lorsque vous êtes prêt, répondez au questionnaire en ligne, devoir B.2 Chapitre 4 Autocontrôle, qui vérifie votre travail à domicile.  Vous pouvez vous référer à ce document lorsque vous répondez au questionnaire. 
+Vous pouvez utiliser les résultats du test pour mettre à jour votre dossier de devoirs.
+Lorsque vous avez terminé le quiz en ligne, soumettez le document Word.
+N'oubliez pas que vous pouvez toujours demander de l'aide à votre professeur si nécessaire.
+Si vous devez ajuster la taille de vos visualisations pour qu'elles correspondent aux options des questions, utilisez les options "Format"->"Taille des cellules".  Par exemple, "Ctrl+Shift+B" sur un ordinateur Windows agrandira la visualisation et "Ctrl+Up" la rendra plus grande.
+ La feuille de calcul jointe à ce devoir contient deux ensembles de données, chacun dans sa propre feuille du document Excel :
+
+ 1.B.2 San Francisco Excel
+
+2. B.2 Notes des élèves

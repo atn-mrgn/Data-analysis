@@ -1,0 +1,382 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Assignement},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Assignement}
+\author{}
+\date{\vspace{-2.5em}2023-03-30}
+
+\begin{document}
+\maketitle
+
+\begin{verbatim}
+## tibble [53,940 x 10] (S3: tbl_df/tbl/data.frame)
+##  $ carat  : num [1:53940] 0.23 0.21 0.23 0.29 0.31 0.24 0.24 0.26 0.22 0.23 ...
+##  $ cut    : Ord.factor w/ 5 levels "Fair"<"Good"<..: 5 4 2 4 2 3 3 3 1 3 ...
+##  $ color  : Ord.factor w/ 7 levels "D"<"E"<"F"<"G"<..: 2 2 2 6 7 7 6 5 2 5 ...
+##  $ clarity: Ord.factor w/ 8 levels "I1"<"SI2"<"SI1"<..: 2 3 5 4 2 6 7 3 4 5 ...
+##  $ depth  : num [1:53940] 61.5 59.8 56.9 62.4 63.3 62.8 62.3 61.9 65.1 59.4 ...
+##  $ table  : num [1:53940] 55 61 65 58 58 57 57 55 61 61 ...
+##  $ price  : int [1:53940] 326 326 327 334 335 336 336 337 337 338 ...
+##  $ x      : num [1:53940] 3.95 3.89 4.05 4.2 4.34 3.94 3.95 4.07 3.87 4 ...
+##  $ y      : num [1:53940] 3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
+##  $ z      : num [1:53940] 2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...
+\end{verbatim}
+
+\hypertarget{question-1}{%
+\subsection{Question 1}\label{question-1}}
+
+\textbf{\emph{Assumptions}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The data is made up of basic random values drawn from the population
+\item
+  First, we test the hypothesis of normality of the dependent variable
+  therefore the price of diamonds
+\end{enumerate}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  diamonds$price[1:5000]
+## W = 0.66175, p-value < 2.2e-16
+\end{verbatim}
+
+Since the p-value \textless{} 2.2e-16, implies that data distribution
+don't follows the normal distribution.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Next, we will test the hypothesis of equality of variances between the
+  groups.
+\end{enumerate}
+
+\begin{verbatim}
+## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  diamonds$price by diamonds$cut
+## Bartlett's K-squared = 406.7, df = 4, p-value < 2.2e-16
+\end{verbatim}
+
+Since the p-value\textless{} 2.2e-16, implies that the variances don't
+to be equal.
+
+\textbf{\emph{ANOVA}}
+
+Let m1, m2, m3, m4 and m5 respectively be the mean prices of diamonds
+which group are ``Ideal'', ``Premium'', ``Good'', ``Very Good'', and
+``Fair''.
+
+H0: m1=m2=m3=m4=m5 Ha: At least one mean different
+
+\begin{verbatim}
+## 
+##  One-way analysis of means (not assuming equal variances)
+## 
+## data:  price and cut
+## F = 166.04, num df = 4.0, denom df = 9398.6, p-value < 2.2e-16
+\end{verbatim}
+
+\textbf{Conclusion}
+
+With an alpha of 0.05, and a p-value\textless{} 2.2e-16, we reject the
+null and stat that we have sufficient evidence to show that there was a
+effect of cut on diamond prices.
+
+\hypertarget{question-2}{%
+\section{Question 2}\label{question-2}}
+
+The hypotheses are:
+
+\begin{itemize}
+\item
+  H0: m1=m2=m3=m4=m5
+\item
+  Ha: At least one mean different
+\end{itemize}
+
+\begin{verbatim}
+## 
+##  One-way analysis of means
+## 
+## data:  price and cut
+## F = 175.69, num df = 4, denom df = 53935, p-value < 2.2e-16
+\end{verbatim}
+
+There is no obvious difference in p-value but the F-statistic is
+different as well as ``num df'' and ``denom df''.
+
+\hypertarget{question-3}{%
+\section{Question 3}\label{question-3}}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = price ~ cut_labelled, data = diamonds)
+## 
+## $cut_labelled
+##            diff       lwr        upr     p adj
+## P-I  1126.71573 1008.8088 1244.62267 0.0000000
+## G-I   471.32248  300.2823  642.36268 0.0000000
+## VG-I  524.21792  401.3312  647.10467 0.0000000
+## F-I   901.21579  621.8602 1180.57139 0.0000000
+## G-P  -655.39325 -835.1353 -475.65120 0.0000000
+## VG-P -602.49781 -737.2331 -467.76249 0.0000000
+## F-P  -225.49994 -510.2665   59.26664 0.1950425
+## VG-G   52.89544 -130.1519  235.94273 0.9341158
+## F-G   429.89331  119.3378  740.44880 0.0014980
+## F-VG  376.99787   90.1336  663.86215 0.0031094
+\end{verbatim}
+
+\includegraphics{assign_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\textbf{\emph{Interpretations}}
+
+The average price of diamonds in the ``Premium'', ``Good'', ``Very
+Good'', ``Fair'' categories is significantly higher than that of the
+``Ideal'' category (with estimated difference of 1126.71573, 471.32248,
+524.21792, 901.21579 respectively and p-value of 0.0 for all)
+
+The average price of diamonds in the ``Premium'' category is
+significantly higher than in the ``Good'' and ``Very Good'' categories
+(with estimated difference of 655.39325, 602.49781 respectively and
+p-value of 0.0 for all).
+
+The average price of diamonds in the ``Fair'' category is significantly
+higher than in the ``Good'' and ``Very Good'' categories (with estimated
+difference of 429.89331, 376.99787 respectively and p-value of 0.0014980
+and 0.0031094 respectively.
+
+\hypertarget{question-4}{%
+\section{Question 4}\label{question-4}}
+
+The hypotheses are:
+
+\begin{itemize}
+\item
+  H0: m3=m4
+\item
+  Ha: m3!=m4
+\end{itemize}
+
+\begin{verbatim}
+## 
+##  One-way analysis of means
+## 
+## data:  price and cut
+## F = 0.65381, num df = 1, denom df = 16986, p-value = 0.4188
+\end{verbatim}
+
+\textbf{Conclusion}
+
+With an alpha of 0.05, and a p-value of 0.4188, we fail to reject the
+null and stat that we have insufficient evidence to show that there was
+a cut effect of on diamond prices.
+
+\hypertarget{question-5}{%
+\section{Question 5}\label{question-5}}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = price ~ cut, data = df)
+## 
+## $cut
+##                    diff       lwr      upr     p adj
+## Very Good-Good 52.89544 -75.32923 181.1201 0.4187652
+\end{verbatim}
+
+\includegraphics{assign_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+As the p-value is not significant (p-value=0.41\textgreater0.05) we
+cannot give an exact conclusion.
+
+\hypertarget{question-6}{%
+\section{Question 6}\label{question-6}}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = price ~ cut + color + carat + depth, data = df)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -17265.2   -751.5    -83.6    544.2  12256.1 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  -910.028    286.893  -3.172  0.00151 ** 
+## cut.L        1177.948     26.101  45.130  < 2e-16 ***
+## cut.Q        -491.180     22.520 -21.811  < 2e-16 ***
+## cut.C         370.862     19.151  19.365  < 2e-16 ***
+## cut^4          85.419     15.425   5.538 3.08e-08 ***
+## color.L     -1572.449     21.727 -72.373  < 2e-16 ***
+## color.Q      -732.336     19.849 -36.896  < 2e-16 ***
+## color.C      -109.973     18.631  -5.903 3.60e-09 ***
+## color^4        82.481     17.106   4.822 1.43e-06 ***
+## color^5      -137.643     16.174  -8.510  < 2e-16 ***
+## color^6      -161.317     14.672 -10.995  < 2e-16 ***
+## carat        8183.774     13.889 589.216  < 2e-16 ***
+## depth         -35.979      4.602  -7.819 5.43e-15 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1431 on 53927 degrees of freedom
+## Multiple R-squared:  0.8713, Adjusted R-squared:  0.8713 
+## F-statistic: 3.042e+04 on 12 and 53927 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+The coefficient of determination is 0.8713, which indicates that the
+model accounts for 87.13\% of the variation in the diamond price. - An
+increase of one unit of depth results in a decrease of 35.979 in the
+diamond - An increase of one unit of carat results in a increase of
+8183.774 in the diamond price. - If the item is in the ``Ideal''
+category, there is an increase of 1177.948 in the diamond price. A
+decrease of 491.180 for ``Premium'', an increase of 370.82 for ``Good'',
+an increase of 85.419 for ``Very Good''.
+
+\hypertarget{question-7}{%
+\section{Question 7}\label{question-7}}
+
+\begin{verbatim}
+## Start:  AIC=758426.5
+## price ~ carat + cut + color + clarity + depth + table + x + y + 
+##     z
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = price ~ carat + cut + color + clarity + depth + 
+##     table + x + y + z, data = subset(diamonds, select = -c(cut_labelled)))
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -21376.0   -592.4   -183.5    376.4  10694.2 
+## 
+## Coefficients:
+##              Estimate Std. Error  t value Pr(>|t|)    
+## (Intercept)  5753.762    396.630   14.507  < 2e-16 ***
+## carat       11256.978     48.628  231.494  < 2e-16 ***
+## cut.L         584.457     22.478   26.001  < 2e-16 ***
+## cut.Q        -301.908     17.994  -16.778  < 2e-16 ***
+## cut.C         148.035     15.483    9.561  < 2e-16 ***
+## cut^4         -20.794     12.377   -1.680  0.09294 .  
+## color.L     -1952.160     17.342 -112.570  < 2e-16 ***
+## color.Q      -672.054     15.777  -42.597  < 2e-16 ***
+## color.C      -165.283     14.725  -11.225  < 2e-16 ***
+## color^4        38.195     13.527    2.824  0.00475 ** 
+## color^5       -95.793     12.776   -7.498 6.59e-14 ***
+## color^6       -48.466     11.614   -4.173 3.01e-05 ***
+## clarity.L    4097.431     30.259  135.414  < 2e-16 ***
+## clarity.Q   -1925.004     28.227  -68.197  < 2e-16 ***
+## clarity.C     982.205     24.152   40.668  < 2e-16 ***
+## clarity^4    -364.918     19.285  -18.922  < 2e-16 ***
+## clarity^5     233.563     15.752   14.828  < 2e-16 ***
+## clarity^6       6.883     13.715    0.502  0.61575    
+## clarity^7      90.640     12.103    7.489 7.06e-14 ***
+## depth         -63.806      4.535  -14.071  < 2e-16 ***
+## table         -26.474      2.912   -9.092  < 2e-16 ***
+## x           -1008.261     32.898  -30.648  < 2e-16 ***
+## y               9.609     19.333    0.497  0.61918    
+## z             -50.119     33.486   -1.497  0.13448    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1130 on 53916 degrees of freedom
+## Multiple R-squared:  0.9198, Adjusted R-squared:  0.9198 
+## F-statistic: 2.688e+04 on 23 and 53916 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\textbf{\emph{Conclusion}}
+
+The determination coefficient of the R-squared model is 0.9198. This
+indicates that the model expresses 91.98\% of the variation in diamond
+prices.
+
+\hypertarget{question-8}{%
+\section{Question 8}\label{question-8}}
+
+\includegraphics{assign_files/figure-latex/unnamed-chunk-13-1.pdf}
+\includegraphics{assign_files/figure-latex/unnamed-chunk-13-2.pdf}
+\includegraphics{assign_files/figure-latex/unnamed-chunk-13-3.pdf}
+\includegraphics{assign_files/figure-latex/unnamed-chunk-13-4.pdf}
+\textbf{\emph{Interpretation}} There is a predefined light parabolic
+shape on one side of the Residuals vs Fitted graph. This tells us that
+the model is incomplete: it is missing a quadratic factor that could
+explain a larger variation in diamond prices. The normal Q - Q plot has
+enough points off the line, this indicates that the residuals do not
+follow a normal distribution. The points 785 and 905 stand out on each
+of the plots, this indicates that there is a problem with these
+observations.
+
+\end{document}

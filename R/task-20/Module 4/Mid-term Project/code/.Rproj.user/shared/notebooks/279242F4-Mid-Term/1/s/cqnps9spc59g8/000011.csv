@@ -1,0 +1,3 @@
+"0","state_M2021_dl <- state_M2021_dl %>% "
+"0","                  select(.,-c(ANNUAL, HOURLY, PCT_TOTAL, PCT_RPT))%>%"
+"0","                  na.omit(.)"

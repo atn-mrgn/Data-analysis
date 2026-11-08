@@ -1,0 +1,5 @@
+"0","df %>%"
+"0","  filter(age_group %in% c(""12 - 15 Years"",""16 - 17 Years"",""18 - 24 Years"")) %>%"
+"0","  separate(date, c(""year"",""month"",""day""),""-"") %>%"
+"0","  ggplot(aes(fill=age_group, x=month))+"
+"0","  geom_bar()"

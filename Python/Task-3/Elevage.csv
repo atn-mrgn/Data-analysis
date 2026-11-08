@@ -1,0 +1,828 @@
+﻿Code Domaine;Domaine;Code zone (M49);Zone;Code element;element;Code Produit (CPC);Produit;Code annee;Annee;Unite;Valeur;Symbole;Description du Symbole
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2011;2011;Tete;12562600;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2012;2012;Tete;12477389;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2013;2013;Tete;12587020;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2014;2014;Tete;12742190;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2015;2015;Tete;12635456;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2016;2016;Tete;12466586;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2017;2017;Tete;12281195;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2018;2018;Tete;11949090;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2019;2019;Tete;11639530;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2020;2020;Tete;11301860;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2111;Bovins;2021;2021;Tete;11039660;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2011;2011;Tete;4574;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2012;2012;Tete;4975;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2013;2013;Tete;5475;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2014;2014;Tete;6507;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2015;2015;Tete;7972;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2016;2016;Tete;7972;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2017;2017;Tete;8674;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2018;2018;Tete;9610;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2019;2019;Tete;10110;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2020;2020;Tete;10700;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2112;Buffles;2021;2021;Tete;11220;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2011;2011;1000 tetes;2930;T;Chiffre non officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2012;2012;1000 tetes;3000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2013;2013;1000 tetes;2760;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2014;2014;1000 tetes;2450;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2015;2015;1000 tetes;2489;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2016;2016;1000 tetes;2236;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2017;2017;1000 tetes;2453;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2018;2018;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2019;2019;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2020;2020;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2154;Canards;2021;2021;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2011;2011;Tete;160000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2012;2012;Tete;162000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2013;2013;Tete;130200;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2014;2014;Tete;117000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2015;2015;Tete;110000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2016;2016;Tete;138810;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2017;2017;Tete;140000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2018;2018;Tete;146000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2019;2019;Tete;141000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2020;2020;Tete;161000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2123;Caprins;2021;2021;Tete;164000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2131;Chevaux;2011;2011;Tete;545000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2131;Chevaux;2012;2012;Tete;500000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2131;Chevaux;2013;2013;Tete;461300;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2131;Chevaux;2014;2014;Tete;372000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2131;Chevaux;2015;2015;Tete;422657;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2131;Chevaux;2016;2016;Tete;441954;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2131;Chevaux;2017;2017;Tete;442000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2011;2011;1000 tetes;11196;T;Chiffre non officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2012;2012;1000 tetes;12000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2013;2013;1000 tetes;13256;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2014;2014;1000 tetes;11500;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2015;2015;1000 tetes;12466;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2016;2016;1000 tetes;12360;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2017;2017;1000 tetes;12000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2018;2018;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2019;2019;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2020;2020;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2152;Dindes;2021;2021;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2153;Oies;2011;2011;1000 tetes;272;T;Chiffre non officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2153;Oies;2012;2012;1000 tetes;268;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2153;Oies;2013;2013;1000 tetes;544;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2153;Oies;2014;2014;1000 tetes;300;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2153;Oies;2015;2015;1000 tetes;305;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2153;Oies;2016;2016;1000 tetes;329;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2153;Oies;2017;2017;1000 tetes;303;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2011;2011;Tete;2088500;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2012;2012;Tete;1657800;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2013;2013;Tete;1893300;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2014;2014;Tete;1600776;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2015;2015;Tete;1579789;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2016;2016;Tete;1574300;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2017;2017;Tete;1579800;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2018;2018;Tete;1569900;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2019;2019;Tete;1556500;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2020;2020;Tete;1483700;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2122;Ovins;2021;2021;Tete;1508100;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2011;2011;Tete;26758100;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2012;2012;Tete;28131700;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2013;2013;Tete;27690100;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2014;2014;Tete;28338990;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2015;2015;Tete;27652416;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2016;2016;Tete;27376100;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2017;2017;Tete;27577600;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2018;2018;Tete;26445400;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2019;2019;Tete;26053400;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2020;2020;Tete;26069900;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5111;Reserves;2140;Porcins;2021;2021;Tete;23762300;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2011;2011;1000 tetes;118640;T;Chiffre non officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2012;2012;1000 tetes;121040;T;Chiffre non officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2013;2013;1000 tetes;160774;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2014;2014;1000 tetes;121000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2015;2015;1000 tetes;140037;I;Valeur imputee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2016;2016;1000 tetes;158649;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2017;2017;1000 tetes;160000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2018;2018;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2019;2019;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2020;2020;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5112;Reserves;2151;Poulets;2021;2021;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2011;2011;No;695052;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2012;2012;No;698714;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2013;2013;No;708775;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2014;2014;No;741461;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2015;2015;No;771851;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2016;2016;No;771850;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2017;2017;No;820000;E;Valeur estimee
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2018;2018;No;879000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2019;2019;No;916000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2020;2020;No;951000;A;Chiffre officiel
+QCL;Cultures et produits animaux;276;Allemagne;5114;Reserves;2196;Ruches;2021;2021;No;982000;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2011;2011;Tete;2013281;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2012;2012;Tete;1976527;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2013;2013;Tete;1955618;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2014;2014;Tete;1958282;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2015;2015;Tete;1961201;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2016;2016;Tete;1957610;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2017;2017;Tete;1954391;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2018;2018;Tete;1912810;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2019;2019;Tete;1879520;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2020;2020;Tete;1855430;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2111;Bovins;2021;2021;Tete;1870100;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2011;2011;1000 tetes;80;T;Chiffre non officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2012;2012;1000 tetes;82;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2013;2013;1000 tetes;82;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2014;2014;1000 tetes;69;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2015;2015;1000 tetes;59;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2016;2016;1000 tetes;45;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2017;2017;1000 tetes;74;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2018;2018;1000 tetes;74;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2019;2019;1000 tetes;74;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2020;2020;1000 tetes;74;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2154;Canards;2021;2021;1000 tetes;74;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2011;2011;Tete;71768;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2012;2012;Tete;72358;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2013;2013;Tete;73212;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2014;2014;Tete;72068;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2015;2015;Tete;70705;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2016;2016;Tete;76620;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2017;2017;Tete;82735;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2018;2018;Tete;91540;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2019;2019;Tete;92500;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2020;2020;Tete;92760;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2123;Caprins;2021;2021;Tete;100600;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2131;Chevaux;2011;2011;Tete;86000;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2131;Chevaux;2012;2012;Tete;86500;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2131;Chevaux;2013;2013;Tete;86500;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2131;Chevaux;2014;2014;Tete;87000;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2131;Chevaux;2015;2015;Tete;88597;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2131;Chevaux;2016;2016;Tete;88288;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2131;Chevaux;2017;2017;Tete;90428;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2011;2011;1000 tetes;606;T;Chiffre non officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2012;2012;1000 tetes;600;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2013;2013;1000 tetes;600;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2014;2014;1000 tetes;530;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2015;2015;1000 tetes;579;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2016;2016;1000 tetes;590;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2017;2017;1000 tetes;600;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2018;2018;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2019;2019;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2020;2020;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2152;Dindes;2021;2021;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2191;Leporides;2011;2011;1000 tetes;300;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2191;Leporides;2012;2012;1000 tetes;300;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2191;Leporides;2013;2013;1000 tetes;300;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2191;Leporides;2014;2014;1000 tetes;300;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2191;Leporides;2015;2015;1000 tetes;200;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2191;Leporides;2016;2016;1000 tetes;200;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2191;Leporides;2017;2017;1000 tetes;200;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2153;Oies;2011;2011;1000 tetes;20;T;Chiffre non officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2153;Oies;2012;2012;1000 tetes;25;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2153;Oies;2013;2013;1000 tetes;25;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2153;Oies;2014;2014;1000 tetes;27;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2153;Oies;2015;2015;1000 tetes;30;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2153;Oies;2016;2016;1000 tetes;45;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2153;Oies;2017;2017;1000 tetes;34;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2011;2011;Tete;358415;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2012;2012;Tete;361183;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2013;2013;Tete;364645;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2014;2014;Tete;357440;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2015;2015;Tete;349087;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2016;2016;Tete;353710;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2017;2017;Tete;378381;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2018;2018;Tete;406340;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2019;2019;Tete;402660;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2020;2020;Tete;393760;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2122;Ovins;2021;2021;Tete;402350;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2011;2011;Tete;3134156;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2012;2012;Tete;3004907;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2013;2013;Tete;2983158;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2014;2014;Tete;2895841;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2015;2015;Tete;2868191;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2016;2016;Tete;2845451;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2017;2017;Tete;2792803;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2018;2018;Tete;2776570;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2019;2019;Tete;2773230;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2020;2020;Tete;2806460;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5111;Reserves;2140;Porcins;2021;2021;Tete;2785590;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2011;2011;1000 tetes;16000;T;Chiffre non officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2012;2012;1000 tetes;15500;T;Chiffre non officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2013;2013;1000 tetes;16300;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2014;2014;1000 tetes;16500;E;Valeur estimee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2015;2015;1000 tetes;16465;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2016;2016;1000 tetes;16745;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2017;2017;1000 tetes;16736;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2018;2018;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2019;2019;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2020;2020;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5112;Reserves;2151;Poulets;2021;2021;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2011;2011;No;368183;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2012;2012;No;376485;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2013;2013;No;382638;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2014;2014;No;376121;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2015;2015;No;347100;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2016;2016;No;354100;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2017;2017;No;353300;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2018;2018;No;372900;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2019;2019;No;372900;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2020;2020;No;426000;A;Chiffre officiel
+QCL;Cultures et produits animaux;40;Autriche;5114;Reserves;2196;Ruches;2021;2021;No;456000;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2132;Anes;2011;2011;Tete;2;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2132;Anes;2012;2012;Tete;2;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2132;Anes;2013;2013;Tete;2;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2132;Anes;2014;2014;Tete;2;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2132;Anes;2015;2015;Tete;2;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2132;Anes;2016;2016;Tete;2;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2132;Anes;2017;2017;Tete;2;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2011;2011;Tete;2560319;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2012;2012;Tete;2484272;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2013;2013;Tete;2454704;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2014;2014;Tete;2477236;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2015;2015;Tete;2503262;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2016;2016;Tete;2501349;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2017;2017;Tete;2385988;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2018;2018;Tete;2398090;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2019;2019;Tete;2373100;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2020;2020;Tete;2335440;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2111;Bovins;2021;2021;Tete;2310440;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2011;2011;1000 tetes;258;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2012;2012;1000 tetes;260;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2013;2013;1000 tetes;260;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2014;2014;1000 tetes;230;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2015;2015;1000 tetes;170;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2016;2016;1000 tetes;190;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2017;2017;1000 tetes;164;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2018;2018;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2019;2019;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2020;2020;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2154;Canards;2021;2021;1000 tetes;0;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2123;Caprins;2011;2011;Tete;35530;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2123;Caprins;2012;2012;Tete;35955;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2123;Caprins;2013;2013;Tete;40473;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2123;Caprins;2014;2014;Tete;38000;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2123;Caprins;2015;2015;Tete;43602;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2123;Caprins;2016;2016;Tete;50801;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2123;Caprins;2017;2017;Tete;45000;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2123;Caprins;2019;2019;Tete;38590;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2131;Chevaux;2011;2011;Tete;34215;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2131;Chevaux;2012;2012;Tete;36777;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2131;Chevaux;2013;2013;Tete;33417;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2131;Chevaux;2014;2014;Tete;33000;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2131;Chevaux;2015;2015;Tete;31662;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2131;Chevaux;2016;2016;Tete;28060;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2131;Chevaux;2017;2017;Tete;29437;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2011;2011;1000 tetes;197;T;Chiffre non officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2012;2012;1000 tetes;195;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2013;2013;1000 tetes;197;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2014;2014;1000 tetes;184;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2015;2015;1000 tetes;234;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2016;2016;1000 tetes;338;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2017;2017;1000 tetes;270;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2018;2018;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2019;2019;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2020;2020;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2152;Dindes;2021;2021;1000 tetes;0;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2191;Leporides;2011;2011;1000 tetes;186;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2191;Leporides;2012;2012;1000 tetes;190;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2191;Leporides;2013;2013;1000 tetes;195;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2191;Leporides;2014;2014;1000 tetes;195;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2191;Leporides;2015;2015;1000 tetes;193;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2191;Leporides;2016;2016;1000 tetes;183;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2191;Leporides;2017;2017;1000 tetes;185;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2153;Oies;2011;2011;1000 tetes;5;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2153;Oies;2012;2012;1000 tetes;5;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2153;Oies;2013;2013;1000 tetes;5;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2153;Oies;2014;2014;1000 tetes;5;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2153;Oies;2015;2015;1000 tetes;4;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2153;Oies;2016;2016;1000 tetes;2;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2153;Oies;2017;2017;1000 tetes;4;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2011;2011;Tete;113995;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2012;2012;Tete;119260;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2013;2013;Tete;114407;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2014;2014;Tete;112000;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2015;2015;Tete;100676;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2016;2016;Tete;86229;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2017;2017;Tete;91971;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2018;2018;Tete;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2019;2019;Tete;117320;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2020;2020;Tete;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2122;Ovins;2021;2021;Tete;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2011;2011;Tete;6521447;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2012;2012;Tete;6633613;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2013;2013;Tete;6592978;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2014;2014;Tete;6350180;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2015;2015;Tete;6364164;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2016;2016;Tete;6176576;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2017;2017;Tete;6108077;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2018;2018;Tete;6209130;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2019;2019;Tete;6085100;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2020;2020;Tete;6218270;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5111;Reserves;2140;Porcins;2021;2021;Tete;6042150;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2011;2011;1000 tetes;35376;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2012;2012;1000 tetes;35618;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2013;2013;1000 tetes;36219;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2014;2014;1000 tetes;33700;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2015;2015;1000 tetes;37739;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2016;2016;1000 tetes;28306;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2017;2017;1000 tetes;26905;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2018;2018;1000 tetes;32327;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2019;2019;1000 tetes;33944;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2020;2020;1000 tetes;37195;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5112;Reserves;2151;Poulets;2021;2021;1000 tetes;36946;A;Chiffre officiel
+QCL;Cultures et produits animaux;56;Belgique;5114;Reserves;2196;Ruches;2011;2011;No;31000;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5114;Reserves;2196;Ruches;2012;2012;No;31500;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5114;Reserves;2196;Ruches;2013;2013;No;31500;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5114;Reserves;2196;Ruches;2014;2014;No;32000;E;Valeur estimee
+QCL;Cultures et produits animaux;56;Belgique;5114;Reserves;2196;Ruches;2015;2015;No;32329;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5114;Reserves;2196;Ruches;2016;2016;No;32877;I;Valeur imputee
+QCL;Cultures et produits animaux;56;Belgique;5114;Reserves;2196;Ruches;2017;2017;No;33314;I;Valeur imputee
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2132;Anes;2011;2011;Tete;32783;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2132;Anes;2012;2012;Tete;31082;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2132;Anes;2013;2013;Tete;30742;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2132;Anes;2014;2014;Tete;29461;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2132;Anes;2015;2015;Tete;30400;E;Valeur estimee
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2132;Anes;2016;2016;Tete;30200;E;Valeur estimee
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2132;Anes;2017;2017;Tete;30000;E;Valeur estimee
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2011;2011;Tete;19085561;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2012;2012;Tete;19005649;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2013;2013;Tete;19095797;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2014;2014;Tete;19248627;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2015;2015;Tete;19386522;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2016;2016;Tete;19373382;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2017;2017;Tete;18953568;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2018;2018;Tete;18613040;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2019;2019;Tete;18172970;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2020;2020;Tete;17815670;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2111;Bovins;2021;2021;Tete;17330080;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2011;2011;1000 tetes;26786;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2012;2012;1000 tetes;26297;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2013;2013;1000 tetes;26162;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2014;2014;1000 tetes;26824;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2015;2015;1000 tetes;27424;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2016;2016;1000 tetes;24439;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2017;2017;1000 tetes;23456;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2018;2018;1000 tetes;23976;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2019;2019;1000 tetes;24968;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2020;2020;1000 tetes;21978;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2154;Canards;2021;2021;1000 tetes;22246;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2011;2011;Tete;1381209;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2012;2012;Tete;1307753;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2013;2013;Tete;1290623;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2014;2014;Tete;1284667;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2015;2015;Tete;1261684;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2016;2016;Tete;1258204;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2017;2017;Tete;1270737;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2018;2018;Tete;1252000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2019;2019;Tete;1242000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2020;2020;Tete;1413980;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2123;Caprins;2021;2021;Tete;1387770;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2011;2011;Tete;424590;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2012;2012;Tete;414284;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2013;2013;Tete;408028;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2014;2014;Tete;405649;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2015;2015;Tete;398055;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2016;2016;Tete;379410;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2017;2017;Tete;375266;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2018;2018;Tete;370881;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2019;2019;Tete;367174;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2020;2020;Tete;290857;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2131;Chevaux;2021;2021;Tete;291165;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2011;2011;1000 tetes;23743;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2012;2012;1000 tetes;22452;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2013;2013;1000 tetes;20190;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2014;2014;1000 tetes;21214;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2015;2015;1000 tetes;21385;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2016;2016;1000 tetes;20676;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2017;2017;1000 tetes;20136;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2018;2018;1000 tetes;18830;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2019;2019;1000 tetes;18258;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2020;2020;1000 tetes;17725;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2152;Dindes;2021;2021;1000 tetes;17521;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2011;2011;1000 tetes;871;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2012;2012;1000 tetes;835;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2013;2013;1000 tetes;825;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2014;2014;1000 tetes;837;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2015;2015;1000 tetes;871;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2016;2016;1000 tetes;768;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2017;2017;1000 tetes;732;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2018;2018;1000 tetes;714;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2019;2019;1000 tetes;670;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2020;2020;1000 tetes;625;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2191;Leporides;2021;2021;1000 tetes;418;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2133;Mules et bardots;2011;2011;Tete;32783;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2133;Mules et bardots;2012;2012;Tete;31082;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2133;Mules et bardots;2013;2013;Tete;30968;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2133;Mules et bardots;2014;2014;Tete;29461;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2133;Mules et bardots;2015;2015;Tete;28868;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2133;Mules et bardots;2016;2016;Tete;27915;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2133;Mules et bardots;2017;2017;Tete;27001;I;Valeur imputee
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2011;2011;1000 tetes;571;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2012;2012;1000 tetes;554;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2013;2013;1000 tetes;552;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2014;2014;1000 tetes;542;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2015;2015;1000 tetes;528;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2016;2016;1000 tetes;367;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2017;2017;1000 tetes;339;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2018;2018;1000 tetes;337;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2019;2019;1000 tetes;348;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2020;2020;1000 tetes;316;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2153;Oies;2021;2021;1000 tetes;255;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2011;2011;Tete;7658771;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2012;2012;Tete;7461934;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2013;2013;Tete;7239057;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2014;2014;Tete;7181130;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2015;2015;Tete;7064541;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2016;2016;Tete;7045970;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2017;2017;Tete;6901456;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2018;2018;Tete;7166000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2019;2019;Tete;7105000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2020;2020;Tete;6998710;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2122;Ovins;2021;2021;Tete;6994630;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2011;2011;Tete;13975454;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2012;2012;Tete;13759913;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2013;2013;Tete;13485406;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2014;2014;Tete;13335192;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2015;2015;Tete;13162391;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2016;2016;Tete;12626616;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2017;2017;Tete;12930857;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2018;2018;Tete;13713000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2019;2019;Tete;13510000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2020;2020;Tete;13393000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5111;Reserves;2140;Porcins;2021;2021;Tete;12941000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2011;2011;1000 tetes;232910;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2012;2012;1000 tetes;241133;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2013;2013;1000 tetes;251581;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2014;2014;1000 tetes;243219;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2015;2015;1000 tetes;247298;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2016;2016;1000 tetes;243526;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2017;2017;1000 tetes;244774;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2018;2018;1000 tetes;239290;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2019;2019;1000 tetes;237864;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2020;2020;1000 tetes;242015;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5112;Reserves;2151;Poulets;2021;2021;1000 tetes;239840;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2011;2011;No;839966;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2012;2012;No;820401;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2013;2013;No;794733;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2014;2014;No;767334;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2015;2015;No;800834;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2016;2016;No;803766;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2017;2017;No;859462;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2018;2018;No;1454000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2019;2019;No;1584000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2020;2020;No;1751000;A;Chiffre officiel
+QCL;Cultures et produits animaux;250;France;5114;Reserves;2196;Ruches;2021;2021;No;1808000;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2011;2011;Tete;192535;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2012;2012;Tete;188473;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2013;2013;Tete;193623;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2014;2014;Tete;198780;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2015;2015;Tete;201036;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2016;2016;Tete;201416;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2017;2017;Tete;202281;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2018;2018;Tete;194390;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2019;2019;Tete;192100;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2020;2020;Tete;190690;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2111;Bovins;2021;2021;Tete;187200;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2112;Buffles;2018;2018;Tete;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2112;Buffles;2019;2019;Tete;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2112;Buffles;2020;2020;Tete;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2112;Buffles;2021;2021;Tete;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2011;2011;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2012;2012;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2013;2013;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2014;2014;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2015;2015;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2016;2016;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2017;2017;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2018;2018;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2019;2019;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2020;2020;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Canards;2021;2021;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2123;Caprins;2011;2011;Tete;5821;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2123;Caprins;2012;2012;Tete;4898;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2123;Caprins;2013;2013;Tete;4456;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2123;Caprins;2014;2014;Tete;4322;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2123;Caprins;2015;2015;Tete;4772;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2123;Caprins;2016;2016;Tete;5130;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2123;Caprins;2017;2017;Tete;5406;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2123;Caprins;2018;2018;Tete;5075;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2123;Caprins;2019;2019;Tete;5350;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2011;2011;Tete;4594;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2012;2012;Tete;4887;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2013;2013;Tete;4682;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2014;2014;Tete;4724;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2015;2015;Tete;4717;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2016;2016;Tete;4540;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2017;2017;Tete;4692;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2018;2018;Tete;4662;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2019;2019;Tete;4669;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2020;2020;Tete;4443;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2131;Chevaux;2021;2021;Tete;4254;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2011;2011;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2012;2012;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2013;2013;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2014;2014;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2015;2015;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2016;2016;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2017;2017;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2018;2018;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2019;2019;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2020;2020;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Dindes;2021;2021;1000 tetes;0;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2191;Leporides;2011;2011;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2191;Leporides;2012;2012;1000 tetes;4;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2191;Leporides;2013;2013;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2191;Leporides;2014;2014;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2191;Leporides;2015;2015;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2191;Leporides;2016;2016;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2191;Leporides;2017;2017;1000 tetes;2;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2191;Leporides;2018;2018;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2011;2011;Tete;8951;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2012;2012;Tete;8211;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2013;2013;Tete;8582;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2014;2014;Tete;8721;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2015;2015;Tete;9453;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2016;2016;Tete;8951;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2017;2017;Tete;8478;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2018;2018;Tete;8654;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2019;2019;Tete;8680;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2020;2020;Tete;9518;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2122;Ovins;2021;2021;Tete;9956;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2011;2011;Tete;89158;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2012;2012;Tete;90023;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2013;2013;Tete;87518;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2014;2014;Tete;87092;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2015;2015;Tete;95337;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2016;2016;Tete;92312;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2017;2017;Tete;96761;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2018;2018;Tete;82590;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2019;2019;Tete;84040;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2020;2020;Tete;82130;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5111;Reserves;2140;Porcins;2021;2021;Tete;78330;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2011;2011;1000 tetes;102;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2012;2012;1000 tetes;113;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2013;2013;1000 tetes;111;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2014;2014;1000 tetes;116;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2015;2015;1000 tetes;114;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2016;2016;1000 tetes;114;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2017;2017;1000 tetes;123;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2018;2018;1000 tetes;123;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2019;2019;1000 tetes;132;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2020;2020;1000 tetes;136;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5112;Reserves;2151;Poulets;2021;2021;1000 tetes;171;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2011;2011;No;4642;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2012;2012;No;4292;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2013;2013;No;3510;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2014;2014;No;4880;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2015;2015;No;4810;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2016;2016;No;5660;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2017;2017;No;5266;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2018;2018;No;5928;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2019;2019;No;6702;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2020;2020;No;8000;A;Chiffre officiel
+QCL;Cultures et produits animaux;442;Luxembourg;5114;Reserves;2196;Ruches;2021;2021;No;3000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2011;2011;Tete;3885350;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2012;2012;Tete;3879250;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2013;2013;Tete;3999220;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2014;2014;Tete;4169000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2015;2015;Tete;4315000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2016;2016;Tete;4294000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2017;2017;Tete;4030000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2018;2018;Tete;3690000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2019;2019;Tete;3721000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2020;2020;Tete;3691000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2111;Bovins;2021;2021;Tete;3705000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2011;2011;1000 tetes;1016;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2012;2012;1000 tetes;916;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2013;2013;1000 tetes;810;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2014;2014;1000 tetes;853;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2015;2015;1000 tetes;932;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2016;2016;1000 tetes;931;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2017;2017;1000 tetes;1009;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2018;2018;1000 tetes;908;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2019;2019;1000 tetes;968;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2020;2020;1000 tetes;819;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2154;Canards;2021;2021;1000 tetes;632;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2011;2011;Tete;380350;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2012;2012;Tete;396730;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2013;2013;Tete;412550;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2014;2014;Tete;441000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2015;2015;Tete;468000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2016;2016;Tete;504000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2017;2017;Tete;532870;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2018;2018;Tete;518000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2019;2019;Tete;551000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2020;2020;Tete;557000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2123;Caprins;2021;2021;Tete;575000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2011;2011;Tete;137226;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2012;2012;Tete;132411;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2013;2013;Tete;130540;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2014;2014;Tete;126586;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2015;2015;Tete;118385;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2016;2016;Tete;82313;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2017;2017;Tete;85574;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2018;2018;Tete;87590;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2019;2019;Tete;87568;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2020;2020;Tete;90390;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2131;Chevaux;2021;2021;Tete;97602;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2011;2011;1000 tetes;990;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2012;2012;1000 tetes;827;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2013;2013;1000 tetes;841;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2014;2014;1000 tetes;794;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2015;2015;1000 tetes;863;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2016;2016;1000 tetes;762;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2017;2017;1000 tetes;671;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2018;2018;1000 tetes;556;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2019;2019;1000 tetes;532;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2020;2020;1000 tetes;585;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2152;Dindes;2021;2021;1000 tetes;604;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2011;2011;1000 tetes;302;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2012;2012;1000 tetes;327;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2013;2013;1000 tetes;311;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2014;2014;1000 tetes;321;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2015;2015;1000 tetes;381;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2016;2016;1000 tetes;363;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2017;2017;1000 tetes;343;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2018;2018;1000 tetes;332;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2019;2019;1000 tetes;336;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2020;2020;1000 tetes;335;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2191;Leporides;2021;2021;1000 tetes;321;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2011;2011;Tete;1088490;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2012;2012;Tete;1042760;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2013;2013;Tete;1033570;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2014;2014;Tete;1076000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2015;2015;Tete;1032000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2016;2016;Tete;1040000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2017;2017;Tete;798830;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2018;2018;Tete;743000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2019;2019;Tete;758000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2020;2020;Tete;710000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2122;Ovins;2021;2021;Tete;729000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2011;2011;Tete;12429140;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2012;2012;Tete;12233650;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2013;2013;Tete;12212300;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2014;2014;Tete;12238000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2015;2015;Tete;12603000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2016;2016;Tete;12479000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2017;2017;Tete;12409000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2018;2018;Tete;11909000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2019;2019;Tete;11921000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2020;2020;Tete;11541000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5111;Reserves;2140;Porcins;2021;2021;Tete;10872000;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2011;2011;1000 tetes;96919;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2012;2012;1000 tetes;95273;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2013;2013;1000 tetes;97719;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2014;2014;1000 tetes;103039;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2015;2015;1000 tetes;106763;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2016;2016;1000 tetes;105620;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2017;2017;1000 tetes;105184;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2018;2018;1000 tetes;105104;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2019;2019;1000 tetes;101741;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2020;2020;1000 tetes;101863;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5112;Reserves;2151;Poulets;2021;2021;1000 tetes;99887;A;Chiffre officiel
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2011;2011;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2012;2012;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2013;2013;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2014;2014;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2015;2015;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2016;2016;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2017;2017;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2018;2018;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2019;2019;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;528;Pays-Bas;5114;Reserves;2196;Ruches;2020;2020;No;0;M;Valeur manquante (les donnees ne peuvent exister, sans objet)
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2011;2011;Tete;18172;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2012;2012;Tete;19287;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2013;2013;Tete;18940;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2014;2014;Tete;18925;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2015;2015;Tete;19010;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2016;2016;Tete;19487;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2017;2017;Tete;19972;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2018;2018;Tete;34028;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2019;2019;Tete;33614;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2020;2020;Tete;33092;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2132;Anes;2021;2021;Tete;32985;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2011;2011;Tete;1577407;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2012;2012;Tete;1564631;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2013;2013;Tete;1557474;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2014;2014;Tete;1562801;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2015;2015;Tete;1554319;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2016;2016;Tete;1555396;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2017;2017;Tete;1544612;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2018;2018;Tete;1543345;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2019;2019;Tete;1524820;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2020;2020;Tete;1515123;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2111;Bovins;2021;2021;Tete;1513872;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2011;2011;1000 tetes;4;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2012;2012;1000 tetes;4;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2013;2013;1000 tetes;4;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2014;2014;1000 tetes;4;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2015;2015;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2016;2016;1000 tetes;4;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2017;2017;1000 tetes;4;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2018;2018;1000 tetes;4;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2019;2019;1000 tetes;4;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2020;2020;1000 tetes;5;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2154;Canards;2021;2021;1000 tetes;5;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2011;2011;Tete;86215;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2012;2012;Tete;88089;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2013;2013;Tete;87935;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2014;2014;Tete;87817;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2015;2015;Tete;74269;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2016;2016;Tete;75351;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2017;2017;Tete;78146;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2018;2018;Tete;80552;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2019;2019;Tete;80469;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2020;2020;Tete;79562;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2123;Caprins;2021;2021;Tete;82184;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2011;2011;Tete;57246;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2012;2012;Tete;58031;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2013;2013;Tete;57243;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2014;2014;Tete;57200;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2015;2015;Tete;55479;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2016;2016;Tete;55662;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2017;2017;Tete;55535;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2018;2018;Tete;45906;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2019;2019;Tete;47076;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2020;2020;Tete;46980;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2131;Chevaux;2021;2021;Tete;47084;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2011;2011;1000 tetes;58;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2012;2012;1000 tetes;51;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2013;2013;1000 tetes;55;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2014;2014;1000 tetes;57;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2015;2015;1000 tetes;49;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2016;2016;1000 tetes;71;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2017;2017;1000 tetes;77;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2018;2018;1000 tetes;84;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2019;2019;1000 tetes;75;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2020;2020;1000 tetes;88;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2152;Dindes;2021;2021;1000 tetes;83;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2011;2011;1000 tetes;98;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2012;2012;1000 tetes;80;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2013;2013;1000 tetes;79;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2014;2014;1000 tetes;77;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2015;2015;1000 tetes;72;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2016;2016;1000 tetes;71;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2017;2017;1000 tetes;63;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2018;2018;1000 tetes;62;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2019;2019;1000 tetes;61;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2020;2020;1000 tetes;54;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2191;Leporides;2021;2021;1000 tetes;49;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2011;2011;Tete;794;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2012;2012;Tete;853;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2013;2013;Tete;706;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2014;2014;Tete;693;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2015;2015;Tete;672;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2016;2016;Tete;715;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2017;2017;Tete;702;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2018;2018;Tete;752;I;Valeur imputee
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2019;2019;Tete;803;I;Valeur imputee
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2020;2020;Tete;782;I;Valeur imputee
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2133;Mules et bardots;2021;2021;Tete;793;I;Valeur imputee
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2011;2011;1000 tetes;25;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2012;2012;1000 tetes;21;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2013;2013;1000 tetes;17;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2014;2014;1000 tetes;17;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2015;2015;1000 tetes;2;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2016;2016;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2017;2017;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2018;2018;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2019;2019;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2020;2020;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2153;Oies;2021;2021;1000 tetes;3;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2011;2011;Tete;424018;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2012;2012;Tete;417274;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2013;2013;Tete;409493;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2014;2014;Tete;402772;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2015;2015;Tete;347025;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2016;2016;Tete;338922;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2017;2017;Tete;342419;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2018;2018;Tete;343470;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2019;2019;Tete;343581;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2020;2020;Tete;343528;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2122;Ovins;2021;2021;Tete;349100;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2011;2011;Tete;1578687;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2012;2012;Tete;1544017;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2013;2013;Tete;1484732;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2014;2014;Tete;1498321;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2015;2015;Tete;1495737;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2016;2016;Tete;1453602;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2017;2017;Tete;1444591;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2018;2018;Tete;1417549;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2019;2019;Tete;1359684;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2020;2020;Tete;1348306;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5111;Reserves;2140;Porcins;2021;2021;Tete;1368172;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2011;2011;1000 tetes;9391;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2012;2012;1000 tetes;9878;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2013;2013;1000 tetes;10003;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2014;2014;1000 tetes;10644;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2015;2015;1000 tetes;10753;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2016;2016;1000 tetes;10893;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2017;2017;1000 tetes;11409;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2018;2018;1000 tetes;11535;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2019;2019;1000 tetes;11829;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2020;2020;1000 tetes;12429;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5112;Reserves;2151;Poulets;2021;2021;1000 tetes;12568;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2011;2011;No;169391;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2012;2012;No;161447;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2013;2013;No;169391;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2014;2014;No;168415;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2015;2015;No;168965;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2016;2016;No;172680;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2017;2017;No;174986;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2018;2018;No;179704;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2019;2019;No;183170;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2020;2020;No;186827;A;Chiffre officiel
+QCL;Cultures et produits animaux;756;Suisse;5114;Reserves;2196;Ruches;2021;2021;No;196451;A;Chiffre officiel

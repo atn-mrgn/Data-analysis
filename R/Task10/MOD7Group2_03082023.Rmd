@@ -1,0 +1,949 @@
+---
+title: "Group_project"
+author: "Abraao Antonio"
+date: '2023-02-24'
+output: pdf_subset_document
+---
+
+```{r}
+install.packages("readxl")
+install.packages("tidyverse")
+install.packages("rattle", dependencies=c("Depends", "Suggests"))
+install.packages('lubridate')
+install.packages("knitr")
+install.packages("reshape2")
+install.packages("tidyr")
+install.packages("treemap")
+install.packages("arulesViz")
+install.packages("reshape2")
+```
+
+
+```{r }
+# load the necessary libraries
+library(dplyr)
+library(ggplot2)
+library(arules)
+library(e1071)
+library(dplyr)
+library(writexl)
+library(tidyverse)
+library(stringr)
+library(readxl)
+library(readr)
+library(vtable)
+library(psych)
+library(dplyr)
+library(knitr)
+library(reshape2)
+library(tidyr)
+library(forcats)
+library(arules)
+library(knitr)
+library(reshape2)
+library(caret)
+library("viridis")          
+library(RColorBrewer)
+library(wesanderson)
+library(lubridate)
+options(scipen = 99)
+```
+
+```{r}
+df_subset<- read.csv("clean_data_05.csv")
+```
+
+
+```{r}
+# Set the percentage of observations to keep
+sample_percent <- 10
+
+# Subset the data to a random sample
+df_sample <- df_subset %>%
+  sample_n(size = nrow(df_subset) * (sample_percent / 100))
+```
+
+```{r}
+# Convert the Date column to a date object
+df_sample$Date <- as.Date(df_sample$Date, format = "%Y-%m-%d")
+```
+
+```{r}
+# Convert the 'Date' column to a date object
+df_sample$Date <- as.Date(df_sample$Date)
+```
+
+
+```{r}
+colnames(df_sample)
+```
+```{r}
+df_sample2 <- df_sample
+```
+
+```{r}
+df_sample <- df_sample[!(df_sample$PackageFocus %in% c("History", "Standard Service", "Shop")), ]
+
+```
+
+```{r}
+# create a new column to identify first-time and returning customers
+first_time <- df_sample %>%
+  group_by(CustomerId) %>%
+  filter(n() == 1)
+
+returning <- df_sample %>%
+  group_by(CustomerId) %>%
+  filter(n() > 1)
+
+```
+
+
+
+```{r}
+df_sample2 <- df_sample
+df_sample<- df_sample2
+```
+
+```{r}
+# Get the top 4 PackageFocus for each StoreName and year for first-time customers
+first_time_top4 <- first_time %>%
+  group_by(StoreName, year = format(Date, "%Y"), PackageFocus) %>%
+  summarise(Count = n()) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+returning_top4 <- returning %>%
+    group_by(StoreName, year = format(Date, "%Y"), PackageFocus) %>%
+  summarise(Count = n()) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+
+
+
+```
+
+```{r}
+colnames(first_time_top4)
+```
+```{r}
+# Create the plot
+ggplot(first_time_top4, aes(x = StoreName, y = Count, fill = PackageFocus)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ year, ncol = 2, scales = "free_y") +
+  ggtitle("Top 4 PackageFocus by StoreName and Year") +
+  xlab("StoreName") +
+  ylab("Count") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+        strip.background = element_rect(fill = "white"),
+        strip.text = element_text(face = "bold", size = 12, hjust = 0.5),
+        panel.grid.major.y = element_blank(),
+        panel.spacing.y = unit(0.5, "lines"),
+        legend.position = "none") +
+  guides(fill = guide_legend(ncol = 2, title = "PackageFocus")) +
+  scale_y_continuous(labels = comma) +
+  labs(fill = "PackageFocus")
+```
+
+
+```{r}
+# Filter the data
+first_time_top4_sub <- first_time_top4 %>%
+  filter(year != "2023") %>%
+  group_by(year) %>%
+  top_n(10, Count) %>%
+  ungroup()
+
+# Create the plot
+ggplot(first_time_top4_sub, aes(x = StoreName, y = Count, fill = PackageFocus)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ year, ncol = 2, scales = "free_y") +
+  ggtitle("Top 4 PackageFocus by StoreName and Year") +
+  xlab("StoreName") +
+  ylab("Count") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+        strip.background = element_rect(fill = "white"),
+        strip.text = element_text(face = "bold", size = 12, hjust = 0.5),
+        panel.grid.major.y = element_blank(),
+        panel.spacing.y = unit(0.5, "lines"),
+        legend.position = "none") +
+  guides(fill = guide_legend(ncol = 2, title = "PackageFocus")) +
+  scale_y_continuous(labels = comma) +
+  labs(fill = "PackageFocus") +
+  scale_x_discrete(limits = first_time_top4_sub$StoreName)
+
+```
+```{r}
+library(plotly)
+
+# Function to rescale y-axis range
+rescale_yaxis <- function(plot, max_count) {
+  plot %>% layout(
+    yaxis = list(
+      range = c(0, max_count * 1.2),
+      title = "Count",
+      tickformat = ",d"
+    )
+  )
+}
+
+# Plot for first_time_top4
+top10_stores <- first_time_top4 %>%
+  group_by(StoreName) %>%
+  summarise(TotalCount = sum(Count)) %>%
+  top_n(10, TotalCount) %>%
+  pull(StoreName)
+
+first_time_top10 <- first_time_top4 %>%
+  filter(StoreName %in% top10_stores)
+
+# Get top 4 PackageFocus by StoreName
+top4_PackageFocus_by_StoreName <- first_time_top10 %>%
+  group_by(StoreName, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(StoreName) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 4 PackageFocus by Year
+top4_PackageFocus_by_Year <- first_time_top4 %>%
+  filter(year != "2023") %>%
+  group_by(year, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(year) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 10 most visited stores
+top10_most_visited_stores <- first_time_top4 %>%
+  group_by(StoreName) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  top_n(10, Count) %>%
+  ungroup()
+
+# Create interactive plot
+p1 <- plot_ly()
+
+# Add bar chart for top 4 PackageFocus by StoreName
+p1 <- p1 %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_StoreName, type = "bar",
+  name = "Top 4 PackageFocus by StoreName"
+)
+
+# Add scatter plot for 10 most visited stores
+p1 <- p1 %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top10_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 10, symbol = "star"),
+  name = "Top 10 most visited stores"
+)
+
+# Add bar chart for top 4 PackageFocus by Year
+p1 <- p1 %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_Year, type = "bar",
+  name = "Top 4 PackageFocus by Year"
+)
+
+# Customize layout and rescale y
+
+```
+
+```{r}
+library(plotly)
+
+
+# Filter data to include only top 10 stores
+top10_stores <- first_time_top4 %>%
+  group_by(StoreName) %>%
+  summarise(TotalCount = sum(Count)) %>%
+  top_n(10, TotalCount) %>%
+  pull(StoreName)
+
+first_time_top10 <- first_time_top4 %>%
+  filter(StoreName %in% top10_stores)
+
+# Get top 4 PackageFocus by StoreName
+top4_PackageFocus_by_StoreName <- first_time_top10 %>%
+  group_by(StoreName, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(StoreName) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 4 PackageFocus by Year
+top4_PackageFocus_by_Year <- first_time_top4 %>%
+  filter(year != "2023") %>%
+  group_by(year, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(year) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 10 most visited stores
+top10_most_visited_stores <- first_time_top4 %>%
+  group_by(StoreName) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  top_n(10, Count) %>%
+  ungroup()
+
+# Create interactive plot
+p <- plot_ly()
+
+# Add bar chart for top 4 PackageFocus by StoreName
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_StoreName, type = "bar",
+  name = "Top 4 PackageFocus by StoreName"
+)
+
+# Add scatter plot for 10 most visited stores
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top10_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 10, symbol = "star"),
+  name = "Top 10 most visited stores"
+)
+
+# Add bar chart for top 4 PackageFocus by Year
+p <- p %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_Year, type = "bar",
+  name = "Top 4 PackageFocus by Year"
+)
+
+# Customize layout
+p <- p %>% layout(
+  title = "First-time Top 4 PackageFocus/Year and StoreName",
+  xaxis = list(title = "StoreName", tickangle = 45, dtick = 1),
+  yaxis = list(title = "Count", tickformat = ",d"),
+  legend = list(
+    x = 0.5, y = -0.1, orientation = "h",
+    traceorder = "reversed"
+  ),
+  hovermode = "closest"
+)
+
+# Display plot
+p
+
+
+```
+
+
+```{r}
+# Filter data to include only top 10 stores
+top10_stores <- first_time_top4 %>%
+  group_by(StoreName) %>%
+  summarise(TotalCount = sum(Count)) %>%
+  top_n(10, TotalCount) %>%
+  pull(StoreName)
+
+first_time_top10 <- first_time_top4 %>%
+  filter(StoreName %in% top10_stores)
+
+# Get top 4 PackageFocus by StoreName
+top4_PackageFocus_by_StoreName <- first_time_top10 %>%
+  group_by(StoreName, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(StoreName) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 4 PackageFocus by Year
+top4_PackageFocus_by_Year <- first_time_top4 %>%
+  filter(year != "2023") %>%
+  group_by(year, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(year) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 10 most visited stores
+top10_most_visited_stores <- first_time_top4 %>%
+  group_by(StoreName) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  top_n(10, Count) %>%
+  ungroup()
+
+# Create interactive plot
+p <- plot_ly()
+
+# Add bar chart for top 4 PackageFocus by StoreName
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_StoreName, type = "bar",
+  name = "Top 4 PackageFocus by StoreName",
+  text = ~PackageFocus
+)
+
+# Add scatter plot for 10 most visited stores
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top10_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 10, symbol = "star"),
+  name = "Top 10 most visited stores",
+  text = ~paste(StoreName, "<br>Count: ", Count)
+)
+
+# Add bar chart for top 4 PackageFocus by Year
+p <- p %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_Year, type = "bar",
+  name = "Top 4 PackageFocus by Year",
+  text = ~PackageFocus
+)
+
+# Customize layout
+p <- p %>% layout(
+  title = "Recurrent Top 4 PackageFocus/Year and StoreName",
+  xaxis = list(title = "StoreName", tickangle = 45, dtick = 1),
+  yaxis = list(title = "Count", tickformat = ",d"),
+  legend = list(
+    x = 0.5, y = -0.1, orientation = "h",
+    traceorder = "reversed"
+  ),
+  hovermode = "closest"
+)
+
+# Display plot
+p
+
+```
+
+```{r}
+# Filter data to include only top 10 stores
+top10_stores <- returning_top4 %>%
+  group_by(StoreName) %>%
+  summarise(TotalCount = sum(Count)) %>%
+  top_n(10, TotalCount) %>%
+  pull(StoreName)
+
+returning_top10 <- returning_top4 %>%
+  filter(StoreName %in% top10_stores)
+
+# Get top 4 PackageFocus by StoreName
+top4_PackageFocus_by_StoreName <- returning_top10 %>%
+  group_by(StoreName, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(StoreName) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 4 PackageFocus by Year
+top4_PackageFocus_by_Year <- returning_top4 %>%
+  filter(year != "2023") %>%
+  group_by(year, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(year) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 10 most visited stores
+top10_most_visited_stores <- returning_top4 %>%
+  group_by(StoreName) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  top_n(10, Count) %>%
+  ungroup()
+
+# Create interactive plot
+p <- plot_ly()
+
+# Add bar chart for top 4 PackageFocus by StoreName
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_StoreName, type = "bar",
+  name = "Top 4 PackageFocus by StoreName",
+  text = ~PackageFocus
+)
+
+# Add scatter plot for 10 most visited stores
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top10_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 10, symbol = "star"),
+  name = "Top 10 most visited stores",
+  text = ~paste(StoreName, "<br>Count: ", Count)
+)
+
+# Add bar chart for top 4 PackageFocus by Year
+p <- p %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_Year, type = "bar",
+  name = "Top 4 PackageFocus by Year",
+  text = ~PackageFocus
+)
+
+# Customize layout
+p <- p %>% layout(
+  title = "Top 4 PackageFocus by StoreName and Year, and Top 10 most visited stores",
+  xaxis = list(title = "StoreName", tickangle = 45, dtick = 1),
+  yaxis = list(title = "Count", tickformat = ",d"),
+  legend = list(
+    x = 0.5, y = -0.1, orientation = "h",
+    traceorder = "reversed"
+  ),
+  hovermode = "closest"
+)
+
+# Display plot
+p
+
+```
+
+
+
+
+
+
+
+
+```{r}
+top6_same_trans <- df_sample %>%
+  group_by(TransactionId) %>%
+  filter(n() > 1) %>%
+  group_by(PackageFocus) %>%
+  summarise(Count = n()) %>%
+  top_n(6, Count)
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+```
+
+
+```{r}
+
+
+# Get the top 4 stores based on their total package sales
+top4_stores <- df_sample %>%
+  group_by(StoreName) %>%
+  summarise(TotalPackageSales = sum(TotalPaid)) %>%
+  arrange(desc(TotalPackageSales)) %>%
+  top_n(4, TotalPackageSales) %>%
+  ungroup() %>%
+  select(StoreName)
+
+# Filter the top 4 stores from the previous plot
+first_time_top4_sub <- first_time_top4 %>% 
+  filter(StoreName %in% top4_stores$StoreName)
+returning_top4_sub <- returning_top4 %>% 
+  filter(StoreName %in% top4_stores$StoreName)
+
+# Get the top PackageFocus by the top 4 StoreName
+top_package_focus <- df_sample %>%
+  filter(StoreName %in% top4_stores$StoreName) %>%
+  group_by(StoreName, PackageFocus) %>%
+  summarise(Count = sum(Quantity)) %>%
+  arrange(desc(Count)) %>%
+  group_by(StoreName) %>%
+  top_n(1, Count) %>%
+  ungroup() %>%
+  arrange(StoreName)
+
+# Limit to the top 10 PackageFocus
+top_package_focus <- top_package_focus %>%
+  group_by(PackageFocus) %>%
+  summarise(TotalCount = sum(Count)) %>%
+  top_n(10, TotalCount) %>%
+  right_join(top_package_focus, by = "PackageFocus")
+
+# Plot the top 10 PackageFocus by the top 4 StoreName
+ggplot(top_package_focus, aes(x = StoreName, y = Count, fill = PackageFocus)) +
+  geom_bar(stat = "identity") +
+  ggtitle("Top 4 PackageFocus by StoreName") +
+  xlab("StoreName") +
+  ylab("Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+```{r}
+# Get the top 10 stores based on their total package sales for each year
+top10_stores_by_year <- df_sample %>%
+  group_by(year, StoreName) %>%
+  summarise(TotalSales = sum(TotalPaid)) %>%
+  arrange(desc(TotalSales)) %>%
+  group_by(year) %>%
+  top_n(10, TotalSales) %>%
+  ungroup() %>%
+  select(year, StoreName)
+
+# Filter data for top 10 stores by year
+df_top10_by_year <- df_sample %>%
+  inner_join(top10_stores_by_year, by = c("year", "StoreName")) %>%
+  group_by(year, StoreName, PackageFocus) %>%
+  summarise(TotalSales = sum(TotalPaid), TotalQuantity = sum(Quantity))
+
+# Plot the top 10 StoreNames by year and PackageFocus
+ggplot(df_top10_by_year, aes(x = StoreName, y = TotalSales, fill = PackageFocus)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ year, ncol = 2, scales = "free_x") +
+  ggtitle("Top 10 StoreNames by Year and PackageFocus") +
+  xlab("StoreName") +
+  ylab("TotalSales") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+        strip.text = element_text(face = "bold", size = 12),
+        panel.spacing.x = unit(0.5, "lines"),
+        legend.position = "bottom",
+        legend.title = element_blank()) +
+  scale_fill_brewer(palette = "Set2", n = 10)
+
+```
+
+
+
+
+```{r}
+
+
+```
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+
+```
+```{r}
+
+```
+
+
+```{r}
+# Filter data to include only top 4 stores
+top4_stores <- first_time_top4 %>%
+  group_by(StoreName) %>%
+  summarise(TotalCount = sum(Count)) %>%
+  top_n(4, TotalCount) %>%
+  pull(StoreName)
+
+first_time_top4_sub <- first_time_top4 %>%
+  filter(StoreName %in% top4_stores)
+
+# Get top 4 PackageFocus by StoreName
+top4_PackageFocus_by_StoreName <- first_time_top4 %>%
+  group_by(StoreName, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(StoreName) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 4 PackageFocus by Year
+top4_PackageFocus_by_Year <- first_time_top4 %>%
+  filter(year != "2023") %>%
+  group_by(year, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(year) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 4 most visited stores
+top4_most_visited_stores <- first_time_top4 %>%
+  group_by(StoreName) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Create interactive plot
+p <- plot_ly()
+
+# Add bar chart for top 4 PackageFocus by StoreName
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_StoreNamer, type = "bar",
+  name = "Top 4 PackageFocus by StoreName",
+  text = ~PackageFocus
+)
+
+# Add scatter plot for 4 most visited stores
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top4_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 4, symbol = "star"),
+  name = "Top 4 most visited stores",
+  text = ~paste(StoreName, "<br>Count: ", Count)
+)
+
+# Add bar chart for top 4 PackageFocus by Year
+p <- p %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_Yearr, type = "bar",
+  name = "Top 4 PackageFocus by Year",
+  text = ~PackageFocus
+)
+
+# Customize layout
+p <- p %>% layout(
+  title = "Top 4 PackageFocus by StoreName and Year, and Top 4 most visited stores",
+  xaxis = list(title = "", tickangle = 45, dtick = 1),
+  yaxis = list(title = "Count", tickformat = ",d"),
+  legend = list(
+    x = 0.5, y = -0.1, orientation = "h",
+    traceorder = "reversed"
+  ),
+  hovermode = "closest"
+)
+
+# Display plot
+p
+
+```
+
+```{r}
+
+# Filter data to include only top 4 stores
+top4_storesr <- returning_top4 %>%
+  group_by(StoreName) %>%
+  summarise(TotalCount = sum(Count)) %>%
+  top_n(4, TotalCount) %>%
+  pull(StoreName)
+
+returning_top4 <- returning_top4 %>%
+  filter(StoreName %in% top4_stores)
+
+# Get top 4 PackageFocus by StoreName
+top4_PackageFocus_by_StoreNamer <- returning_top4 %>%
+  group_by(StoreName, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(StoreName) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 4 PackageFocus by Year
+top4_PackageFocus_by_Yearr <- returning_top4 %>%
+  filter(year != "2023") %>%
+  group_by(year, PackageFocus) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  group_by(year) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Get top 4 most visited stores
+top4_most_visited_storesr <- returning_top4 %>%
+  group_by(StoreName) %>%
+  summarise(Count = sum(Count)) %>%
+  arrange(desc(Count)) %>%
+  top_n(4, Count) %>%
+  ungroup()
+
+# Create interactive plot
+p <- plot_ly()
+
+# Add bar chart for top 4 PackageFocus by StoreName
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_StoreNamer, type = "bar",
+  name = "Top 4 PackageFocus by StoreName",
+  text = ~PackageFocus
+)
+
+# Add scatter plot for 4 most visited stores
+p <- p %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top4_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 4, symbol = "star"),
+  name = "Top 4 most visited stores",
+  text = ~paste(StoreName, "<br>Count: ", Count)
+)
+
+# Add bar chart for top 4 PackageFocus by Year
+p <- p %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_Yearr, type = "bar",
+  name = "Top 4 PackageFocus by Year",
+  text = ~PackageFocus
+)
+
+# Customize layout
+p <- p %>% layout(
+  title = "Top 4 PackageFocus by StoreName and Year, and Top 4 most visited stores",
+  xaxis = list(title = "", tickangle = 45, dtick = 1),
+  yaxis = list(title = "Count", tickformat = ",d"),
+  legend = list(
+    x = 0.5, y = -0.1, orientation = "h",
+    traceorder = "reversed"
+  ),
+  hovermode = "closest"
+)
+
+# Display plot
+p
+
+
+```
+
+
+```{r}
+library(plotly)
+
+# Create plot for first-time customers
+p1 <- plot_ly()
+p1 <- p1 %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_StoreNamer, type = "bar",
+  name = "Top 4 PackageFocus by StoreName",
+  text = ~PackageFocus
+)
+p1 <- p1 %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top4_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 4, symbol = "star"),
+  name = "Top 4 most visited stores",
+  text = ~paste(StoreName, "<br>Count: ", Count)
+)
+p1 <- p1 %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_Yearr, type = "bar",
+  name = "Top 4 PackageFocus by Year",
+  text = ~PackageFocus
+)
+p1 <- p1 %>% layout(
+  title = "Top 4 PackageFocus by StoreName and Year, and Top 4 most visited stores for first-time customers",
+  xaxis = list(title = "", tickangle = 45, dtick = 1),
+  yaxis = list(title = "Count", tickformat = ",d"),
+  legend = list(
+    x = 0.5, y = -0.1, orientation = "h",
+    traceorder = "reversed"
+  ),
+  hovermode = "closest"
+)
+
+# Create plot for returning customers
+p2 <- plot_ly()
+p2 <- p2 %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_StoreName, type = "bar",
+  name = "Top 4 PackageFocus by StoreName",
+  text = ~PackageFocus
+)
+p2 <- p2 %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top10_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 10, symbol = "star"),
+  name = "Top 10 most visited stores",
+  text = ~paste(StoreName, "<br>Count: ", Count)
+)
+p2 <- p2 %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  data = top4_PackageFocus_by_Year, type = "bar",
+  name = "Top 4 PackageFocus by Year",
+  text = ~PackageFocus
+)
+p2 <- p2 %>% layout(
+  title = "Top 4 PackageFocus by StoreName and Year, and Top 10 most visited stores for returning customers",
+  xaxis = list(title = "StoreName", tickangle = 45, dtick = 1),
+  yaxis = list(title = "Count", tickformat = ",d"),
+  legend = list(
+    x = 0.5, y = -0.1, orientation = "h",
+    traceorder = "reversed"
+  ),
+  hovermode = "closest"
+)
+
+# Plot the two plots side by side
+subplot(p1, p2, nrows = 1, widths = c(0.5, 0.5))
+
+```
+```{r}
+# Define color scale
+colors <- c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728")
+
+# Create plot for first-time customers
+p1 <- plot_ly()
+p1 <- p1 %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  colors = colors,
+  data = top4_PackageFocus_by_StoreNamer, type = "bar",
+  name = "Top 4 PackageFocus by StoreName",
+  text = ~PackageFocus
+)
+p1 <- p1 %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top4_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 4, symbol = "star"),
+  name = "Top 4 most visited stores",
+  text = ~paste(StoreName, "<br>Count: ", Count)
+)
+p1 <- p1 %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  colors = colors,
+  data = top4_PackageFocus_by_Yearr, type = "bar",
+  name = "Top 4 PackageFocus by Year",
+  text = ~PackageFocus
+)
+p1 <- p1 %>% layout(
+  title = "Top 4 PackageFocus by StoreName and Year, and Top 4 most visited stores for first-time customers",
+  xaxis = list(title = "", tickangle = 45, dtick = 1),
+  yaxis = list(title = "Count", tickformat = ",d"),
+  legend = list(
+    x = 0.5, y = -0.1, orientation = "h",
+    traceorder = "reversed"
+  ),
+  hovermode = "closest"
+)
+
+# Create plot for returning customers
+p2 <- plot_ly()
+p2 <- p2 %>% add_trace(
+  x = ~StoreName, y = ~Count, color = ~PackageFocus,
+  colors = colors,
+  data = top4_PackageFocus_by_StoreName, type = "bar",
+  name = "Top 4 PackageFocus by StoreName",
+  text = ~PackageFocus
+)
+p2 <- p2 %>% add_trace(
+  x = ~StoreName, y = ~Count, 
+  data = top10_most_visited_stores, type = "scatter",
+  mode = "markers", marker = list(size = 10, symbol = "star"),
+  name = "Top 10 most visited stores",
+  text = ~paste(StoreName, "<br>Count: ", Count)
+)
+p2 <- p2 %>% add_trace(
+  x = ~year, y = ~Count, color = ~PackageFocus,
+  colors = colors,
+  data = top4_PackageFocus_by_Year, type = "bar",
+  name = "Top 4 PackageFocus by Year",
+  text = ~PackageFocus
+)
+p2 <- p2 %>% layout(
+  title = "Top 4 PackageFocus by StoreName and Year, and Top 10 most visited stores for returning customers",
+  xaxis = list(title = "StoreName", tickangle = 45, dtick = 1),
+  yaxis = list(title = "Count", tickformat = ",d"),
+  legend = list(
+    x
+
+```
+

@@ -1,0 +1,350 @@
+---
+title: "Assign"
+author: "Your Name Here"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: '3'
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=5, fig.height=3)  # default figure/plot sizes
+```
+
+
+```{r}
+library(readxl)
+library(nnet) 
+library(MASS)
+```
+
+
+## Load dataset
+```{r}
+data <- read_xlsx("dataset.xlsx")
+```
+
+## Feature: Direction 
+
+### Modeling
+```{r}
+data$Direction <- as.factor(data$Direction)
+data$Section <- as.factor(data$Section)
+
+
+direction_model <- multinom(Direction ~ ERROR, data = data)
+
+direction_pred <- predict(direction_model, type = "probs")
+
+
+direction_params <- coef(direction_model)
+
+
+log_likelihood <- function(params, data) {
+  model <- multinom(direction ~ error, data = data, weights = exp(params))
+  return(-sum(logLik(model)))
+}
+
+
+laplace_approximation <- function(model, data) {
+  
+  params <- coef(model)
+  
+  hessian <- solve(vcov(model))
+ 
+  variance <- ginv(hessian)
+  
+  return(list(params = params, variance = variance))
+}
+
+direction_laplace <- laplace_approximation(direction_model, data)
+
+direction_params <- direction_laplace$params
+direction_variance <- direction_laplace$variance
+
+```
+### MSE of direction
+
+```{r}
+direction_actual <- model.matrix(~ Direction - 1, data = data)
+mse_direction <- -mean(rowSums(direction_actual * log(direction_pred)))
+
+
+cat("MSE (direction):", mse_direction, "\n")
+```
+
+### Bias of direction
+```{r}
+
+direction_pred_class <- predict(direction_model, type = "class")
+
+
+bias_direction <- mean(direction_pred_class != data$Direction)
+
+
+cat("Bias (direction):", bias_direction, "\n")
+```
+
+### Confidence Intervals for 'direction'
+
+```{r}
+conf_level <- c(0.95, 0.98, 0.99)
+alpha <- 1 - conf_level
+params <- coef(direction_model)
+se <- sqrt(diag(vcov(direction_model)))
+
+conf_intervals <- sapply(alpha, function(a) {
+  z <- qnorm(1 - a / 2)
+  ci_lower <- params - z * se
+  ci_upper <- params + z * se
+  return(data.frame(ci_lower, ci_upper))
+}, simplify = FALSE)
+
+
+names(conf_intervals) <- paste(conf_level * 100, "% CI", sep = "")
+conf_intervals
+
+```
+
+### Likelihood Ratio Test 
+```{r}
+
+direction_counts <- table(data$Direction)
+prob_vector <- rep(1/4, length(direction_counts))
+log_likelihood_null <- sum(dmultinom(direction_counts, prob = prob_vector, log = TRUE))
+
+log_likelihood_alternative <- sum(logLik(direction_model))
+
+lrt_direction <- -2 * (log_likelihood_null - log_likelihood_alternative)
+p_value_lrt_direction <- pchisq(lrt_direction, df = length(coef(direction_model)), lower.tail = FALSE)
+
+cat("Likelihood Ratio Test statistic (direction):", lrt_direction, "\n")
+cat("p-value for LRT (direction):", p_value_lrt_direction, "\n")
+
+```
+
+
+### Wald Test
+```{r}
+wald_direction <- (params / se)^2
+p_value_wald_direction <- pchisq(wald_direction, df = 1, lower.tail = FALSE)
+
+cat("Wald Test statistic (direction):", sum(wald_direction), "\n")
+cat("p-value for Wald Test (direction):", p_value_wald_direction, "\n")
+
+```
+### Bias Plot
+
+```{r}
+library(ggplot2)
+
+direction_pred_df <- data.frame(actual = data$Direction, predicted = direction_pred_class)
+
+ggplot(direction_pred_df, aes(x = actual, fill = predicted)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Bias of direction", x = "True Direction", y = "Number of prediction") +
+  theme_minimal()
+
+```
+
+
+## Feature: Section
+
+### Modeling
+```{r}
+section_model <- multinom(Section ~ ERROR, data = data)
+
+section_pred <- predict(section_model, type = "probs")
+
+section_params <- coef(section_model)
+
+direction_laplace <- laplace_approximation(direction_model, data)
+
+direction_params <- direction_laplace$params
+direction_variance <- direction_laplace$variance
+```
+### MSE of section
+
+```{r}
+section_actual <- model.matrix(~ Section - 1, data = data)
+mse_section <- -mean(rowSums(section_actual * log(section_pred)))
+
+
+cat("MSE (Section):", mse_section, "\n")
+```
+
+### Bias of section
+```{r}
+
+section_pred_class <- predict(section_model, type = "class")
+
+
+bias_section <- mean(section_pred_class != data$Section)
+
+
+cat("Bias (Section):", bias_section, "\n")
+```
+
+### Confidence Intervals for 'section'
+
+```{r}
+conf_level <- c(0.95, 0.98, 0.99)
+alpha <- 1 - conf_level
+params <- coef(section_model)
+se <- sqrt(diag(vcov(section_model)))
+
+conf_intervals <- sapply(alpha, function(a) {
+  z <- qnorm(1 - a / 2)
+  ci_lower <- params - z * se
+  ci_upper <- params + z * se
+  return(data.frame(ci_lower, ci_upper))
+}, simplify = FALSE)
+
+
+names(conf_intervals) <- paste(conf_level * 100, "% CI", sep = "")
+conf_intervals
+```
+
+
+### Likelihood Ratio Test 
+```{r}
+
+section_counts <- table(data$Section)
+prob_vector <- rep(1/4, length(section_counts))
+log_likelihood_null <- sum(dmultinom(section_counts, prob = prob_vector, log = TRUE))
+
+log_likelihood_alternative <- sum(logLik(section_model))
+
+lrt_section <- -2 * (log_likelihood_null - log_likelihood_alternative)
+p_value_lrt_section <- pchisq(lrt_section, df = length(coef(section_model)), lower.tail = FALSE)
+
+cat("Likelihood Ratio Test statistic (section):", lrt_section, "\n")
+cat("p-value for LRT (section):", p_value_lrt_section, "\n")
+
+```
+
+
+### Wald Test
+```{r}
+wald_section <- (params / se)^2
+p_value_wald_section <- pchisq(wald_section, df = 1, lower.tail = FALSE)
+
+cat("Wald Test statistic (section):", sum(wald_section), "\n")
+cat("p-value for Wald Test (section):", p_value_wald_section, "\n")
+
+```
+
+
+### Bias Plot of section
+
+```{r}
+library(ggplot2)
+
+section_pred_df <- data.frame(actual = data$Section, predicted = section_pred_class)
+
+ggplot(section_pred_df, aes(x = actual, fill = predicted)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Bias of section", x = "True section", y = "Number of prediction") +
+  theme_minimal()
+
+```
+
+## Feature: ERROR
+
+### Modeling
+
+```{r}
+error_model <- lm(ERROR ~ Direction + Section, data = data)
+summary(error_model)
+```
+### MSE and bias
+
+```{r}
+error_pred <- predict(error_model)
+mse_error <- mean((data$ERROR - error_pred)^2)
+bias_error <- mean(data$ERROR - error_pred)
+
+cat("MSE (ERROR):", mse_error, "\n")
+cat("BIAS (ERROR):", bias_error, "\n")
+
+```
+### Likelihood ratio test
+```{r}
+
+log_likelihood_null <- sum(dnorm(data$ERROR, mean(data$ERROR), sd(data$ERROR), log = TRUE))
+
+log_likelihood_alternative <- sum(logLik(error_model))
+
+lrt_statistic <- -2 * (log_likelihood_null - log_likelihood_alternative)
+lrt_p_value <- pchisq(lrt_statistic, df = length(coef(error_model)) - 1, lower.tail = FALSE)
+
+
+cat("Likelihood Ratio Test statistic (ERROR):", lrt_statistic, "\n")
+cat("p-value for LRT (ERROR):", lrt_p_value, "\n")
+```
+
+
+### Wald test
+
+```{r}
+error_params <- coef(error_model)
+error_se <- sqrt(diag(vcov(error_model)))
+
+wald_statistic <- (error_params / error_se)^2
+wald_p_value <- pchisq(wald_statistic, df = 1, lower.tail = FALSE)
+
+wald_statistic
+wald_p_value
+
+```
+
+```{r}
+conf_levels <- c(0.95, 0.98, 0.99)
+alpha <- 1 - conf_levels
+error_params <- coef(error_model)
+error_se <- sqrt(diag(vcov(error_model)))
+
+for (a in alpha) {
+  z <- qnorm(1 - a / 2)
+  ci_lower <- error_params - z * error_se
+  ci_upper <- error_params + z * error_se
+  conf_int <- data.frame(ci_lower, ci_upper)
+  
+  cat("Confidence Interval for alpha =", a, "\n")
+  print(conf_int)
+}
+
+```
+
+### Plot bias
+
+```{r}
+library(ggplot2)
+
+plot_data <- data.frame(
+  index = 1:240,
+  actual = data$ERROR,
+  predicted = error_pred
+)
+
+ggplot(plot_data, aes(x = index)) +
+  geom_line(aes(y = actual, color = "Actual")) +
+  geom_line(aes(y = predicted, color = "Predicted")) +
+  labs(title = "Comparison of Actual and Predicted Values of Error",
+       x = "Index",
+       y = "Error",
+       color = "Legend") +
+  theme_minimal()
+```
+

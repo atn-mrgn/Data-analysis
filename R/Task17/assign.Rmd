@@ -1,0 +1,151 @@
+---
+title: "Assignement"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
+```
+
+# Qusetion 1
+
+## Load dataset
+```{r}
+# install.packages("fpp2")
+
+library(fpp2)
+str(euretail)
+```
+The database presents the Quarterly Index of Retail Trade in the Eurozone (17 countries), over the period 1996-2012. It is a time series of 64 observations.
+
+## Plot a data
+```{r}
+autoplot(euretail, main="Data") + ylab("Retail index") + xlab("Year")
+```
+
+Since the time series has a non-stationary variance, it would be interesting to perform a logarithmic or Box-Cox transformation on the data. As for the stationarity, the graph suggests that the series is not stationary. We will have more precision by performing an augmented Dickey-Fuller test.
+
+## Stationarity check
+```{r}
+#install.packages("tseries")
+
+library(tseries)
+
+adf.test(euretail)
+```
+
+With an alpha of 0.05 and p-value of 0.99, we fail to reject the null ans stat that the series is not stationary.
+
+## Forecasting
+
+```{r}
+fit<-auto.arima(euretail)
+summary(fit)
+```
+The model obtained has an RMSE of 0.36 on the basis of training data. It has seasonal components, Differencing I(1) and Moving average MA(3) in addition to non-seasonal components, I(1) and MA(1) with the seasonal period is S = 4
+
+
+## Plot ACF and PACF of residuals
+```{r}
+euretail %>%
+  auto.arima() %>%
+  residuals() %>% 
+  ggtsdisplay()
+```
+
+All peaks in the ACF and PACF plots are within significance, so the residuals appear to be white noise, which is a good result.
+
+## Check residuals
+```{r}
+checkresiduals(fit)
+```
+The Ljung-Box test shows that the residuals are not autocorrelated and the distribution graph makes us think of a normal distribution of the residuals. We can therefore conclude that the residuals are random.
+
+# Question 2
+
+## Load dataset and display April 1st, 2022 COVID data
+```{r}
+library(readxl)
+library(xts)
+df <- read_excel("COVID_Cases_Deaths - 2023.xlsx")
+df$date <- as.Date(df$date)
+df_ts<-xts(df$deaths, df$date)
+print(df_ts["2022-04-01"])
+```
+## Plot a data
+```{r}
+autoplot(df_ts)
+```
+
+The data are non-stationary, with non-constant variance and mean, with a rising trend.
+
+## Stationarity check
+```{r}
+adf.test(df_ts)
+```
+With an alpha of 0.05 and p-value of 0.388, we fail to reject the null ans stat that the series is not stationary.
+
+## Forecasting
+```{r}
+fit<-auto.arima(df_ts)
+summary(fit)
+```
+The model obtained has an RMSE of 746.1825 on the basis of training data. It has seasonal components, Differencing I(1)  with drift and nothing non-seasonal components.
+
+## Plot ACF and PACF of residuals
+```{r}
+df_ts %>%
+  auto.arima() %>%
+  residuals() %>% 
+  ggtsdisplay()
+```
+
+The ACF and PACF plots show several significant and nearly significant peaks. indicating that some additional non-seasonal terms should be included in the model.
+
+## Check residuals
+```{r}
+checkresiduals(fit)
+```
+
+The Ljung-Box test shows that the residues are autocorrelated.
+
+## Repeat previous step for only 2023 COVID data
+
+### Plot a data
+```{r}
+autoplot(df_ts["2023"])
+```
+
+The data are non-stationary, with non-constant variance and mean, with a rising trend.
+
+### Stationarity check
+```{r}
+adf.test(df_ts["2023"])
+```
+With an alpha of 0.05 and p-value of 0.9816, we fail to reject the null ans stat that the series is not stationary.
+
+### Forecasting
+```{r}
+fit<-auto.arima(df_ts["2023"])
+summary(fit)
+```
+The model obtained has an RMSE of 452.9056 on the basis of training data. It has seasonal components, Differencing I(1) and Moving average MA(1) with drift and nothing non-seasonal components.
+
+### Plot ACF and PACF of residuals
+```{r}
+df_ts["2023"] %>%
+  auto.arima() %>%
+  residuals() %>% 
+  ggtsdisplay()
+```
+
+The ACF and PACF plots show significant peaks at lag 4,7,16 and almost significant at lag 3,6. indicating that some additional non-seasonal terms should be included in the model.
+
+## Check residuals
+```{r}
+checkresiduals(fit)
+```
+
+The Ljung-Box test shows that the residues are autocorrelated.While the distribution of residuals appears to be normal.
+

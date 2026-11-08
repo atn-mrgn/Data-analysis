@@ -1,0 +1,292 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Assignement},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Assignement}
+\author{}
+\date{\vspace{-2.5em}2023-04-06}
+
+\begin{document}
+\maketitle
+
+\hypertarget{question-1}{%
+\section{Question 1}\label{question-1}}
+
+\hypertarget{structure-of-the-flights-dataset}{%
+\subsubsection{\texorpdfstring{\emph{Structure of the ``flights''
+dataset}}{Structure of the ``flights'' dataset}}\label{structure-of-the-flights-dataset}}
+
+\begin{verbatim}
+## tibble [336,776 x 19] (S3: tbl_df/tbl/data.frame)
+##  $ year          : int [1:336776] 2013 2013 2013 2013 2013 2013 2013 2013 2013 2013 ...
+##  $ month         : int [1:336776] 1 1 1 1 1 1 1 1 1 1 ...
+##  $ day           : int [1:336776] 1 1 1 1 1 1 1 1 1 1 ...
+##  $ dep_time      : int [1:336776] 517 533 542 544 554 554 555 557 557 558 ...
+##  $ sched_dep_time: int [1:336776] 515 529 540 545 600 558 600 600 600 600 ...
+##  $ dep_delay     : num [1:336776] 2 4 2 -1 -6 -4 -5 -3 -3 -2 ...
+##  $ arr_time      : int [1:336776] 830 850 923 1004 812 740 913 709 838 753 ...
+##  $ sched_arr_time: int [1:336776] 819 830 850 1022 837 728 854 723 846 745 ...
+##  $ arr_delay     : num [1:336776] 11 20 33 -18 -25 12 19 -14 -8 8 ...
+##  $ carrier       : chr [1:336776] "UA" "UA" "AA" "B6" ...
+##  $ flight        : int [1:336776] 1545 1714 1141 725 461 1696 507 5708 79 301 ...
+##  $ tailnum       : chr [1:336776] "N14228" "N24211" "N619AA" "N804JB" ...
+##  $ origin        : chr [1:336776] "EWR" "LGA" "JFK" "JFK" ...
+##  $ dest          : chr [1:336776] "IAH" "IAH" "MIA" "BQN" ...
+##  $ air_time      : num [1:336776] 227 227 160 183 116 150 158 53 140 138 ...
+##  $ distance      : num [1:336776] 1400 1416 1089 1576 762 ...
+##  $ hour          : num [1:336776] 5 5 5 5 6 5 6 6 6 6 ...
+##  $ minute        : num [1:336776] 15 29 40 45 0 58 0 0 0 0 ...
+##  $ time_hour     : POSIXct[1:336776], format: "2013-01-01 05:00:00" "2013-01-01 05:00:00" ...
+\end{verbatim}
+
+The dataset shape are 336.776 × 19 (336.776 observations and 19
+features)
+
+\hypertarget{filtering}{%
+\subsubsection{\texorpdfstring{\emph{Filtering}}{Filtering}}\label{filtering}}
+
+\begin{verbatim}
+## [1] 842
+\end{verbatim}
+
+The filtered dataset by departed 1st January contain 842 rows.
+
+\hypertarget{question-2}{%
+\section{Question 2}\label{question-2}}
+
+View Code in .Rmd file
+
+\hypertarget{question-3}{%
+\section{Question 3}\label{question-3}}
+
+View Code in .Rmd file
+
+\hypertarget{question-4}{%
+\section{Question 4}\label{question-4}}
+
+\begin{verbatim}
+## # A tibble: 58,368 x 5
+##     year month   day arr_delay arr_delay_category
+##    <int> <int> <int>     <dbl> <chr>             
+##  1  2013     1     1        -2 On-time           
+##  2  2013     1     1        -3 On-time           
+##  3  2013     1     1        -4 On-time           
+##  4  2013     1     1         4 On-time           
+##  5  2013     1     1         3 On-time           
+##  6  2013     1     1         5 On-time           
+##  7  2013     1     1         1 On-time           
+##  8  2013     1     1         0 On-time           
+##  9  2013     1     1        -3 On-time           
+## 10  2013     1     1        -5 On-time           
+## # ... with 58,358 more rows
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 252,173 x 5
+##     year month   day arr_delay arr_delay_category
+##    <int> <int> <int>     <dbl> <chr>             
+##  1  2013     1     1        11 Common delays     
+##  2  2013     1     1        20 Common delays     
+##  3  2013     1     1        33 Common delays     
+##  4  2013     1     1       -18 Common delays     
+##  5  2013     1     1       -25 Common delays     
+##  6  2013     1     1        12 Common delays     
+##  7  2013     1     1        19 Common delays     
+##  8  2013     1     1       -14 Common delays     
+##  9  2013     1     1        -8 Common delays     
+## 10  2013     1     1         8 Common delays     
+## # ... with 252,163 more rows
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 26,235 x 5
+##     year month   day arr_delay arr_delay_category
+##    <int> <int> <int>     <dbl> <chr>             
+##  1  2013     1     1       137 Long delay        
+##  2  2013     1     1       851 Long delay        
+##  3  2013     1     1       123 Long delay        
+##  4  2013     1     1       145 Long delay        
+##  5  2013     1     1        93 Long delay        
+##  6  2013     1     1       103 Long delay        
+##  7  2013     1     1       127 Long delay        
+##  8  2013     1     1       125 Long delay        
+##  9  2013     1     1        NA Long delay        
+## 10  2013     1     1        NA Long delay        
+## # ... with 26,225 more rows
+\end{verbatim}
+
+\hypertarget{question-5}{%
+\section{Question 5}\label{question-5}}
+
+\hypertarget{the-delays-in-the-descending-order-of-the-mean_arr_delay}{%
+\paragraph{\texorpdfstring{\textbf{\emph{The delays in the descending
+order of the
+``mean\_arr\_delay''}}}{The delays in the descending order of the ``mean\_arr\_delay''}}\label{the-delays-in-the-descending-order-of-the-mean_arr_delay}}
+
+\begin{verbatim}
+## # A tibble: 105 x 3
+##    dest  mean_arr_delay mean_dep_delay
+##    <chr>          <dbl>          <dbl>
+##  1 CAE             41.8           35.6
+##  2 TUL             33.7           34.9
+##  3 OKC             30.6           30.6
+##  4 JAC             28.1           26.5
+##  5 TYS             24.1           28.5
+##  6 MSN             20.2           23.6
+##  7 RIC             20.1           23.6
+##  8 CAK             19.7           20.8
+##  9 DSM             19.0           26.2
+## 10 GRR             18.2           19.5
+## # ... with 95 more rows
+\end{verbatim}
+
+\hypertarget{the-delays-in-the-descending-order-of-the-mean_dep_delay}{%
+\paragraph{\texorpdfstring{\textbf{\emph{The delays in the descending
+order of the ``mean\_dep\_delay''
+}}}{The delays in the descending order of the ``mean\_dep\_delay'' }}\label{the-delays-in-the-descending-order-of-the-mean_dep_delay}}
+
+\begin{verbatim}
+## # A tibble: 105 x 3
+##    dest  mean_arr_delay mean_dep_delay
+##    <chr>          <dbl>          <dbl>
+##  1 CAE             41.8           35.6
+##  2 TUL             33.7           34.9
+##  3 OKC             30.6           30.6
+##  4 BHM             16.9           29.7
+##  5 TYS             24.1           28.5
+##  6 JAC             28.1           26.5
+##  7 DSM             19.0           26.2
+##  8 RIC             20.1           23.6
+##  9 ALB             14.4           23.6
+## 10 MSN             20.2           23.6
+## # ... with 95 more rows
+\end{verbatim}
+
+\hypertarget{question-6}{%
+\section{Question 6}\label{question-6}}
+
+\begin{verbatim}
+## # A tibble: 6 x 6
+##   dest  mean_arr_delay mean_dep_delay name                            lat    lon
+##   <chr>          <dbl>          <dbl> <chr>                         <dbl>  <dbl>
+## 1 DCA            9.07           10.3  Ronald Reagan Washington Natl  38.9  -77.0
+## 2 JAC           28.1            26.5  Jackson Hole Airport           43.6 -111. 
+## 3 MIA            0.299           8.88 Miami Intl                     25.8  -80.3
+## 4 ORD            5.88           13.6  Chicago Ohare Intl             42.0  -87.9
+## 5 PDX            5.14           16.3  Portland Intl                  45.6 -123. 
+## 6 SAT            6.95           20.7  San Antonio Intl               29.5  -98.5
+\end{verbatim}
+
+\hypertarget{question-7}{%
+\section{Question 7}\label{question-7}}
+
+\includegraphics{assignement_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\hypertarget{question-8}{%
+\section{Question 8}\label{question-8}}
+
+\begin{verbatim}
+## # A tibble: 12 x 5
+##    month mean_arr_delay mean_dep_delay cumulative_arr_delays cumulative_dep_de~1
+##    <int>          <dbl>          <dbl>                 <dbl>               <dbl>
+##  1     1          6.13           10.0                   6.13                10.0
+##  2     2          5.61           10.8                  11.7                 20.9
+##  3     3          5.81           13.2                  17.6                 34.1
+##  4     4         11.2            13.9                  28.7                 48.0
+##  5     5          3.52           13.0                  32.2                 61.0
+##  6     6         16.5            20.8                  48.7                 81.9
+##  7     7         16.7            21.7                  65.4                104. 
+##  8     8          6.04           12.6                  71.5                116. 
+##  9     9         -4.02            6.72                 67.5                123. 
+## 10    10         -0.167           6.24                 67.3                129. 
+## 11    11          0.461           5.44                 67.8                135. 
+## 12    12         14.9            16.6                  82.6                151. 
+## # ... with abbreviated variable name 1: cumulative_dep_delays
+\end{verbatim}
+
+\hypertarget{question-9}{%
+\section{Question 9}\label{question-9}}
+
+\begin{verbatim}
+## # A tibble: 24 x 3
+##    month delay_type            delays
+##    <int> <chr>                  <dbl>
+##  1     1 cumulative_arr_delays   6.13
+##  2     1 cumulative_dep_delays  10.0 
+##  3     2 cumulative_arr_delays  11.7 
+##  4     2 cumulative_dep_delays  20.9 
+##  5     3 cumulative_arr_delays  17.6 
+##  6     3 cumulative_dep_delays  34.1 
+##  7     4 cumulative_arr_delays  28.7 
+##  8     4 cumulative_dep_delays  48.0 
+##  9     5 cumulative_arr_delays  32.2 
+## 10     5 cumulative_dep_delays  61.0 
+## # ... with 14 more rows
+\end{verbatim}
+
+\hypertarget{question-10}{%
+\section{Question 10}\label{question-10}}
+
+\includegraphics{assignement_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\end{document}

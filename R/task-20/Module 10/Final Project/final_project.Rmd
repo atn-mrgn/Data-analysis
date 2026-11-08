@@ -1,0 +1,328 @@
+---
+title: "Healthcare Occupation in U.S."
+author: "Dipen Patel"
+date: "2023-06-04"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = FALSE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=7, fig.height=4)  # default figure/plot sizes
+```
+
+
+```{css, echo=FALSE}
+*{
+  font-family: Verdana;
+  font-size: 14px;
+  font-weight: normal;
+}
+h1,h4,h5{
+  text-align: center;
+}
+.txt{
+  margin-top: 30px;
+}
+.viztxt{
+  margin-bottom: 30px;
+}
+.desc{
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 200;
+}
+#pad{
+  margin-top: 20px;
+}
+table {
+    border-collapse: collapse;
+    border: 2px solid rgb(200, 200, 200);
+    font-size: 12px;
+}
+th{
+    border: 1px solid rgb(190, 190, 190);
+    padding: 2px;
+}
+td{
+  border-bottom: 1px solid rgb(190, 190, 190);
+  border-left: 1px solid rgb(190, 190, 190);
+  padding: 2px;
+}
+```
+
+```{r}
+library(usmap)
+library(tidyverse)
+library(janitor)
+library(grid)
+library(readxl)
+library(showtext)
+library(ggpattern)
+library(gridExtra)
+```
+
+```{r}
+# do this for any font you want to use
+#font_add_google("Poppins", db_cache = FALSE)
+#font_add_google("Nunito", db_cache = FALSE)
+#font_add_google("Verdana", db_cache = FALSE)
+
+#showtext_auto()
+```
+
+```{r}
+## Load data
+national <- read_excel("national_M2021_dl.xlsx") %>% clean_names()
+state <- read_excel("state_M2021_dl.xlsx") %>% clean_names()
+```
+
+```{r}
+del<-c("Healthcare Practitioners and Technical Occupations",
+  "Healthcare Support Occupations")
+
+data <-national %>% 
+  distinct(occ_title, .keep_all = TRUE) %>%
+  mutate(mean_wage=mean(as.numeric(a_mean), na.rm = TRUE))%>%
+  filter(str_detect(occ_code,"29-|31-"),!(tot_emp=="**"), !(a_mean %in% c("*","#"))) %>%
+  mutate(
+    a_mean=as.numeric(a_mean),
+    tot_emp=as.numeric(tot_emp)
+  )
+```
+
+<div class="txt">
+If you're passionate about helping and making a difference in people's lives, working in the healthcare field would be one of the most rewarding career choices for you. Indeed, healthcare occupations include practitioners who diagnose or treat healthcare (these are typically pediatricians, surgeons, dentists, ...) and entry-level jobs that assist healthcare professionals in the performance of their duties (these are dental assistants, home health aides, nursing aides, ...). 
+</div>
+
+### Healthcare occupations with the best employment rate
+
+<div class="viztxt">
+The United States is a major employer in the healthcare sector. To choose a particular occupation in this field, it's best to find out which occupations have the highest employment rates. We've put together a list of the 8 occupations with the highest employment rates in the USA in 2021.
+
+To facilitate visualization, we've added a few abbreviations to the names of the occupations:
+
+<table>
+  <tr>
+    <th>Abbreviation</th>
+    <th>Occupation title</th>
+  </tr>
+  <tr>
+    <td>HlthDoTP.</td>
+    <td>Healthcare Diagnosing or Treating Practitioners</td>
+  </tr>
+  <tr>
+    <td>HHaPCAaNAOaPA. </td>
+    <td>Home Health and Personal Care Aides; and Nursing Assistants, Orderlies, and Psychiatric Aides</td>
+  </tr>
+  <tr>
+    <td>HmHlaPCA.</td>
+    <td>Home Health and Personal Care Aides</td>
+  </tr>
+  <tr>
+    <td>RgstrdNr.</td>
+    <td>Registered Nurses</td>
+  </tr>
+  <tr>
+    <td>HlthTcaT.</td>
+    <td>Health Technologists and Technicians</td>
+  </tr>
+  <tr>
+    <td>OthrHlSO.</td>
+    <td>Other Healthcare Support Occupations</td>
+  </tr>
+  <tr>
+    <td>MscllHSO.</td>
+    <td>Miscellaneous Healthcare Support Occupations</td>
+  </tr>
+  <tr>
+    <td>NA,O,aPA.</td>
+    <td>Nursing Assistants, Orderlies, and Psychiatric Aides</td>
+  </tr>
+</table>
+
+
+</div>
+
+```{r, fig.width=18, fig.height=8}
+
+del<-c("Healthcare Practitioners and Technical Occupations",
+  "Healthcare Support Occupations")
+
+data%>%
+  arrange(desc(tot_emp)) %>%
+  mutate(prop=round(tot_emp*100/sum(tot_emp))) %>%
+  filter(!occ_title %in% del) %>%
+  slice(1:8) %>%
+  mutate(highlight= case_when(
+    str_detect(occ_code, "29-") ~ del[1],
+    str_detect(occ_code, "31-") ~ del[2],
+  )) %>%
+  select(occ_title, prop, highlight) %>%
+  mutate(title = abbreviate(occ_title,8, dot = "TRUE", strict = "TRUE")) %>%
+  ggplot(aes(x=prop, y=reorder(title,prop)))+
+  geom_col_pattern(aes(fill=highlight, pattern=highlight, pattern_type=highlight), colour='black',pattern_spacing = 0.025)+
+  geom_text(aes(label=paste(prop,"%")), hjust=-0.3, size=10, color="black") +
+  labs(title="Occupations with the most estimated employment",
+       subtitle="Top 8 by proportion of estimated employment in 2021",
+       y="Occupations",
+       x=NULL) +
+  theme_minimal() +
+  # remove legend
+  theme(axis.text.x = element_blank(),
+        text = element_text("Poppins", size=38),
+        # remove tick marks
+        axis.ticks.x = element_blank(),
+        # remove major horizontal grids
+        panel.grid.major.y = element_blank(),
+        # remove both minor grids
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_text(margin = margin(t=10)),
+        axis.title.y = element_text(margin = margin(r=10)),
+        legend.position = "bottom",
+        legend.direction = "vertical",
+        legend.title = element_blank(),
+        legend.key.height= unit(1.5, 'cm'),
+        legend.key.width= unit(1.5, 'cm'),
+        )+
+  scale_pattern_manual(values=c('stripe', 'wave')) +
+  scale_pattern_type_manual(values=c('triangle', 'sine'))+
+  scale_fill_manual(
+    values = c("darkorange","purple")) 
+
+```
+
+<div class="desc">
+The visualization above shows that the top 8 occupations with the best employment rates are:
+* Healthcare Diagnosing or Treating Practitioners(11%);
+* Home Health and Personal Care Aides; and Nursing Assistants, Orderlies, and Psychiatric Aides(9%);
+* Home Health and Personal Care Aides(6%);
+* Registered Nurses(6%);
+* Health Technologists and Technicians(5%);
+* Other Healthcare Support Occupations(3%);
+* Miscellaneous Healthcare Support Occupations(3%);
+* Nursing Assistants, Orderlies, and Psychiatric Aides(3%).
+</div>
+
+### What is the average annual wage of this top 8?
+
+<div class="viztxt">
+When we choose an occupation, we want to have an idea of what we're going to earn at the end of the year. Perhaps this was the most important factor in our choice. The following visualization shows the mean annual wages of the occupations in the top 8 above. We've even taken the liberty of making a comparison with the mean wage in the U.S. for all occupations.
+</div>
+
+```{r,fig.width=18, fig.height=8}
+data %>%
+  arrange(desc(tot_emp)) %>%
+  mutate(prop=round(tot_emp*100/sum(tot_emp)),
+         highlight= case_when(
+            str_detect(occ_code, "29-") ~ del[1],
+            str_detect(occ_code, "31-") ~ del[2],
+          )) %>%
+  filter(!occ_title %in% del) %>%
+  slice(1:8) %>%
+  select(occ_title, prop, highlight, a_mean) %>%
+  mutate(title = abbreviate(occ_title,8, dot = "TRUE", strict = "TRUE")) %>%
+  ggplot(aes(x=reorder(title,prop), y=as.numeric(a_mean)))+
+  geom_col_pattern(aes(fill=highlight, pattern=highlight, pattern_type=highlight), colour='black', pattern_spacing = 0.025)+
+  annotate("segment", x=0.5, xend=8.7, y=67382.66, yend = 67382.66, color="darkred", linewidth=3)+
+  annotate("segment", y = 76000, yend = 68383, x = 1.5, xend = 1.5,
+           size = 2.5, arrow = arrow(length = unit(.25,"cm")))+
+  annotate( "text", y=72000, x=1.5, label="Mean Wage in U.S.",hjust=-0.5, size=14)+
+  scale_y_continuous(labels = scales::dollar_format()) +
+  coord_flip()+
+  labs(title="Annual Wage in Health Occupations",
+       subtitle="Mean annual wage in top 5 Health Occupations",
+       x="Occupations",
+       y=NULL) +
+  theme_minimal() +
+  # remove legend
+  theme(
+        text = element_text("Poppins", size=38),
+        # remove both minor grids
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        axis.title.x = element_text(margin = margin(t=10)),
+        axis.title.y = element_text(margin = margin(r=10)),
+        legend.position = "bottom",
+        legend.direction = "vertical",
+        legend.key.height= unit(1.5, 'cm'),
+        legend.key.width= unit(1.5, 'cm'),
+        legend.title = element_blank()
+        )+
+  scale_pattern_manual(values=c('stripe', 'wave')) +
+  scale_pattern_type_manual(values=c('triangle', 'sine'))+
+  scale_fill_manual(
+    values = c("darkorange","purple")) 
+```
+
+<div class="desc">
+The mean annual wages of the top 8 occupations are:
+* Healthcare Diagnosing or Treating Practitioners($112,160);
+* Home Health and Personal Care Aides; and Nursing Assistants, Orderlies, and Psychiatric Aides($30,440);
+* Home Health and Personal Care Aides($29,260);
+* Registered Nurses($82,750);
+* Health Technologists and Technicians($50,300);
+* Other Healthcare Support Occupations($39,360);
+* Miscellaneous Healthcare Support Occupations($38,860);
+* Nursing Assistants, Orderlies, and Psychiatric Aides($33,290). 
+
+We also note that two occupations in the top 8 are above average in the U.S.: Healthcare Diagnosing or Treating Practitioners and Registered Nurses
+</div>
+
+### Are Healthcare Practitioners and Technical Occupations better paid than Healthcare Support Occupations?
+<div class="viztxt">
+A striking fact about the previous visualizations of our top 8 is that Healthcare Practitioners and Technical Occupations have relatively higher salaries than Healthcare Support Occupations. We verify this by comparing the average salary for each of these categories in the following visualizations:
+</div>
+
+```{r, fig.width=18, fig.height=8}
+data%>%
+  filter(occ_title %in% del) %>%
+  select(occ_title,a_mean) %>%
+  mutate(title = abbreviate(occ_title,8, dot = "TRUE", strict = "TRUE")) %>%
+  ggplot(aes(x=title, y=a_mean))+
+  geom_col_pattern(aes(fill=occ_title, pattern=occ_title, pattern_type=occ_title), colour='black', pattern_spacing = 0.025)+
+  scale_y_continuous(labels = scales::dollar_format()) +
+  labs(title="Annual Wage in Health Occupations",
+       subtitle="Healthcare Practitioners and Technical Occupations VS Healthcare Support Occupations",
+       x=NULL,
+       y=NULL) +
+  theme_minimal() +
+  # remove legend
+  theme(
+        text = element_text("Poppins", size=32),
+        # remove both minor grids
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        axis.title.x = element_text(margin = margin(t=10)),
+        axis.title.y = element_text(margin = margin(r=10)),
+        legend.position = "top",
+        legend.direction = "vertical",
+        legend.title = element_blank(),
+        axis.text.x = element_blank(),
+        legend.key.height= unit(1.5, 'cm'),
+        legend.key.width= unit(1.5, 'cm'),
+        )+
+  scale_pattern_manual(values=c('stripe', 'wave')) +
+  scale_pattern_type_manual(values=c('triangle', 'sine'))+
+  scale_fill_manual(values = c("darkorange","purple"))
+  
+  
+
+```
+<div class="desc">
+Healthcare Practitioners and Technical Occupations' mean annual wage of $91,100 is higher than Healthcare Support Occupations' mean annual wage of $33,330.
+</div>
+
+##### APPENDICES
+
+<div class="desc" id="pad">
+<u>Data and Resources:</u> The database used comes from [Click](https://www.bls.gov/oes/tables.htm). The information is for May 2021. This database, called Occupational Employment and Wage Statistics (OEWS), as its name suggests, contains statistics on employment rates and wages in various occupations in the United States in 2021. It contains global information on the country, on each state, on metropolitan and non-metropolitan areas, on industries, etc... We have selected healthcare occupations to perform the above analysis for our audience.
+
+<u>Intended audience:</u> For people who are passionate about healthcare jobs and are looking for a career in this field.
+</div>
+

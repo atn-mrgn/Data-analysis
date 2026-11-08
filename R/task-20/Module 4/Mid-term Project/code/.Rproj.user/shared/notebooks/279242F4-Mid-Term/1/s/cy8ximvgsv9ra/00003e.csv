@@ -1,0 +1,8 @@
+"0","df<-state_M2021_dl %>%"
+"0","  select(""AREA_TITLE"", ""A_MEAN"") %>%"
+"0","  group_by(AREA_TITLE) %>%"
+"0","  summarise(Mean=mean(as.numeric(A_MEAN))) %>%"
+"0","  arrange(desc(Mean))"
+"0",""
+"0","ggplot(df[0:10,], aes(y=reorder(AREA_TITLE, Mean), x=Mean))+"
+"0","  geom_bar(stat = 'identity')"

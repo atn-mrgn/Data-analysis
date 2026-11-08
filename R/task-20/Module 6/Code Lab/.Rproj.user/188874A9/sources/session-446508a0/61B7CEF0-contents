@@ -1,0 +1,390 @@
+---
+title: "Module 6 Code Lab"
+author: "Your Name Here"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=5, fig.height=3)  # default figure/plot sizes
+```
+
+# Introduction
+
+Check the Module Overview for resources that may be helpful with this assignment.  See the Code Lab Guidelines page for general directions on Code Lab assignments.  See the Dataset Information page for background on the datasets used in the Code Lab assignments.  
+
+
+## Goals
+
+* Change fonts (face, sizing, family)
+* Use Google fonts
+* Build your own theme
+
+# Setup
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(janitor)
+```
+
+## Data files
+
+This assignment uses the WHO data.  **Download the WHO data folder from Canvas and put it as a subdirectory of your working directory.**  It assumes that the data files are in a subdirectory of the working directory called WHO.  Adjust your working directory if needed; do not change the file paths in the code below, or the instructor will not be able to knit your file.
+
+
+```{r}
+cases <- read_excel("WHO/reported-cases--2020.xlsx") %>% clean_names()
+vaccines <- read_excel("WHO/coverage--2020.xlsx") %>% clean_names()
+```
+
+Make sure to take a look at any data you haven't worked with before.
+
+
+# Fonts
+
+Fonts unfortunately can be complicated.  This is a general computer issue, not an R issue.  There are different types of font files, and different systems (Windows/Mac/Linux) deal with fonts in different ways.  The graphics devices that create, display, and write graphics files are also part of the process.  This has all been complicated more by the availability of online font systems like Google Fonts.  
+
+If you can't get either approach working, please let your instructor know, along with the details of your system (Windows/Mac/Linux).  The examples are designed to work across systems, but there's a chance they won't.  You do not need to get both approaches working.
+
+
+## ragg
+
+```{r}
+library(ragg)
+```
+
+The ragg package allows you to use fonts that are installed on your system.  If you don't have the fonts used below installed, or the fonts are installed under a slightly different name, the code won't work.  You could try changing the code below to use the name of a font you have on your system.
+
+The chunk is set not to run so it doesn't cause problems for people with different fonts.  Give it a try running it in RStudio though as you work through this file.  Change the font if needed to match your system.  You can set `eval=TRUE` in the chunk options to include the plot in the output if it works.
+
+```{r, eval=FALSE}
+vaccines %>%
+  filter(code=="Global", antigen=="MCV1", coverage_category=="WUENIC") %>%
+  ggplot(aes(y=coverage, x=year)) +
+  geom_line() +
+  scale_y_continuous(limits=c(0,100),  # this is the full range - helps provide context
+                     labels=scales::label_percent(scale=1),  # display with %;
+                     # scale=1 because values are 0-100, not 0-1
+                     expand=c(0,NA)  # remove buffering on ends of y scale
+                     ) +
+  labs(title="Global Measles Vaccination Coverage Growing",
+       subtitle="First dose coverage doubled",
+       x=NULL, y="Coverage") + 
+  # change the font family within theme, within element_text - just for the title
+  theme(plot.title = element_text(family = "Palatino"))
+  # to change it instead for all theme-controlled text, do:
+  #theme(text = element_text(family = "Palatino"))
+```
+
+
+## showtext
+
+Another option, which works well for using [Google Fonts](https://fonts.google.com/), is the showtext package
+
+```{r}
+library(showtext)
+
+# two additional steps needed
+
+# do this for any font you want to use
+font_add_google("Nunito", db_cache = FALSE)
+
+# do this just once in a file to start using this package for fonts
+showtext_auto()
+```
+
+
+```{r, eval=FALSE}
+vaccines %>%
+  filter(code=="Global", antigen=="MCV1", coverage_category=="WUENIC") %>%
+  ggplot(aes(y=coverage, x=year)) +
+  geom_line() +
+  scale_y_continuous(limits=c(0,100),  
+                     labels=scales::label_percent(scale=1), 
+                     expand=c(0,NA)  
+                     ) +
+  labs(title="Global Measles Vaccination Coverage Growing",
+       subtitle="First dose coverage doubled",
+       x=NULL, y="Coverage") + 
+  # change the font family within theme, within element_text - just for the title
+  theme(plot.title = element_text(family = "Nunito"))
+```
+
+`showtext_auto` turns on the showtext functionality for all subsequent plots.  If you don't want that, you can stop it with `showtext_auto(FALSE)` or you can just use showtext for specific code by using `showtext_begin()` and `showtext_end()` around the code that should use showtext.
+
+Note that not every Google font is available.  To get a list, use `font_families_google()`.
+
+```{r}
+font_families_google()
+```
+
+## Non-theme fonts
+
+The theme function controls the fonts used for everything except geoms and annotations.  For text produced by geoms or annotations, set the font family with other options in those functions:
+
+```{r}
+vaccines %>%
+  filter(code=="Global", antigen=="MCV1", coverage_category=="WUENIC") %>%
+  ggplot(aes(y=coverage, x=year)) +
+  geom_line() +
+  scale_y_continuous(limits=c(0,100),  
+                     labels=scales::label_percent(scale=1),  
+                     expand=c(0,NA)  
+                     ) +
+  annotate("text", x=1987, y=37, hjust=0, 
+           label="Vaccination campaign\nin the Americas",
+           # set font with family argument
+           family="Nunito", size=3) +
+  labs(title="Global Measles Vaccination Coverage Growing",
+       subtitle="First dose coverage doubled",
+       x=NULL, y="Coverage")
+```
+
+## Output
+
+You should be able to save the plots with the different fonts with `ggsave()`.  However, in some cases, you may need to change the graphics device used to write the plot to file.  Contact the instructor if you experience issues.
+
+For issues with font sizes in output files, especially png files, see [Understanding Text Size and Resolution in ggplot2](https://www.christophenicault.com/post/understand_size_dimension_ggplot2/).  
+
+
+# Element Positions
+
+## Title
+
+By default the title is justified at the end of the plot region (the panel -- the gray region when the default theme is being used), not the full image.  This is changed with `theme()` with the `plot.title.position` option:
+
+```{r}
+vaccines %>%
+  filter(code=="Global", antigen=="MCV1", coverage_category=="WUENIC") %>%
+  ggplot(aes(y=coverage, x=year)) +
+  geom_line() +
+  scale_y_continuous(limits=c(0,100),  
+                     labels=scales::label_percent(scale=1),  
+                     expand=c(0,NA)  
+                     ) +
+  labs(title="Global Measles Vaccination Coverage Growing",
+       subtitle="First dose coverage doubled",
+       x=NULL, y="Coverage") + 
+  theme(plot.title.position = "plot")
+```
+
+
+
+## Legend
+
+You can position the legend outside of the plot ("left", "right", "top", "bottom") or within the plot region.  
+
+```{r}
+vaccines %>%
+  filter(code %in% c("USA", "BRA", "PER"), antigen=="MCV1", coverage_category=="WUENIC") %>%
+  ggplot(aes(y=coverage, x=year, color=code)) +
+  geom_line() +
+  scale_y_continuous(limits=c(0,100),  
+                     labels=scales::label_percent(scale=1),  
+                     expand=c(0,NA)  
+                     ) +
+  labs(title="Global Measles Vaccination Coverage Growing",
+       subtitle="First dose coverage doubled",
+       x=NULL, y="Coverage") + 
+  theme(legend.position = "bottom")
+```
+
+```{r}
+vaccines %>%
+  filter(code %in% c("USA", "BRA", "PER"), antigen=="MCV1", coverage_category=="WUENIC") %>%
+  ggplot(aes(y=coverage, x=year, color=code)) +
+  geom_line() +
+  scale_y_continuous(limits=c(0,100),  
+                     labels=scales::label_percent(scale=1),  
+                     expand=c(0,NA)  
+                     ) +
+  labs(title="Global Measles Vaccination Coverage Growing",
+       subtitle="First dose coverage doubled",
+       x=NULL, y="Coverage") + 
+  # x and y positions between 0 and 1 
+  theme(legend.position = c(.8, .3))
+```
+
+
+# Save a Theme
+
+The number of lines of code to create a ggplot can grow long, especially when you're setting style elements.  You can save the output of a call to `theme()` and use it with multiple plots.  
+
+```{r, fig.height=2.5}
+my_theme <- theme_minimal() +  # start with closest built-in (uses theme_gray() if not specified), 
+  # then override specific settings
+  theme(text = element_text("Nunito"),
+        plot.title.position = "plot",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        plot.margin = margin(r=1, l=.2, t=.2, b=.2, unit="cm"))
+
+vaccines %>%
+  filter(code %in% c("USA", "BRA", "PER", "Global"), antigen=="MCV1", 
+         coverage_category=="WUENIC", year == 2020) %>%
+  select(name, coverage) %>%
+  mutate(name = fct_reorder(name, coverage)) %>%
+  ggplot(aes(x=name, y=coverage)) +
+  geom_col(width=.6, # this is the proportion of the space allocated for each bar t
+           # that the bar should take up -- it's a relative measure
+           # in order of the rows in the data
+           fill=c("gray60", "gray60", "gray60", "gray30")) + 
+  coord_flip() + 
+  scale_x_discrete(expand = c(.15,0)) +
+  scale_y_continuous(labels=scales::label_percent(scale=1),
+                     #expand = c(0, NA), 
+                     limits=c(0,100)) +
+  labs(title="Measles Vaccination Coverage: 2020",
+       y="Coverage", x=NULL) + 
+  my_theme
+```
+
+# Style Choices
+
+Before moving onto the exercises, let's look a few choices in the plot above.  While some are "style" choices, they have an impact on visual perception.  
+
+*Grid lines*: When you're making a bar plot (or histogram), you don't need grid lines that run parallel to the bars -- the values (bar labels, or position on the axis) should be clear.  You can follow the bars all the way to the axis to the values.  For grid lines that run perpendicular to the bars, they can be useful if they help the viewer either compare the lengths of the bars to each other, or figure out what value each bar has.  Too many grid lines would be hard for a viewer to distinguish between and clutter up the plot.  In this case, all of the bars fall between 75% and 100% -- by comparing how far each bar is past the 75% line, you can see the relative length and approximate the value.  If you label the bars with their values, you probably do not need grid lines.
+
+*Tick marks*: The plot above has no tick marks.  The grid lines play the role of the tick marks along the x-axis.  You wouldn't want a separate tick marker at the end of each line -- it would look messy.  On the y-axis, there's no need.  Tick marks should mark a precise point or location.  The bars aren't in a precise location, and there are already labels there.  You'd only need tick marks with bar plot labels if you weren't labeling every bar -- for example, if you had one bar per year over some time period, and only labeled every 2nd or 5th bar.  
+
+*Bar width and spacing*: By default, ggplot draws the bars in a bar plot fairly wide.  Sometimes that works well.  Other times you may prefer them thinner. The (relative) width of the bar will affect the perception of the bar length as well. See the [referenced article on bar dimensions](https://www.perceptualedge.com/articles/visual_business_intelligence/bar_widths.pdf)  With ggplot2, you can't directly control the spacing between bars.  Instead, you control it by controlling the image/plot region dimensions.  Changing the scale/axis limits will also have a similar effect on bar spacing as controlling the image dimensions.  
+
+*Plot size*: The dimensions of the plot will affect the spacing of the elements on the plot and viewers' perceptions of the plot.  Make intentional choices about height and width.  The dimensions will also have an impact on what font sizes are appropriate for the plot.  If you knit this document and look at the plot in the html, it will look different than in the plot window in RStudio.  The aspect ratio and dimensions of the plot will affect your perceptions about it.  Set `fig.width` and `fig.height` in R Markdown chunk options, or `width` and `height` options if using `ggsave()`. 
+
+*Axis lines*: This plot doesn't have explicit axis lines (a drawn, visible line).  The grid line at 0% could be made darker, but that would draw attention to it.  No line is needed along the x-axis.  
+
+*Axis limits and expansion/padding*: The plot above sets the x-axis limits to 0-100 -- this makes sense here, as that's the range of full range of possible values.  With bar charts, since the bar length is representing the data, we usually want to start the axis at 0.  There are situations when it makes sense to deviate from this, but it should be done with caution.  Beyond setting the range (the limits), there is also no padding or expansion on either end of the x-axis scale.  Try removing the `expand = c(0, NA)` to see what change this makes.  The expansion on the y-axis is also set.  This controls how far the grid lines extend beyond the bars, and how close the first bar is to the x-axis labels.  
+
+
+# Exercises
+
+There are two exercises below that ask you to make and style a plot.  The goal isn't to do something fancy, but instead to make intentional choices for the different plot element.  Things to be intentional about could include:
+
+* plot region background color (the area ggplot2 defaults to gray)
+* grid lines (existence, color/size)
+* tick marks
+* fonts (family and size)
+* title position
+* default geom colors/sizes
+* legend position
+* axis (scale) ranges and padding on each end of the scale
+* plot dimensions (set the fig.width and fig.height chunk options intentionally)
+
+
+# EXERCISE 1
+
+Make a plot of mumps cases in the US since 2000.  Make intentional choices about the plot style; you don't have to change or set everything listed above, but you should address the majority of them.  Use a font other than the default.  Remember what you learned in the code lab last week about working with this data.
+
+
+```{r, fig.width=6, fig.height=4}
+# do this just once in a file to start using this package for fonts
+showtext_auto(FALSE)
+
+# do this for any font you want to use
+font_add_google("Poppins", db_cache = FALSE)
+
+showtext_auto()
+
+my_theme <- theme_minimal() +  # start with closest built-in (uses theme_gray() if not specified), 
+  # then override specific settings
+  theme(text = element_text("Poppins", size=18),
+        plot.title.position = "panel",
+        panel.grid.minor = element_blank(),
+        #panel.grid.major.y = element_blank(),
+        panel.grid.major.x = element_line(linewidth = 0.5, color = "gray"),
+        legend.position = "bottom",
+        axis.text.x=element_text(),
+        axis.ticks.x=element_blank(),
+        plot.margin = margin(r=1, l=1, t=.5, b=.2, unit="cm"))
+
+cases %>%
+  filter(disease == "MUMPS", group=="Countries", code=="USA", year >= 2000) %>%
+  complete(year = full_seq(year, 1), group, code, name, disease, disease_description) %>%
+  mutate(cases = replace_na(cases, 0),
+         highlight = year %in% c(2006, 2016, 2017)) %>%
+  ggplot(aes(y=cases, x=year))+
+  geom_point(aes(color=highlight), size=3)+
+  geom_line()+
+  scale_color_manual(labels=c("Normal year", "Spike year"), values=c("gray40", "red")) +
+  scale_y_continuous(limits=c(0,7000),expand=c(0, NA))+
+  labs(
+    title = "MUMPS cases",
+    subtitle = "MUMPS cases in USA since 2000",
+    x=NULL,
+    y="Number of Cases"
+  )+
+  my_theme+
+  theme(
+    legend.title = element_blank(),
+  )
+
+```
+
+
+# EXERCISE 2
+
+Start from the same plot you made above.  This time, make it as ugly as you can, while still making it readable (e.g. don't rotate the text completely upside-down or use a symbol font) and maintaining the same fundamental elements.  Have fun!
+
+
+```{r, fig.width=6, fig.height=4}
+# do this just once in a file to start using this package for fonts
+showtext_auto(FALSE)
+
+# do this for any font you want to use
+font_add_google("Love Light", db_cache = FALSE)
+
+showtext_auto()
+
+my_theme <- theme_minimal() +  # start with closest built-in (uses theme_gray() if not specified), 
+  # then override specific settings
+  theme(text = element_text("Love Light", size=12, color="black"),
+        plot.title.position = "panel",
+        panel.grid.minor = element_blank(),
+        #panel.grid.major.y = element_blank(),
+        panel.grid.major.x = element_line(linewidth = 2.2, color = "gray90", linetype = "dotted"),
+        legend.position = c(.6,.7),
+        legend.text = element_text(angle = 14,size = 17),
+        legend.background = element_rect(fill = "lightblue"),
+        axis.text.x=element_text(angle=180,size = 14, face="bold"),
+        axis.text.y=element_text(angle=21,size = 21),
+        axis.ticks.x=element_line(colour = "purple",linewidth = 2),
+        axis.ticks.y=element_line(colour = "darkblue",linewidth = 3),
+        plot.margin = margin(r=1, l=1, t=.5, b=.2, unit="cm"),
+        panel.background = element_rect("green"),
+        plot.background = element_rect("pink"))
+
+cases %>%
+  filter(disease == "MUMPS", group=="Countries", code=="USA", year >= 2000) %>%
+  complete(year = full_seq(year, 1), group, code, name, disease, disease_description) %>%
+  mutate(cases = replace_na(cases, 0),
+         highlight = year %in% c(2006, 2016, 2017)) %>%
+  ggplot(aes(y=cases, x=year))+
+  geom_point(aes(color=highlight), size=6)+
+  geom_line()+
+  scale_color_manual(labels=c("Normal year", "Spike year"), values=c("gray40", "red")) +
+  scale_y_continuous(limits=c(0,7000),expand=c(0, NA))+
+  labs(
+    title = "MUMPS cases",
+    subtitle = "MUMPS cases in \n USA since 2000",
+    x=NULL,
+    y="Number of Cases"
+  )+
+  my_theme+
+  theme(
+    legend.title = element_blank(),
+  )
+  
+```
+
+

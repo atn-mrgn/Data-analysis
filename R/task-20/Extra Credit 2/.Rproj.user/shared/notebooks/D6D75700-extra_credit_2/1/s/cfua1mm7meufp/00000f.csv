@@ -1,0 +1,2 @@
+"0","## Load data"
+"0","data <- read.table(""https://raw.githubusercontent.com/holtzy/R-graph-gallery/master/DATA/State_mariage_rate.csv"", header=T, sep="","", na.strings=""---"")"

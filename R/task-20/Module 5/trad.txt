@@ -1,0 +1,106 @@
+Les personnes qui travaillent quotidiennement avec des données cherchent à faire des découvertes, à obtenir des informations et à proposer des solutions.
+faire des découvertes, obtenir des informations et proposer des solutions. Pour y parvenir
+de manière équitable, les analystes de données doivent réfléchir intentionnellement à la manière dont ils peuvent apprendre et s'adresser à des publics qui ne sont pas les mêmes que les nôtres.
+à la façon dont ils peuvent apprendre et s'adresser à des publics qui
+qui reflètent la riche diversité des personnes et des communautés
+des communautés concernées. Ne pas reconnaître la diversité de ces groupes
+exacerbera encore plus - et contribuera potentiellement à - les inégalités qui ont façonné le monde.
+les inégalités qui ont façonné le monde. Aujourd'hui, à l'ère des
+l'ère du big data, de la visualisation des données, de l'apprentissage
+l'intelligence artificielle, nous devons être plus attentifs à l'origine des
+d'où proviennent les données et comment la recherche et la
+la communication de cette recherche peuvent affecter les gens,
+leurs communautés et les politiques qui touchent leur vie.
+Les efforts personnels et organisationnels visant à favoriser la diversité, l'équité et l'inclusion (DEI)
+l'équité et l'inclusion (DEI) doivent s'étendre non seulement à nos
+processus internes d'embauche, de promotion et de développement
+développement professionnel, mais aussi à nos efforts de communication
+communication externe afin de représenter les personnes et les
+sur lesquelles nous nous concentrons. À cette fin, nous devons réfléchir à la manière d'appliquer
+l'IED non seulement aux mots, couleurs, icônes et autres éléments de nos
+éléments de nos écrits, graphiques, tableaux et diagrammes,
+mais aussi au processus d'élaboration de ces produits de communication.
+
+Ce guide et les listes de contrôle et boîtes à outils associées
+se concentrent sur les façons souvent cachées ou subtiles dont les analystes de données et les communicateurs n'intègrent pas l'équité.
+de données et les communicateurs n'intègrent pas la conscience
+dans les données qu'ils utilisent et les produits qu'ils créent.
+produits qu'ils créent. Cependant, certaines données et visualisations de données sont
+ouvertement racistes et discriminatoires. Par exemple, la carte
+figure 1 a été produite en 1937 par la Home Owners' Loan Corporation (HOLC)
+Home Owners' Loan Corporation (HOLC), une agence fédérale chargée d'évaluer la valeur des maisons et des quartiers.
+fédérale chargée d'évaluer la valeur des maisons et des quartiers
+à travers les États-Unis. Richard Rothstein a décrit la
+HOLC et ces cartes dans son livre The Color of Law : "Le
+HOLC a créé des cartes codées par couleur de chaque zone
+métropolitaines du pays, les quartiers les plus sûrs étant colorés en vert et les plus risqués en rouge.
+les quartiers les plus sûrs sont colorés en vert et les plus risqués en rouge. Un quartier
+rouge si des Afro-Américains y vivent, même s'il s'agit d'un quartier de classe moyenne
+un quartier de classe moyenne avec des maisons individuelles" (Rothstein 2017)
+maisons individuelles" (Rothstein 2017)
+
+L'essentiel de ce guide n'est pas
+pas sur les données et les visuels ouvertement racistes, sexistes ou discriminatoires.
+discriminatoires, mais en tant que praticiens des données, nous devons être conscients du fait que ce type de travail crée souvent des dommages irréparables et à long terme.
+irréparable et à long terme. La discrimination systématique est et peut être
+La discrimination systématique est et peut être générée par la façon dont nous utilisons et utilisons mal nos données.
+Dans ce guide, nous explorons les moyens d'aider les scientifiques des données, les chercheurs et les communicateurs de données à adopter un comportement responsable,
+chercheurs et communicateurs de données à adopter une
+une approche plus ciblée de l'IED dans le cadre de leur travail. Pour ce faire, nous avons
+mené plus d'une douzaine d'entretiens avec près de
+20 personnes sur leurs expériences et leurs approches
+de l'exploration, de l'analyse et de la communication des données,
+l'analyse et la communication des données. Parmi les personnes interrogées, on trouve
+des journalistes de données dans les principaux médias, des chercheurs
+universités et des établissements d'enseignement supérieur, ainsi que des personnes travaillant dans les secteurs public et privé.
+secteurs public et privé. Notre longue liste (qui ne cesse de s'allonger)
+de personnes avec lesquelles nous aurions aimé nous entretenir dans le cadre de ce projet.
+projet montre à quel point le travail de création de produits diversifiés et inclusifs dans le domaine des données et de la visualisation des données est important.
+diversifiés et inclusifs dans les domaines des données et de la
+données et de la visualisation des données. Nous adoptons également une vision large
+de la "communauté des données", qui inclut toute personne travaillant avec des données et les communiquant : chercheurs, universitaires, spécialistes des données, etc.
+et communiquant des données : chercheurs, universitaires, analystes
+analystes de données et scientifiques, journalistes, développeurs web, spécialistes de la
+spécialistes de la visualisation des données, et bien d'autres encore.
+
+Nos recommandations ne sont pas universelles et doivent être adaptées aux besoins particuliers d'un projet.
+doivent être adaptées aux besoins particuliers d'un projet et d'une
+d'un projet et d'une organisation. Un grand projet de recherche avec une équipe de
+chercheurs qui s'étend sur plusieurs mois ou années pourrait
+de ces efforts de sensibilisation différemment d'une
+qu'une simple visualisation de données destinée à un article de blog de 600 mots ou à un tableau de bord autonome.
+un article de blog de 600 mots ou un tableau de bord autonome. Par le biais d'une conversation et d'une évaluation honnêtes des différents projets, les
+et l'évaluation de différents projets, les créateurs de projets de
+projets, les créateurs de projets de données peuvent être mieux préparés à incorporer les stratégies décrites ici dans leurs travaux futurs.
+stratégies décrites ici dans leurs futurs travaux.
+La motivation de ce projet peut être résumée en un mot : l'empathie.
+en un mot : empathie. L'application d'une lentille DEI à la façon dont nous analysons, visualisons et communiquons.
+d'analyse, de visualisation et de communication des données, il faut
+l'empathie avec les communautés dont nous visualisons les données ainsi qu'avec les lecteurs.
+visualisons ainsi que les lecteurs et les publics cibles de notre travail.
+de notre travail. Cela signifie qu'il faut tenir compte de la façon dont les expériences vécues et les points de vue des populations étudiées sont pris en compte.
+expériences vécues et les perspectives des populations étudiées
+et des lecteurs influencent la façon dont ils recevront et percevront l'information.
+l'information. Cette citation du journaliste Kim Bui résume bien ce concept
+succinctement le concept : "Si j'étais l'un des points de données de cette visualisation, me sentirais-je offensé ?
+cette visualisation, me sentirais-je offensé ?". Lorsque nous examinons
+l'utilisation de mots, de couleurs, d'icônes et d'autres éléments dans nos visualisations de données, il convient de se demander si nous serions offensés.
+dans nos visualisations de données, se demander si nous serions offensés constitue un bon point de contrôle.
+constitue un bon point de contrôle.
+
+
+Si j'étais l'un des points de données de cette
+de cette visualisation, me sentirais-je offensé ?
+- KIM BUI
+
+Ce guide propose un ensemble de lignes directrices plutôt que des règles inflexibles pour présenter les données sous l'angle de l'IED.
+pour présenter les données sous l'angle de l'IED. Notre but n'est pas
+pas de dire aux analystes de données ce qu'ils doivent faire ou ne pas faire, mais de leur demander de réfléchir à leurs méthodes de travail.
+plutôt de leur demander de réfléchir à la manière dont ils travaillent et communiquent leurs données, et d'être conscients de l'importance de l'analyse des données.
+et de communiquer leurs données et d'être conscients des décisions qu'ils ont prises et des raisons pour lesquelles ils l'ont fait.
+décisions qu'ils ont prises et pourquoi ils les ont prises.
+Comme nous le montrerons, les choix que nous faisons concernant les couleurs,
+formes, les mots et les représentations dans nos analyses et nos
+et de visualisation des données peuvent affecter la façon dont les gens perçoivent les résultats finaux, la façon dont le changement peut être mis en œuvre, etc.
+les résultats finaux, la manière dont le changement peut être mis en œuvre et la
+ce changement aura un impact sur différentes personnes et communautés.

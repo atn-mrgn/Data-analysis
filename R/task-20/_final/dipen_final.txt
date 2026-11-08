@@ -1,0 +1,58 @@
+4/4 points: Instructor can knit your HTML file or run the R script without any changes. All analysis and visualizations included in the presentation or report are in the R script or R Markdown file.  R Markdown or R script file is well organized, R code uses a consistent style, and R code is easy to follow.
+    
+    
+2/2 points: Data description is accurate and informative. It highlights the elements that other analysts should know about the data. 
+
+    
+3/4 points: Report or presentation is appropriate and effective for the chosen audience. 
+- Level of information is appropriate, but amount of information presented is not sufficient for the premise set up in the report of choosing career fields
+- Abbreviations (noted below) are particularly problematic for the chosen audience
+    
+    
+3/5 points: Incorporated feedback from the Project Checkpoint assignments. 
+- Some issues noted in previous feedback are still present here
+
+4/5 points: Text or narrative is clear and concise and conveys the information in the visualizations and analyses accurately. 
+- Lists didn't render as lists in the html
+- Text is very limited and doesn't add to the story.
+- There's no wrap-up or conclusion to bring things together.
+
+
+3/5 points: Presentation tells a story and incorporates storytelling techniques learned in the course. 
+- There isn't really a story here -- just a presentation of information; There isn't a point drawn out through the story, and the message of each individual visualization isn't always clear either.
+- Information is very limited - just not enough here - there is really just a list of a few occupational categories and their average wages, which isn't enough on it's own to make a story.
+- Final plot doesn't add to the story - it doesn't provide much additional information following the second visualization.  If the story started with the general difference between these two occupational groupings, and then broke it down into individual occupations, that would have flowed as a story.  
+
+
+9/10 points: Visualizations each convey a clear message or highlight an insight.  
+- Different titles or subtitles could have helped to draw out the main point in the individual visualizations. 
+
+19/25 points: Analyses and visualizations are done correctly, appropriate for the data, and incorporate best practices learned in the course.  
+- Overall impression from the style is generally good - plots don't have clutter, style choices are intentional
+- Sizing and scale of the first two plots is good - works well.  Third plot: scale is off
+- Occupation abbreviations are really hard to read and follow -- why were these chosen?
+- Nice job applying a pattern and color to the bar chart.
+- Colors are a good contrast with each other - easy to tell apart.  
+- Could have benefited from plot types other than just bar charts - there are other ways to highlight the information you wanted to share.  
+- Computing total employment by just adding up the tot_emp column is not correct - the data is hierarchical and this is double (or triple) counting values from smaller occupations - the totals are from the "major" occupations - the two categories you're using for the groupings in the report.  So the percentages are not correct.
+- First plot, with the text or visualization, it's not clear that the plot is supposed to be showing the percent of health care workers in each occupation.  Also, are these all of the health care occupations? 
+- First plot: grid lines don't work well without some markings on the x-axis to indicate what values they're at
+- Spacing between the labels and bars on the horizontal bar charts is large
+
+
+47/60 Total
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+

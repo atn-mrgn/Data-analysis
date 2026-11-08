@@ -1,0 +1,358 @@
+---
+title: "Homework on Sentiment Analysis and N-Gram Analysis using R"
+output: html_document
+date: "2023-06-02"
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=7, fig.height=4)  # default figure/plot sizes
+```
+
+
+```{r}
+library(tidyverse)
+library(stringr)
+library(tm)
+library(qdap)
+library(tidytext)
+library(textdata)
+library(caret)
+```
+
+# Part 2
+
+## Question 1: Use read_csv (from readr library) to read the tweets CSV file. Name the dataset as tweets_data
+```{r}
+tweets_data <- read_csv("HW1 - Input_Tweets.csv", show_col_types = FALSE)
+```
+
+## Question 2: Create a new column in the tweets_data as tweet length using mutate function of “dplyr” library. Capture the average tweets length to answer the first question, “What is the typical word length for a social customer service response?” Use an appropriate function from the stringr library. The question can be answered using ncar()
+
+```{r}
+tweets_data <- tweets_data %>% 
+  mutate(tweets_length=str_count(text))
+
+mean(tweets_data$tweets_length)
+```
+The mean tweets length is 92.14379
+
+## Question 3: How many tweets in the dataset are less than 50 characters in length? Remove the tweets from the dataset that are less than 50 characters.
+
+```{r}
+tweets_data %>%
+  filter(tweets_length < 50) %>% 
+  nrow()
+
+filter_tweets_data<-tweets_data %>%
+  filter(tweets_length >= 50)
+
+filter_tweets_data
+```
+## Question 4: Convert all the tweets to lowercase using the appropriate function from “stringr”.  Use tweets_data dataset. 
+
+```{r}
+tweets_data<-tweets_data %>%
+  mutate(text = str_to_lower(text))
+head(tweets_data)
+```
+
+## Question 5: Find how many tweets have the word, “pls”. Use str_detect function from the “stringr” library. 
+```{r}
+tweets_data %>%
+  mutate(text = str_to_lower(text)) %>%
+  filter(str_detect(text, "pls")) %>%
+  nrow()
+```
+The number of tweet contain "pls" is: 152
+
+## Question 6: Replace “pls” with “please” using “sub” function. Assign the new text to updated_tweet column.  Sub function is part of base implementation. Search for ?sub() 
+```{r}
+tweets_data<-tweets_data %>%
+  mutate(text = str_to_lower(text)) %>%
+  mutate(updated_tweet = sub("pls","please",text))
+head(tweets_data)
+```
+
+## Question 7: Use mgsub of qdap library to replace “pls” and “thanks” with “please” and “thank you” respectively in a single statement.
+
+#### Before transformation:
+```{r}
+declacration<-tweets_data %>%
+  mutate(text = str_to_lower(text)) %>%
+  filter(str_detect(text, "pls")&str_detect(text, "thanks")) %>%
+  slice(1) %>%
+  select(text)
+
+declacration$text
+```
+
+#### After transformation
+```{r}
+mgsub(c("pls","thanks"), c("please", "thank you"), declacration)
+```
+
+## Question 8: Using the month, date, and year, columns, create a new column response_date column. Make sure that the response_date is of date type.
+```{r}
+month_patterns <-c('Jan','Feb', 'Mar','Apr', 'May','Jun', 'Jul', 'Aug', 'Sep','Oct', 'Nov','Dec')
+month_replacements <-seq(1:12)
+
+day_patterns <- c("Mon","Tue","Wed","Thu","Fri","Sat","Sun")
+day_replacements <- seq(1:7)
+
+tweets_data$month_numeric <- mgsub(month_patterns,month_replacements,tweets_data$month)
+tweets_data$day_numeric <- mgsub(day_patterns,day_replacements,tweets_data$weekday)
+
+tweets_data["response_date"] <- mdy(str_c(tweets_data$month,"/",tweets_data$date,"/",tweets_data$year))
+tweets_data$response_date <- as.Date(tweets_data$response_date)
+
+tweets_data
+```
+
+## Question 9: Each tweet has agent initials towards the end of the tweet. E.g., @BigGucciQueen  What country are you calling from? *DD, DD is the agent who responded to customer, BigGucciQueen. Extract the agent initials to a new column agent. To do this assignment, use the appropriate stringr substring function. 
+```{r}
+pattern="[*][a-z]+"
+tweets_data<-tweets_data %>%
+  mutate(agent=str_extract(text,pattern))%>%
+  replace_na(list(agent=" "))
+
+head(tweets_data)
+```
+
+# Part 1
+
+## Question 1: What is the typical word length for a social customer service response?
+
+The typical word length for a social customer service response is 92.14379
+
+## Question 2: Which links were mentioned the most?
+The most mentioned links are:
+```{r}
+url_pattern <- "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+
+tweets_data %>%
+  filter(str_detect(text, url_pattern))%>%
+  mutate(link=str_extract(text, url_pattern))%>%
+  count(link,sort = TRUE)%>%
+  slice(1:4)
+```
+
+
+## Question 3: Which customer representative (agent) is the most hard-working (addresses maximum responses)?
+```{r}
+tweets_data %>%
+  filter(!agent==" ")%>%
+  count(agent,sort = TRUE) %>%
+  slice(1:5)
+```
+The agent is the most hard-working is the one with the initials PL (104 responses).
+
+## Question 4: How big should the customer support team at Delta be for social media responses?
+```{r}
+tweets_data %>%
+  filter(!agent==" ")%>%
+  count(agent) %>%
+  nrow()
+```
+The number of agents available or currently team size is 33.
+
+```{r}
+tweets_data %>%
+  filter(!agent==" ")%>%
+  nrow()
+```
+The number of tweets with reply is 1180.
+
+```{r}
+tweets_data %>%
+  filter(agent==" ")%>%
+  nrow()
+```
+The number of unanswered tweets is 197.
+
+We could therefore assume that the number of agents needed to respond to all the tweets is the ideal team size.
+
+```{r}
+size=33*192/1180 +33
+size
+```
+The team size should be: 39
+
+## Question 5:
+```{r}
+t<-tweets_data %>%
+  filter(!agent==" ")%>%
+  count(agent,sort = TRUE)
+
+mean(t$n)  
+```
+The number of tweets an agent can reasonably handle is 36.
+
+# Part 3 (IMDB dataset)
+
+## Question 1: Load data
+```{r}
+imdb_dataset <- read_csv("IMDB Dataset.csv", show_col_types = FALSE)
+```
+
+## Question 2: Pre-processing
+```{r}
+imdb_dataset <- imdb_dataset %>%
+    mutate(review = str_replace_all(review, "<br />", " ")) %>%
+    mutate(review = str_remove_all(review, "[!@#%^*-?'&,+]")) %>%
+    mutate(review = str_remove_all(review, '\"')) %>%
+    mutate(review = str_replace_all(review, '\\.', " ")) %>%
+    mutate(review = str_remove_all(review, "[:punct:]")) %>%
+    mutate(review = str_squish(review)) %>%
+    mutate(review = str_to_lower(review))
+```
+
+### Delete stop worp
+```{r}
+df<-imdb_dataset %>% 
+  mutate(sno = row_number()) %>%
+  unnest_tokens(word, review) %>%
+  anti_join(stop_words) %>%
+  group_by(sno) %>%
+  mutate(review = str_c(word, collapse = " ")) %>%
+  distinct(review)
+
+imdb_dataset$review <- df$review
+```
+
+## Question 3
+
+### Get lexicons
+```{r}
+afinn<-get_sentiments("afinn")
+nrc<-get_sentiments("nrc")
+```
+
+```{r}
+afinn_pred<-imdb_dataset %>% 
+  mutate(sno = row_number()) %>%
+  unnest_tokens(word, review) %>%
+  left_join(afinn, by="word") %>%
+  group_by(sno) %>%
+  summarise(score=sum(value,na.rm = TRUE)) %>%
+  mutate(pred_sentiment=case_when(
+    score > 0 ~ "positive",
+    score < 0 ~ "negative"
+  ))%>%
+  select(sno,pred_sentiment)
+
+afinn_pred
+```
+
+
+## Question 4
+```{r}
+nrc<-nrc %>%
+  mutate(
+    value=case_when(
+      sentiment=="negative" ~ -1,
+      sentiment=="positive" ~ 1
+    )
+  )
+  
+
+nrc_pred<-imdb_dataset %>% 
+  mutate(sno = row_number()) %>%
+  unnest_tokens(word, review) %>%
+  select(sno,word) %>%
+  left_join(filter(nrc, sentiment %in% c("negative","positive")), by="word")%>%
+  replace_na(list(value=0)) %>%
+  group_by(sno) %>%
+  summarise(score=sum(value,na.rm = TRUE)) %>%
+  mutate(pred_sentiment=case_when(
+    score > 0 ~ "positive",
+    score <= 0 ~ "negative"
+  ))%>%
+  select(sno,pred_sentiment)
+  
+nrc_pred
+```
+
+
+
+## Question 5
+
+### Afinn lexicons
+```{r}
+confusionMatrix1 <- as.data.frame(table(as.factor(imdb_dataset$sentiment), as.factor(afinn_pred$pred_sentiment)))
+
+colnames(confusionMatrix1)<-c("true_value","predicted_value","Frequency")
+
+plotCM <- confusionMatrix1 %>% 
+  inner_join( (confusionMatrix1 %>% 
+                       group_by(true_value) %>%
+                       summarize(total = sum(Frequency))), # Getting the ratio of success/failure
+              by = "true_value") %>%
+  mutate(ratio = Frequency/total, 
+         success_failure = ifelse(true_value == predicted_value, 
+                                  "success", "failure")) %>%
+  select(true_value, predicted_value, success_failure, ratio)
+
+# Plot the confusion matrix
+ggplot(plotCM, 
+       mapping = aes(x = true_value, y = predicted_value, 
+                     fill = success_failure, 
+                     alpha = ratio)) + 
+  geom_tile() +
+  geom_text(aes(label = paste0(round(ratio,2), "%"), vjust = 1, fontface  = "bold", alpha = 1)) +
+  scale_fill_manual(values = c(success = "green", failure = "red")) +
+  labs(title="Confusion Matrix - Frequency and ratio",
+       subtitle="of Afinn lexicon prediction") +
+  theme_bw() + 
+  theme(legend.position = "none")
+```
+
+### NRC lexicon
+
+```{r}
+confusionMatrix2 <- as.data.frame(table(as.factor(imdb_dataset$sentiment), as.factor(nrc_pred$pred_sentiment)))
+
+colnames(confusionMatrix2)<-c("true_value","predicted_value","Frequency")
+
+plotCM <- confusionMatrix2 %>% 
+  inner_join( (confusionMatrix2 %>% 
+                       group_by(true_value) %>%
+                       summarize(total = sum(Frequency))), # Getting the ratio of success/failure
+              by = "true_value") %>%
+  mutate(ratio = Frequency/total, 
+         success_failure = ifelse(true_value == predicted_value, 
+                                  "success", "failure")) %>%
+  select(true_value, predicted_value, success_failure, ratio)
+
+# Plot the confusion matrix
+ggplot(plotCM, 
+       mapping = aes(x = true_value, y = predicted_value, 
+                     fill = success_failure, 
+                     alpha = ratio)) + 
+  geom_tile() +
+  geom_text(aes(label = paste0(round(ratio,2), "%"), vjust = 1, fontface  = "bold", alpha = 1)) +
+  scale_fill_manual(values = c(success = "green", failure = "red")) +
+  labs(title="Confusion Matrix - Frequency and ratio",
+       subtitle="of Afinn lexicon prediction") +
+  theme_bw() + 
+  theme(legend.position = "none")
+```
+
+
+## Question 6
+
+### Afinn lexicon prediction accuracy
+```{r}
+confusionMatrix(as.factor(imdb_dataset$sentiment), as.factor(afinn_pred$pred_sentiment))
+```
+The accuracy is: 0.7342
+
+### NRC lexicon prediction accuracy
+```{r}
+confusionMatrix(as.factor(imdb_dataset$sentiment), as.factor(nrc_pred$pred_sentiment))
+```
+The accuracy is: 0.67

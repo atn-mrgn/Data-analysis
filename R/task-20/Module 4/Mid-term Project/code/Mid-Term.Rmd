@@ -1,0 +1,138 @@
+---
+title: 'Mid-Term Project'
+author: "Dipen Patel"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
+```
+
+
+```{r, message=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+# Overview
+The dataset includes estimates of the number of people in all occupations by different geographical areas over time, as well as estimates of the wage distribution. You could focus on an analysis of people working in health care roles.
+```{r}
+state_M2021_dl <- read_excel("state_M2021_dl.xlsx")
+```
+
+# Data Collection
+
+The information in the database is for the period of May 2021  
+
+# What's in the Data?
+```{r}
+summary(state_M2021_dl)
+```
+
+# Variables
+The database contains several variables but we will limit ourselves to the one we will use in the rest of the work.
+
+*area_title (factor):	Area name.
+
+*area_type (factor):	Area type: 1= U.S.; 2= State; 3= U.S. Territory; 4= Metropolitan Statistical Area (MSA) or New England City and Town Area (NECTA); 6= Nonmetropolitan Area.
+
+*occ_title (factor): SOC title or OEWS-specific title for the occupation
+
+*o_group (factor):	SOC occupation level. For most occupations, this field indicates the standard SOC major, minor, broad, and detailed levels, in addition to all-occupations totals. For occupations that OEWS no longer publishes at the SOC detailed level, the “detailed” designation indicates the most detailed data available: either a standard SOC broad occupation or an OEWS-specific combination of detailed occupations. Occupations that OEWS has aggregated to the SOC broad occupation level will appear in the file twice, once with the “broad” and once with the “detailed” designation.
+
+*h_mean (Continuous):	Mean hourly wage.
+
+*a_mean (Continuous):	Mean annual wage.
+
+*annual (continuous): Contains "TRUE" if only annual wages are released. The OEWS program releases only annual wages for some occupations that typically work fewer than 2,080 hours per year, but are paid on an annual basis, such as teachers, pilots, and athletes.
+
+*hourly (continuous): 	Contains "TRUE" if only hourly wages are released. The OEWS program releases only hourly wages for some occupations that typically work fewer than 2,080 hours per year and are paid on an hourly basis, such as actors, dancers, and musicians and singers.
+
+
+# Data Exploration
+
+The data is read in above.
+
+## Data Dimensions
+
+```{r}
+dim(state_M2021_dl)
+```
+The database contains a total of 37580 observations and 32 features
+
+## Missing Values Check
+```{r}
+sum(is.na(state_M2021_dl))
+```
+
+The database contains a lot missing values. I will remove the missing values in dataset.
+
+```{r}
+state_M2021_dl[state_M2021_dl=="*"]<-NA # Replace * by NA
+state_M2021_dl[state_M2021_dl=="#"]<-NA # Replace \# by NA
+
+state_M2021_dl %>% 
+  select(.,-c(ANNUAL, HOURLY, PCT_TOTAL, PCT_RPT))%>%
+  na.omit(.)%>%
+  dim(.)
+```
+The variables ANNUAL, HOURLY, PCT_TOTAL, PCT_RPT contain a large amount of missing value. We had to delete them from the database before eliminating each row containing a missing data. The new database contains of 32951 observations and 28 features.
+
+```{r}
+state_M2021_dl <- state_M2021_dl %>% 
+                  select(.,-c(ANNUAL, HOURLY, PCT_TOTAL, PCT_RPT))%>%
+                  na.omit(.)
+```
+
+
+# Question 1 :
+## We are going to determine the mean annual wage distributions in town (area title) while focusing on the top 10.
+
+```{r}
+df<-state_M2021_dl %>%
+  select("AREA_TITLE", "A_MEAN") %>%
+  group_by(AREA_TITLE) %>%
+  summarise(Mean=mean(as.numeric(A_MEAN))) %>%
+  arrange(desc(Mean))
+
+ggplot(df[1:10,], aes(y=reorder(AREA_TITLE, Mean), x=Mean))+
+  geom_bar(stat = 'identity')
+```
+Note that the annual wage is highest in the District of Columbia, then Washington, Alaska.
+
+
+# Question 2
+## We are going to determine the mean hourly wage distributions by area type while focusing on the top 10.
+
+```{r}
+df<-state_M2021_dl %>%
+  select("AREA_TITLE","H_MEAN") %>%
+  group_by(AREA_TITLE) %>%
+  summarise(Mean=mean(as.numeric(H_MEAN))) %>%
+  arrange(desc(Mean))
+
+ggplot(df[1:10,], aes(y=Mean, x=AREA_TITLE))+
+  geom_bar(stat = 'identity')+
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+The results confirm the fact that people in the District of Columbia have a greater per hour or per year.  
+
+# Question 3
+## We are going to determine the mean annual wage distributions by SOC occcuoation level (o_group) while focusing on the top 10.
+```{r}
+df<-state_M2021_dl %>%
+  select("O_GROUP","A_MEAN") %>%
+  group_by(O_GROUP) %>%
+  summarise(Mean=mean(as.numeric(A_MEAN))) %>%
+  arrange(desc(Mean))
+
+ggplot(df, aes(y=Mean, x=O_GROUP))+
+  geom_bar(stat = 'identity')+
+  theme(axis.text.x = element_text(angle = 90))
+```
+The average salaries are almost identical regardless of the SOC occupation level.

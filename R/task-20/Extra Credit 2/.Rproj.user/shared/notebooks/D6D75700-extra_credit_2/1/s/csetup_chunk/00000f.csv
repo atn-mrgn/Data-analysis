@@ -1,0 +1,10 @@
+"0","# Set the default chunk options for the file"
+"2","Warning message:
+"
+"2","le package ‘sp’ a été compilé avec la version R 4.2.3 
+"
+"0","# You can override these for individual chunks if needed "
+"0","knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file"
+"0","                      warning = FALSE,  # do not include any warning messages in the output file"
+"0","                      message = FALSE,  # do not include any general messages in the output file"
+"0","                      fig.width=7, fig.height=4)  # default figure/plot sizes"

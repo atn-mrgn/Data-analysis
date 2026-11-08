@@ -1,0 +1,190 @@
+---
+title: "Module 7 Code Lab"
+author: "Dipen Patel"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# Set the default chunk options for the file
+# You can override these for individual chunks if needed 
+knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file
+                      warning = FALSE,  # do not include any warning messages in the output file
+                      message = FALSE,  # do not include any general messages in the output file
+                      fig.width=5, fig.height=3)  # default figure/plot sizes
+```
+
+# Introduction
+
+Check the Module Overview for resources that may be helpful with this assignment.  See the Code Lab Guidelines page for general directions on Code Lab assignments.  See the Dataset Information page for background on the datasets used in the Code Lab assignments.  
+
+
+## Goals
+
+* Choose color scales with ggplot2
+* Continue to practice styling and cleaning up plots for presentation
+* Work with two plot types you may not have used yet
+
+# Setup
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(janitor)
+```
+
+## Data files
+
+This assignment uses the WHO data.  **Download the WHO data folder from Canvas and put it as a subdirectory of your working directory.**  It assumes that the data files are in a subdirectory of the working directory called WHO.  Adjust your working directory if needed; do not change the file paths in the code below, or the instructor will not be able to knit your file.
+
+
+```{r}
+cases <- read_excel("WHO/reported-cases--2020.xlsx") %>% clean_names()
+vaccines <- read_excel("WHO/coverage--2020.xlsx") %>% clean_names()
+incidence <- read_excel("WHO/incidence-rate--2020.xlsx") %>% clean_names()
+```
+
+
+# Color Scales
+
+As you've seen with the names of x and y scale functions (`scale_x_continuous`, `scale_x_discrete`), ggplot understands the difference between discrete and continuous variables, and it tries to choose the right type of scale given the data.  
+
+However, there are additional considerations beyond just discrete and continuous when it comes to color scales.  Are the categories ordered?  Is it a single scale, or one with opposing endpoints?  Your readings/videos this week provide guidance on factors to consider and qualities of good choices.
+
+# EXERCISE 1: Continuous
+
+Clean up this plot:
+
+```{r, fig.height=4}
+# pull out pertussis cases by region
+pertussis <- filter(incidence, 
+                    disease_description == "Pertussis", 
+                    group=="WHO Regions",
+                    year >= 2010) %>%
+  select(year, name, cases_per_1mil = incidence_rate) 
+
+ggplot(pertussis, aes(y=name, x=year, fill=cases_per_1mil)) +
+  geom_tile()
+```
+
+* Choose a different but appropriate color scale.  
+* Make sure the plot has appropriate labels and titles.
+* Clean up the styling.  You don't need to do anything complicated or fancy; just make sure to get rid of elements that aren't needed and make it look reasonable.
+* Choose appropriate dimensions for the plot (use chunk options `fig.height` and `fig.width`).
+* Make sure that the endpoints on the color legend are labelled (or near the endpoints). Hint: you can set limits and breaks for a continuous color scale like you can with a continuous x or y scale.
+
+There are many course resources and online resources with examples to help you complete these tasks.  Check out the virdis package for one option for color scales.
+
+
+```{r, fig.width=7, fig.height=4}
+# pull out pertussis cases by region
+pertussis <- filter(incidence, 
+                    disease_description == "Pertussis", 
+                    group=="WHO Regions",
+                    year >= 2010) %>%
+  select(year, name, cases_per_1mil = incidence_rate) 
+
+ggplot(pertussis, aes(y=name, x=year, fill=cases_per_1mil)) +
+  geom_tile() + 
+  scale_fill_viridis_c(option = "E")+
+  scale_x_continuous(breaks=c(2010,2015,2020))+
+  labs(
+    title="Pertussis Incidence rate",
+    subtitle = "from 2010 to 2020 in WHO Regions",
+    y="Regions",
+    x="Year"
+  )+
+  theme_minimal()+
+  theme(
+    axis.ticks = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.title.x = element_text(margin = margin(t=10)),
+    axis.title.y = element_text(margin = margin(r=10)),
+    plot.title = element_text(size = 15),
+    axis.text.y = element_text(margin = margin(r=-5)), 
+    legend.direction = "horizontal",
+    legend.spacing.x = unit(0, 'cm'),
+  )+
+  guides(fill = guide_colourbar(title = "Values", title.position = "top", title.theme = element_text(size = 11), label.position = "bottom",label.hjust = 0.5, label.vjust = 1,
+    ))
+
+ggsave("per.png",bg="white")
+```
+
+
+# EXERCISE 2: Discrete
+
+Clean up the plot below.
+
+* Choose appropriate colors
+* Make appropriate style decisions
+* Choose appropriate labels and titles
+* Choose appropriate scales, legends, and plot sizes
+
+
+
+```{r}
+us_global <- vaccines %>%
+  filter(code %in% c("Global", "USA"), year == 2019, !is.na(coverage)) %>%
+  select(name, antigen_description, coverage_category, coverage) %>%
+  pivot_wider(names_from=name, values_from=coverage) %>% 
+  filter(!is.na(Global), !is.na(`United States of America`)) %>%
+  filter(!antigen_description %in% c("DTP-containing vaccine, 1st dose",
+                                     "HepB, birth dose (given within 24 hours of birth)",
+                                     "Measles-containing vaccine, 1st dose")) %>%
+  select(-coverage_category) %>%
+  rename(vaccine = antigen_description) %>%
+  pivot_longer(-vaccine, names_to="place", values_to="coverage")
+  
+us_global %>%
+  ggplot(aes(x=coverage, y=vaccine, group=vaccine)) +
+  geom_line() +
+  geom_point(aes(color=place))
+```
+
+```{r, fig.width=7, fig.height=4}
+us_global %>%
+  ggplot(aes(x=coverage/100, y=vaccine, group=vaccine)) +
+  geom_line() +
+  geom_point(aes(color=place), size=2)+
+  scale_x_continuous(limits=c(0,NA),breaks=seq(0,1,0.25), labels=scales::percent)+
+  labs(
+    title="Vaccination coverage in 2019",
+    subtitle = "United States and Global Vaccination Coverage",
+    y="Vaccine Name",
+    x="Coverage"
+  )+
+  scale_fill_brewer(palette = "Set1")+
+  theme(
+    axis.ticks = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.title.x = element_text(margin = margin(t=10)),
+    axis.title.y = element_text(margin = margin(r=10)),
+    plot.title = element_text(size = 22),
+    axis.text.y = element_text(margin = margin(r=1)),
+    legend.direction = "horizontal",
+    legend.spacing.x = unit(0.1, 'cm'),
+    legend.position = c(0.3,0.05),
+    legend.title = element_blank(),
+    plot.margin = margin(r=0.5, unit="cm"),
+    legend.background = element_blank()
+  )
+
+ggsave("vac_font.png",bg="white")
+```
+
+Note: for a fancier example of a dumbell plot using the ggalt package and additional annotations, see [(ggplot2) Exercising with (ggalt) dumbbells](https://rud.is/b/2016/04/17/ggplot2-exercising-with-ggalt-dumbbells/) from Bob Rudis.  
+
+
+
+
+
+
+
