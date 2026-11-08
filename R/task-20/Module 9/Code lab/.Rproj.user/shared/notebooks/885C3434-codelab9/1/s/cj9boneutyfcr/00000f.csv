@@ -1,3 +1,3 @@
-"0","state %>% "
-"0","  distinct(occ_title, .keep_all = TRUE) %>%"
-"0","  filter(str_detect(occ_code,""29-|31-""),!(tot_emp==""**""), !(a_mean %in% c(""*"",""#"")))"
+version https://git-lfs.github.com/spec/v1
+oid sha256:23322375e31b2086265d024751cf41da9072aebe4807327036510e144bde20ac
+size 166

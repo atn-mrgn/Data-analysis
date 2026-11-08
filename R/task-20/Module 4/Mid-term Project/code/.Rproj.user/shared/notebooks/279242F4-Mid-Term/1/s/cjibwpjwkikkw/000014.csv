@@ -1,9 +1,3 @@
-"0","df<-state_M2021_dl %>%"
-"0","  select(""O_GROUP"",""A_MEAN"") %>%"
-"0","  group_by(O_GROUP) %>%"
-"0","  summarise(Mean=mean(as.numeric(A_MEAN))) %>%"
-"0","  arrange(desc(Mean))"
-"0",""
-"0","ggplot(df, aes(y=Mean, x=O_GROUP))+"
-"0","  geom_bar(stat = 'identity')+"
-"0","  theme(axis.text.x = element_text(angle = 90))"
+version https://git-lfs.github.com/spec/v1
+oid sha256:7fcabffa5a27e83e18cd005cdde437f5ee953cd5a8fac20e17e4ba91664e07b5
+size 323

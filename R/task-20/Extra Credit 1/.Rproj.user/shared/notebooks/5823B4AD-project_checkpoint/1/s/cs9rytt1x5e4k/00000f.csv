@@ -1,12 +1,3 @@
-"0","df %>%"
-"0","  group_by(age_group) %>%"
-"0","  summarise(upper=max(prop_first_dose),"
-"0","            lower=min(prop_first_dose),"
-"0","            mean=mean(prop_first_dose)) %>%"
-"0","  ggplot()+"
-"0","  geom_linerange(aes(x=age_group, ymin=lower, ymax=upper),width=0.2, size=1, color=""blue"")+"
-"0","  geom_point(aes(x=age_group, y=mean), size=2)+"
-"0","  coord_flip()"
-"2","Error in df %>% group_by(age_group) %>% summarise(upper = max(prop_first_dose),  : 
-  could not find function ""%>%""
-"
+version https://git-lfs.github.com/spec/v1
+oid sha256:0fe5d702beeb3d899d38f1b6d0aa1b0a622979f051046213afc4c9243d457aa1
+size 505

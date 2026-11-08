@@ -1,10 +1,3 @@
-"0","# Set the default chunk options for the file"
-"2","Warning message:
-"
-"2","R graphics engine version 16 is not supported by this version of RStudio. The Plots tab will be disabled until a newer version of RStudio is installed. 
-"
-"0","# You can override these for individual chunks if needed "
-"0","knitr::opts_chunk$set(echo = TRUE,   # include the code chunks in the output file"
-"0","                      warning = FALSE,  # do not include any warning messages in the output file"
-"0","                      message = FALSE,  # do not include any general messages in the output file"
-"0","                      fig.width=9, fig.height=4)  # default figure/plot sizes"
+version https://git-lfs.github.com/spec/v1
+oid sha256:b6ab46fef49f0358f1bebbfdcb7c3c7fb2a91f122beb67429d46ff37e8508550
+size 677

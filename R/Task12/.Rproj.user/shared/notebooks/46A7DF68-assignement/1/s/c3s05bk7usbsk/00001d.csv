@@ -1,11 +1,3 @@
-"0","df4 <- df3 %>% select(""month"",delays=""cumulative_arr_delays"")"
-"0","df4[""delay_type""]=""cumulative_arr_delays"""
-"0",""
-"0","df5 <- df3 %>% select(""month"",delays=""cumulative_dep_delays"")"
-"0","df5[""delay_type""]=""cumulative_dep_delays"""
-"0",""
-"0","df6 <- rbind(df4, df5) %>%"
-"0","  relocate(""month"",""delay_type"",""delays"")%>%"
-"0","  arrange(month)"
-"0",""
-"0","df6"
+version https://git-lfs.github.com/spec/v1
+oid sha256:24a7fc18373e22164a6d2c58226d009c89d06da8ad1add6449b2bf05806bdf8e
+size 392

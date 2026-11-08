@@ -1,10 +1,3 @@
-Date,CustomerId,TransactionId,StoreId,StoreName,Town,State,CustomerZipcode,LineItemId,TotalPaid,Quantity,UnitPrice,TotalDiscount,Department,VehicleYear,VehicleMake,VehicleModel,PackageFocusId,PackageFocus,StoreCity,StoreState,Mileage,LoyaltyMember
-9/24/2019,MCNB1-34,237,43,Yarmouth,Yarmouth,ME        ,20634,-1,12.86,1,12.86,0.01,10,No information,No information,No information,53,Shop,Yarmouth,ME,0,0
-9/24/2019,MCNB1-34,237,43,Yarmouth,Yarmouth,ME        ,20634,1,564.12,4,141.03,0,103,No information,No information,No information,37,History,Yarmouth,ME,0,0
-9/24/2019,MCNB1-35,237,43,Yarmouth,Yarmouth,ME        ,20634,2,0,0,0,0,11,No information,No information,No information,37,History,Yarmouth,ME,0,0
-9/24/2019,MCNB1-35,237,43,Yarmouth,Yarmouth,ME        ,20634,3,0,0,0,0,11,No information,No information,No information,37,History,Yarmouth,ME,0,0
-9/24/2019,MCNB1-34,237,43,Yarmouth,Yarmouth,ME        ,20634,6,79.8,4,19.95,0,2,No information,No information,No information,37,History,Yarmouth,ME,0,0
-9/24/2019,MCNB1-34,237,43,Yarmouth,Yarmouth,ME        ,20634,7,15.2,4,3.8,0,10,No information,No information,No information,37,History,Yarmouth,ME,0,0
-9/24/2019,MCNB1-40,237,43,Yarmouth,Yarmouth,ME        ,20634,8,17.08,4,4.27,0,10,No information,No information,No information,37,History,Yarmouth,ME,0,0
-9/24/2019,MCNB1-40,237,43,Yarmouth,Yarmouth,ME        ,20634,9,0,0,0,0,11,No information,No information,No information,37,History,Yarmouth,ME,0,0
-9/24/2019,MCNB1-40,237,43,Yarmouth,Yarmouth,ME        ,20634,10,0,0,0,0,11,No information,No information,No information,37,History,Yarmouth,ME,0,0
+version https://git-lfs.github.com/spec/v1
+oid sha256:5ddd8cc7fd1f211567155253057068044d97997be6cc55d120bd076627f5e76d
+size 1611

@@ -1,15 +1,3 @@
-"0","df %>%"
-"0","  group_by(age_group) %>%"
-"0","  summarise(n=n()) %>%"
-"0","  ggplot(aes(x=2, y = n, fill = age_group)) +"
-"0","  geom_col(color=""black"") +"
-"0","  geom_text(aes(label = n),"
-"0","            position = position_stack(vjust = 0.5)) +"
-"0","  coord_polar(theta = ""y"") +"
-"0","  xlim(c(0.2,  2.8))+"
-"0","  labs("
-"0","    title = ""Total Number of Observations by Age Group"","
-"0","    x=NULL,"
-"0","    y=NULL"
-"0","  )+"
-"0","  theme_void()"
+version https://git-lfs.github.com/spec/v1
+oid sha256:c38576efc8392ab8f73f2b55e234a82d354cdac0b0888d971f3514f3d6f96148
+size 467

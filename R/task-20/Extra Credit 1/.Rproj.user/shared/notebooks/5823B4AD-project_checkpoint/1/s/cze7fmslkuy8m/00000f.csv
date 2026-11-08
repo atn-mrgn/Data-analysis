@@ -1,5 +1,3 @@
-"0","df %>%"
-"0","  filter(age_group %in% c(""12 - 15 Years"",""16 - 17 Years"",""18 - 24 Years"",""40 - 49 Years"")) %>%"
-"0","  separate(date, c(""year"",""month"",""day""),""-"") %>%"
-"0","  ggplot(aes(x=age_group, fill=year))+"
-"0","  geom_bar(position = ""dodge"")"
+version https://git-lfs.github.com/spec/v1
+oid sha256:f417c66dacf0ff7ba139b5889317ccfb8d55e0c02c51026a76b3f1e8c347b5d6
+size 271

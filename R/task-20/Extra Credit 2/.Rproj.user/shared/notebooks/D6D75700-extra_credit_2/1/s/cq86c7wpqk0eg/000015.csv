@@ -1,13 +1,3 @@
-"0","library(tidyverse)"
-"0","library(nycflights13)"
-"0","library(maps)"
-"0","library(mapproj)"
-"0","library(readxl)"
-"0","library(janitor)"
-"0","library(geojsonio)"
-"0","library(RColorBrewer)"
-"0","library(rgdal)"
-"0","library(broom)"
-"0","library(rgeos)"
-"0","library(viridis)"
-"0","library(showtext)"
+version https://git-lfs.github.com/spec/v1
+oid sha256:417bb23489c51aedb2d1a9d582f0e3ca76a57bec662048f72219e8a9b9a3aa35
+size 304

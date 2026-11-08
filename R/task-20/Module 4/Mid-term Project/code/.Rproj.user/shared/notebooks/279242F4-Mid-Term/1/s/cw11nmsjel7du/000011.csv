@@ -1,12 +1,3 @@
-"0","state_M2021_dl[state_M2021_dl==""*""]<-NA # Replace * by NA"
-"0","state_M2021_dl[state_M2021_dl==""#""]<-NA # Replace \# by NA"
-"0",""
-"0","state_M2021_dl %>% "
-"0","  select(.,-c(ANNUAL, HOURLY, PCT_TOTAL, PCT_RPT))%>%"
-"0","  na.omit(.)%>%"
-"0","  dim(.)"
-"1","[1]"
-"1"," 32951"
-"1","    28"
-"1","
-"
+version https://git-lfs.github.com/spec/v1
+oid sha256:5386f0b4183b2c1c049f0b2bd7efc425a03a383214ef1cf04c49975fbb76f41e
+size 307

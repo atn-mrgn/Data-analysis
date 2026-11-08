@@ -1,2 +1,3 @@
-"0","## Load data"
-"0","data <- read.table(""https://raw.githubusercontent.com/holtzy/R-graph-gallery/master/DATA/State_mariage_rate.csv"", header=T, sep="","", na.strings=""---"")"
+version https://git-lfs.github.com/spec/v1
+oid sha256:a3fff97fb01079cad9a3ea934add16009685292695105d0809de96be9e980d19
+size 182

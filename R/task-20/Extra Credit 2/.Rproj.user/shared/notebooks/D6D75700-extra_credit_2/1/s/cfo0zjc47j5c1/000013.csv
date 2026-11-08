@@ -1,9 +1,3 @@
-"0","# Load this file. (Note: I stored in a folder called DATA)"
-"0","spdf <- geojson_read(""us_states_hexgrid.geojson"",  what = ""sp"")"
-"0",""
-"0","# Bit of reformating"
-"0","spdf@data = spdf@data %>%"
-"0","  mutate(google_name = gsub("" \\(United States\\)"", """", google_name))"
-"0",""
-"0","# Show it"
-"0","plot(spdf)"
+version https://git-lfs.github.com/spec/v1
+oid sha256:48cb31ad22f8c202a469fc7a581e7942062e9dbea9f8e84de5e7715f667ecf6f
+size 325

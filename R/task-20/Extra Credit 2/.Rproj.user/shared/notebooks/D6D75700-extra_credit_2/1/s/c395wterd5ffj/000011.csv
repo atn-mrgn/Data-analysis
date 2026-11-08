@@ -1,10 +1,3 @@
-"0","spdf@data = spdf@data %>% mutate(google_name = gsub("" \\(United States\\)"", """", google_name))"
-"0","spdf_fortified <- tidy(spdf, region = ""google_name"")"
-"0",""
-"0","centers <- cbind.data.frame(data.frame(gCentroid(spdf, byid=TRUE), id=spdf@data$iso3166_2))"
-"0",""
-"0","ggplot() +"
-"0","  geom_polygon(data = spdf_fortified, aes( x = long, y = lat, group = group), fill=""skyblue"", color=""white"") +"
-"0","  geom_text(data=centers, aes(x=x, y=y, label=id)) +"
-"0","  theme_void() +"
-"0","  coord_map()"
+version https://git-lfs.github.com/spec/v1
+oid sha256:0eca075f2c5fb80a1df2030ae87b264c1287651dc0979cf6f32b63e7b29902e5
+size 517
